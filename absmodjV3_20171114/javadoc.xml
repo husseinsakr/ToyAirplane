@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="public" author="true" classpath="D:\ProgDev\Java\JavaLocalPackages\colt.jar" destdir="../ABSmodJV2Doc" doctitle="ABSmod/J - Activity Object World View Simulation Model Package" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="ABSmodJ" source="1.8" sourcepath="src" splitindex="true" use="true" version="true">
+            <link href="file:/D:/ProgDev/Java/ABSmodJV2/ABSmodJV2Doc/"/>
+        </javadoc>
+    </target>
+</project>

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="absmodjV3_20171114">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/absmodjV3_20171114" />
+      <root url="file://$PROJECT_DIR$/colt" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/absmodjV3_20171114/doc" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>
