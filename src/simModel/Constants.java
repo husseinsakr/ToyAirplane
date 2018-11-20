@@ -23,5 +23,6 @@ class Constants
     public final static int BUSY = 2;
     public final static int BLOCKED = 3;
     public final static int EMPTY = 0;
+    public final static int NONE = -1;
 
 }
