@@ -1,5 +1,6 @@
 package simModel;
 
+import com.sun.tools.javac.Main;
 import simulationModelling.AOSimulationModel;
 import simulationModelling.Behaviour;
 import simulationModelling.SequelActivity;
@@ -9,26 +10,29 @@ import simulationModelling.SequelActivity;
 public class ModelName extends AOSimulationModel
 {
 	// Constants available from Constants class
-	private Constants constants = new Constants();
+	public Constants constants = new Constants();
 	/* Parameter */
         // Define the parameters
-	private int numCastingStationsSpitfire;
-	private int numCastingStationsF16;
-	private int numCastingStationsConcorde;
-	private int numCuttingGrindingStations;
-	private int numCoatingStations;
-	private int numInspectionPackagingStations;
-	private int numMovers;
+	public int numCastingStationsSpitfire;
+	public int numCastingStationsF16;
+	public int numCastingStationsConcorde;
+	public int numCuttingGrindingStations;
+	public int numCoatingStations;
+	public int numInspectionPackagingStations;
+	public int numMovers;
 
 	/*-------------Entity Data Structures-------------------*/
 	/* Group and Queue Entities */
-	public CastingStation[][] castingStations;
+	public CastingStation[] castingStations;
 	public ProcessingStation[][] processingStations;
-	public IOArea[][][] inputOutputQueues = new IOArea[4][2][]; // [type][IN OR OUT][stationId]
+	public IOArea[][][] inputOutputQueues = new IOArea[4][2][]; // [areaID][IN OR OUT][stationId]
 	public Mover[] movers;
+	public MoversLine[][] moverLines = new MoversLine[4][2]; // [areaID][IN or OUT]
 
 	// Define the reference variables to the various 
 	// entities with scope Set and Unary
+	public MaintenancePerson maintenancePerson;
+	public CastingRepairQueue castingRepairQueue;
 	// Objects can be created here or in the Initialise Action
 
 	/* Input Variables */
@@ -56,7 +60,7 @@ public class ModelName extends AOSimulationModel
 		this.numCuttingGrindingStations = 1;
 		this.numCoatingStations = 1;
 		this.numInspectionPackagingStations = 1;
-		this.numMovers = 1;
+		this.numMovers = 25;
 
 		// Create RVP object with given seed
 		rvp = new RVPs(this,sd);
@@ -64,20 +68,18 @@ public class ModelName extends AOSimulationModel
 		// Instantiating entities here
 
 		//casting stations
-		castingStations = new CastingStation[3][];
-		castingStations[constants.SPITFIRE] = new CastingStation[numCastingStationsSpitfire];
-		castingStations[constants.F16] = new CastingStation[numCastingStationsF16];
-		castingStations[constants.CONCORDE] = new CastingStation[numCastingStationsConcorde];
+		int totalNumberOfCastingStations = numCastingStationsSpitfire + numCastingStationsF16 + numCastingStationsConcorde;
+		castingStations = new CastingStation[totalNumberOfCastingStations];
 
 		//Cutting/Grinding, Coating and Inspection/Packaging stations
-		processingStations = new ProcessingStation[3][];
-		// we subtract by 1 because casting station is not part of processingStations
+		int types = 3; //types of stations
+		processingStations = new ProcessingStation[types][];
+		// We subtract by 1 because casting station is not part of processingStations
 		processingStations[constants.CUT - 1] = new ProcessingStation[numCuttingGrindingStations];
 		processingStations[constants.COAT - 1] = new ProcessingStation[numCoatingStations];
 		processingStations[constants.INSP - 1] = new ProcessingStation[numInspectionPackagingStations];
 
-		//Input and Output Queues
-		int totalNumberOfCastingStations = numCastingStationsSpitfire + numCastingStationsF16 + numCastingStationsConcorde;
+		// Input and Output Queues
 		inputOutputQueues[constants.CAST][constants.OUT] = new IOArea[totalNumberOfCastingStations];
 		inputOutputQueues[constants.CUT][constants.IN] = new IOArea[numCuttingGrindingStations];
 		inputOutputQueues[constants.CUT][constants.OUT] = new IOArea[numCuttingGrindingStations];
@@ -85,27 +87,22 @@ public class ModelName extends AOSimulationModel
 		inputOutputQueues[constants.COAT][constants.OUT] = new IOArea[numCoatingStations];
 		inputOutputQueues[constants.INSP][constants.IN] = new IOArea[numInspectionPackagingStations];
 
-		for (int i = 0; i < totalNumberOfCastingStations; i++){ // create all queue objects for casting stations
-			inputOutputQueues[constants.CAST][constants.OUT][i] = new IOArea(constants.IN_OUT_CAP);
-		}
-
-		for (int j = 0; j < numCuttingGrindingStations; j++){ // create all queue objects for cutting/grinding stations
-			inputOutputQueues[constants.CUT][constants.IN][j] = new IOArea(constants.IN_OUT_CAP);
-			inputOutputQueues[constants.CUT][constants.OUT][j] = new IOArea(constants.IN_OUT_CAP);
-		}
-
-		for (int k = 0; k < numCoatingStations; k++){ // create all queue objects for coating stations
-			inputOutputQueues[constants.COAT][constants.IN][k] = new IOArea(constants.IN_OUT_CAP);
-			inputOutputQueues[constants.COAT][constants.OUT][k] = new IOArea(constants.IN_OUT_CAP);
-		}
-
-		for (int l = 0; l < numInspectionPackagingStations; l++){ // create all queue objects for insp/packaging stations
-			inputOutputQueues[constants.INSP][constants.IN][l] = new IOArea(constants.IN_OUT_CAP);
-		}
-
-		//Movers
+		// Movers
 		movers = new Mover[numMovers];
 
+		// Maintenance person
+		maintenancePerson = new MaintenancePerson();
+
+		// CastingRepairQueue
+		castingRepairQueue = new CastingRepairQueue();
+
+		// MoverLine Queues
+		moverLines[constants.CAST][constants.OUT] = new MoversLine();
+		moverLines[constants.CUT][constants.IN] = new MoversLine();
+		moverLines[constants.CUT][constants.OUT] = new MoversLine();
+		moverLines[constants.COAT][constants.IN] = new MoversLine();
+		moverLines[constants.COAT][constants.OUT] = new MoversLine();
+		moverLines[constants.INSP][constants.IN] = new MoversLine();
 		
 		// rgCounter and qCustLine objects created in Initalise Action
 		
