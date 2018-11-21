@@ -11,7 +11,7 @@ class Experiment
    public static void main(String[] args)
    {
        int i, NUMRUNS = 1; //change later
-       double startTime=0.0, endTime=660.0;
+       double startTime=0.0, endTime=480.0;
        Seeds[] sds = new Seeds[NUMRUNS];
        ModelName mname;  // Simulation object
 

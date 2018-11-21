@@ -4,16 +4,16 @@ import cern.jet.random.engine.RandomSeedGenerator;
 
 public class Seeds 
 {
-	int seed1;   // comment 1
-	int seed2;   // comment 2
-	int seed3;   // comment 3
-	int seed4;   // comment 4
+	int cuttingTime;   //cutting
+	int packingTime;   //packing
+	int breakTime;   //die casting breaking down
+	int repairTime;   // repair time
 
 	public Seeds(RandomSeedGenerator rsg)
 	{
-		seed1=rsg.nextSeed();
-		seed2=rsg.nextSeed();
-		seed3=rsg.nextSeed();
-		seed4=rsg.nextSeed();
+		cuttingTime=rsg.nextSeed();
+		packingTime=rsg.nextSeed();
+		breakTime=rsg.nextSeed();
+		repairTime=rsg.nextSeed();
 	}
 }

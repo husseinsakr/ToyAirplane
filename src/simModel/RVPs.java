@@ -1,7 +1,10 @@
 package simModel;
 
-import cern.jet.random.Exponential;
+import cern.jet.random.*;
 import cern.jet.random.engine.MersenneTwister;
+import dataModelling.TriangularVariate;
+
+import java.util.Random;
 
 class RVPs 
 {
@@ -13,18 +16,36 @@ class RVPs
 	public final double CASTING_BREAK_MEAN = 30;
 	public final double RT_MEAN_TIME_TO_REPAIR = 8;
 	public final double RT_STD_DEV_TIME_TO_REPAIR = 2;
-	public final double PROC_TIME_CAST = model.constants.CASTING_TIME;
+	public final double PROC_TIME_CAST = Constants.CASTING_TIME;
 	public final double CT_LOWER_TIME_TO_CUT = 0.25;
 	public final double CT_MODE_TIME_TO_CUT = 0.28;
 	public final double CT_UPPER_TIME_TO_CUT = 0.35;
 	public final double GT_MEAN_TIME_TO_GRIND = 111; // NEEDS TO BE CHANGED
 	public final double GT_STD_DEV_TIME_TO_GRIND = 111; // NEEDS TO BE CHANGED
-	public final double PROC_TIME_COAT = model.constants.COATING_TIME;
+	public final double PROC_TIME_COAT = Constants.COATING_TIME;
 	public final double IT_LOWER_TIME_TO_INSPECT = 0.27;
 	public final double IT_MODE_TIME_TO_INSPECT = 0.30;
 	public final double IT_UPPER_TIME_TO_INSPECT = 0.40;
 	public final double PERCENT_PASS = 0.88;
 	public final double PERCENT_REJECT = 0.12;
+
+	// RVPS
+
+	public TriangularVariate cutTime;
+
+	// Needs to be corrected
+	Random rand1=new Random();
+	public double grindTime;
+	double mean1=7/30;
+	double stand1=0.0161;
+
+	public TriangularVariate inspTime;
+
+	public Normal castRepairTime;
+
+	public Exponential castBreakTime;
+
+
 
 
 
@@ -34,36 +55,45 @@ class RVPs
 	{ 
 		this.model = model; 
 		// Set up distribution functions
-		interArrDist = new Exponential(1.0/WMEAN1,  
-				                       new MersenneTwister(sd.seed1));
+		cutTime = new TriangularVariate(CT_LOWER_TIME_TO_CUT, CT_MODE_TIME_TO_CUT, CT_UPPER_TIME_TO_CUT, new MersenneTwister(sd.cuttingTime));
+		grindTime = Math.sqrt(Math.pow(stand1, 2))*rand1.nextGaussian()+mean1;
+		inspTime = new TriangularVariate(IT_LOWER_TIME_TO_INSPECT, IT_MODE_TIME_TO_INSPECT, IT_UPPER_TIME_TO_INSPECT, new MersenneTwister(sd.packingTime));
+		castRepairTime = new Normal(RT_MEAN_TIME_TO_REPAIR, RT_STD_DEV_TIME_TO_REPAIR, new MersenneTwister(sd.repairTime));
+		castBreakTime = new Exponential(1.0/CASTING_BREAK_MEAN, new MersenneTwister(sd.breakTime));
 	}
 	
 	/* Random Variate Procedure for Arrivals */
-	private Exponential interArrDist;  // Exponential distribution for interarrival times
-	private final double WMEAN1=10.0;
-	protected double duInput()  // for getting next value of duInput
-	{
-	    double nxtInterArr;
-
-        nxtInterArr = interArrDist.nextDouble();
-	    // Note that interarrival time is added to current
-	    // clock value to get the next arrival time.
-	    return(nxtInterArr+model.getClock());
-	}
 
 	public final double uCastingBreakTime(){
-		return 0.0;
+		return castBreakTime.nextDouble();
 	}
 
 	public final double uCastingRepairTime(){
-		return 0.0;
+		return castRepairTime.nextDouble();
 	}
 
-	public final double uOperationTime(){
-		return 0.0;
+	public final double uOperationTime(int areaId){
+		double operationTime = model.constants.NONE; // just a default value
+		switch(areaId){
+			case Constants.CAST:
+				operationTime = PROC_TIME_CAST;
+				break;
+			case Constants.CUT:
+				operationTime = Constants.BIN_CAP * (cutTime.next() + grindTime);
+				break;
+			case Constants.COAT:
+				operationTime = PROC_TIME_COAT * 2; // to reach 24 airplanes in bin since it produces 12 at a time
+				break;
+			case Constants.INSP:
+				operationTime = Constants.BIN_CAP * (inspTime.next());
+				break;
+			default:
+				System.out.printf("invalid areaId");
+		}
+		return operationTime;
 	}
 
-	public final double uNumPlanesAccepted(){
+	public final double uNumPlanesAccepted(){ // I need this explained to me
 		return 0.0;
 	}
 

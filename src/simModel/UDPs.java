@@ -1,6 +1,8 @@
 package simModel;
 
-class UDPs 
+import simulationModelling.ConditionalActivity;
+
+class UDPs
 {
 	ModelName model;  // for accessing the clock
 	
@@ -42,7 +44,7 @@ class UDPs
 		for (int areaID = model.constants.CUT - 1; areaID < model.constants.INSP; areaID++){
 			for (int stationID = 0; stationID < model.processingStations[areaID].length; stationID++){
 				if(model.processingStations[areaID][stationID].status == model.constants.IDLE
-						&& model.processingStations[areaID][stationID].bin.n < model.constants.BIN_CAP
+						&& model.processingStations[areaID][stationID].bin == null
 						&& !model.inputOutputQueues[areaID + 1][model.constants.IN][stationID].isEmpty())
 				{
 					areaIdAndStationId[0] = areaID;
@@ -85,11 +87,54 @@ class UDPs
 		return null;
 	}
 
-	public int moverCanPickUpBins(){ // need more explanation on this one
+	public int[] canStartMovingBins(){ // need more explanation on this one
+		int[] areaIdAndStationId = null;
+		Mover mover;
+		for(int areaId = Constants.CAST; areaId < Constants.INSP; areaId++){
+			if(!model.moverLines[areaId][Constants.OUT].isEmpty()) {
+				for (int stationId = 0; stationId < model.inputOutputQueues[areaId][Constants.OUT].length; stationId++) {
+					mover = model.movers[model.moverLines[areaId][Constants.OUT].peek()];
+					if (model.inputOutputQueues[areaId][Constants.OUT][stationId].size() <= mover.n){
+						areaIdAndStationId = new int[2];
+						areaIdAndStationId[0] = areaId;
+						areaIdAndStationId[1] = stationId;
+					}
+				}
+			}
+		}
+		return areaIdAndStationId;
+	}
 
+	public int fillTrolley(int moverId, int areaId, int stationId){
+		int destinationArea = areaId;
+		for(int i = 0; i < Constants.MOVER_CAP; i++){ // fill trolley by also making sure that we don't overwrite an existing bin
+			if(model.movers[moverId].trolley[i] != null){
+				model.movers[moverId].trolley[i] = model.inputOutputQueues[areaId][Constants.OUT][stationId].poll();
+				model.movers[moverId].n++;
+			}
+		}
+		destinationArea++;
+		if(areaId == Constants.CUT) {
+			boolean allSpitfireBins = true;
+			for (Bin bin : model.movers[moverId].trolley){
+				if (bin.type != Constants.SPITFIRE){
+					allSpitfireBins = false;
+					break;
+				}
+			}
+			if (allSpitfireBins)
+				destinationArea++;
+		}
+		return destinationArea;
+	}
 
-
-		return model.constants.NONE;
+	public int canDistributeBins(){
+		for(int areaId = Constants.CUT; areaId <= Constants.INSP; areaId++){
+			if(!model.moverLines[areaId][Constants.IN].isEmpty()){
+				return areaId;
+			}
+		}
+		return Constants.NONE;
 	}
 	
 	
