@@ -73,6 +73,7 @@ public class ModelName extends AOSimulationModel
 		castingStations = new CastingStation[totalNumberOfCastingStations];
 
 		//Cutting/Grinding, Coating and Inspection/Packaging stations
+		//Cutting = 0, Coating = 1, Insp/Pack = 2
 		int types = 3; //types of stations
 		processingStations = new ProcessingStation[types][];
 		// We subtract by 1 because casting station is not part of processingStations
@@ -184,7 +185,7 @@ public class ModelName extends AOSimulationModel
 			act.startingEvent();
 			scheduleActivity(act);
 			statusChanged = true;
-			System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId + " and has an output size of " + act.modelName.inputOutputQueues[act.areaId + 1][1][act.stationId].size());
+			System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId + " and has an output size of " + act.modelName.inputOutputQueues[(act.areaId + 1) % Constants.INSP][1][act.stationId].size());
 		}
 
 
@@ -209,7 +210,7 @@ public class ModelName extends AOSimulationModel
 		// Setup an updateTrjSequences() method in the Output class
 		// and call here if you have Trajectory Sets
 		// updateTrjSequences() 
-	}
+ 	}
 
 	// Standard Procedure to start Sequel Activities with no parameters
 	protected void spStart(SequelActivity seqAct)

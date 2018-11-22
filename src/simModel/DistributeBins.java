@@ -37,7 +37,7 @@ public class DistributeBins extends ConditionalAction {
                 mover.n--;
             }
         }
-            modelName.moverLines[areaId][Constants.OUT].add(moverId);
+            modelName.moverLines[areaId % Constants.INSP][Constants.OUT].add(moverId);
     }
 
     //returns the index of the smallest int in an array

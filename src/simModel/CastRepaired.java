@@ -33,7 +33,6 @@ public class CastRepaired extends Activity {
     public void terminatingEvent() {
         modelName.castingStations[stationId].status = Constants.IDLE;
         modelName.castingStations[stationId].timeToNextBreak = modelName.rvp.uCastingBreakTime();
-        System.out.println("timeToNextBreak: " + modelName.castingStations[stationId].timeToNextBreak);
         modelName.maintenancePerson.available = true;
     }
 

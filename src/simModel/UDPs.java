@@ -41,11 +41,11 @@ class UDPs
 	public int[] stationReadyForOperation() {
 		int[] areaIdAndStationId = new int[2];
 		//checking all ProcessingStations if they can operate
-		for (int areaID = model.constants.CUT - 1; areaID < model.constants.INSP; areaID++){
+		for (int areaID = Constants.CUT - 1; areaID < Constants.INSP; areaID++){
 			for (int stationID = 0; stationID < model.processingStations[areaID].length; stationID++){
-				if(model.processingStations[areaID][stationID].status == model.constants.IDLE
+				if(model.processingStations[areaID][stationID].status == Constants.IDLE
 						&& model.processingStations[areaID][stationID].bin == null
-						&& !model.inputOutputQueues[areaID + 1][model.constants.IN][stationID].isEmpty())
+						&& !model.inputOutputQueues[areaID + 1][Constants.IN][stationID].isEmpty())
 				{
 					areaIdAndStationId[0] = areaID;
 					areaIdAndStationId[1] = stationID;
@@ -74,6 +74,7 @@ class UDPs
 		for (int areaID = model.constants.CUT - 1; areaID < model.constants.COAT; areaID++){
 			for (int stationID = 0; stationID < model.processingStations[areaID].length; stationID++){
 				if(model.processingStations[areaID][stationID].bin != null
+					&& model.processingStations[areaID][stationID].status == Constants.IDLE
 					&& model.inputOutputQueues[areaID + 1][model.constants.OUT][stationID].size() < model.constants.IN_OUT_CAP)
 				{ // && model.processingStations[areaID][stationID].bin.n == model.constants.BIN_CAP, I DONT THINK WE NEED THIS ANYMORE
 					areaIdAndStationId[0] = areaID + 1;
@@ -138,7 +139,7 @@ class UDPs
 				for(IOArea ioArea : model.inputOutputQueues[areaId][Constants.IN]){
 					canFit += ioArea.remainingCapacity();
 				}
-				if(areaId == Constants.CUT){
+				if(areaId == Constants.COAT){
 					int moverId = model.moverLines[areaId][Constants.IN].peek();
 					for(Bin bin : model.movers[moverId].trolley){
 						if(bin.type == Constants.SPITFIRE){

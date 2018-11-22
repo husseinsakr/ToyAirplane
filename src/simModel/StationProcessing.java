@@ -1,8 +1,8 @@
 package simModel;
 
-import simulationModelling.Activity;
+import simulationModelling.ConditionalActivity;
 
-public class StationProcessing extends Activity {
+public class StationProcessing extends ConditionalActivity {
     ModelName modelName;
     int[] areaIdAndStationId;
     int areaId, stationId;
@@ -30,7 +30,7 @@ public class StationProcessing extends Activity {
 
     @Override
     public double duration(){
-        return modelName.rvp.uOperationTime(areaId);
+        return modelName.rvp.uOperationTime(areaId+1);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class StationProcessing extends Activity {
         modelName.processingStations[areaId][stationId].status = Constants.IDLE;
         if (areaId == Constants.INSP){ // needs to be worked on
             //update output here for leaving planes
+        } else {
         }
-
     }
 }
