@@ -62,23 +62,23 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="65" />
-          <entry key="java" value="267" />
+          <entry key="java" value="270" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="65" />
-          <entry key="JAVA" value="267" />
+          <entry key="JAVA" value="270" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="24299" />
+          <entry key="java" value="24432" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="24299" />
+          <entry key="JAVA" value="24432" />
         </counts>
       </usages-collector>
     </session>
@@ -88,8 +88,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/simModel/ModelName.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="144" column="70" selection-start-line="144" selection-start-column="70" selection-end-line="144" selection-end-column="70" />
+            <state relative-caret-position="600">
+              <caret line="111" column="38" selection-start-line="111" selection-start-column="32" selection-end-line="111" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -97,24 +97,24 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/simModel/OutputBinFromStation.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/simModel/Initialise.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="40" column="9" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="9" />
+            <state relative-caret-position="-420">
+              <caret line="54" column="84" selection-start-line="54" selection-start-column="84" selection-end-line="54" selection-end-column="84" />
               <folding>
-                <element signature="e#263#264#0" expanded="true" />
-                <element signature="e#305#306#0" expanded="true" />
+                <element signature="e#341#342#0" expanded="true" />
+                <element signature="e#389#390#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simModel/UDPs.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/simModel/Output.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-238">
-              <caret line="72" column="53" lean-forward="true" selection-start-line="72" selection-start-column="53" selection-end-line="72" selection-end-column="53" />
+            <state relative-caret-position="34">
+              <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -130,8 +130,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>starting to move bins from</find>
-      <find>starting to move</find>
       <find>starting to move bins from 0 with stationid 0</find>
       <find>starting to move bins from 0 with stationid</find>
       <find>Starting to move bins from 2</find>
@@ -143,7 +141,6 @@
       <find>i am</find>
       <find>I AM</find>
       <find>I AM HERE</find>
-      <find>station started operating with type 3</find>
       <find>processingStation</find>
       <find>stationready</find>
       <find>areaId: 2</find>
@@ -160,6 +157,9 @@
       <find>Insp input: 3</find>
       <find>%</find>
       <find>Output bin from insp</find>
+      <find>station started operating with type 3</find>
+      <find>station started op</find>
+      <find>castingSt</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -182,7 +182,6 @@
         <option value="$PROJECT_DIR$/src/simModel/CastingStation.java" />
         <option value="$PROJECT_DIR$/src/simModel/CastNeedsMaintenance.java" />
         <option value="$PROJECT_DIR$/src/simModel/MoversLine.java" />
-        <option value="$PROJECT_DIR$/src/simModel/Initialise.java" />
         <option value="$PROJECT_DIR$/src/simModel/RVPs.java" />
         <option value="$PROJECT_DIR$/src/simModel/DistributeBins.java" />
         <option value="$PROJECT_DIR$/src/simModel/PlaneMoldCast.java" />
@@ -192,6 +191,7 @@
         <option value="$PROJECT_DIR$/src/simModel/UDPs.java" />
         <option value="$PROJECT_DIR$/src/simModel/ModelName.java" />
         <option value="$PROJECT_DIR$/src/simModel/OutputBinFromStation.java" />
+        <option value="$PROJECT_DIR$/src/simModel/Initialise.java" />
       </list>
     </option>
   </component>
@@ -242,7 +242,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542911205500" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542912531466" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -292,17 +292,18 @@
       <workItem from="1542046041154" duration="72000" />
       <workItem from="1542639715190" duration="20972000" />
       <workItem from="1542847572632" duration="9096000" />
-      <workItem from="1542871697475" duration="33066000" />
+      <workItem from="1542871697475" duration="34750000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="119993000" />
+    <option name="totallyTimeSpent" value="121677000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23238866" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23238866" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -311,7 +312,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" x="0" y="23" width="1281" height="658" id="Run" order="2" type="WINDOWED" visible="true" weight="0.3285968" />
+      <window_info anchor="bottom" x="0" y="23" width="1281" height="658" id="Run" order="2" type="WINDOWED" visible="true" weight="0.3285968" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39964476" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -372,21 +373,6 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/simModel/OutputBinFromStation.java</url>
-          <line>32</line>
-          <properties />
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-      </breakpoints>
-      <breakpoints-dialog>
-        <breakpoints-dialog />
-      </breakpoints-dialog>
-    </breakpoint-manager>
-  </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
       <expression>
@@ -397,13 +383,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/simModel/Output.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/simModel/Machine.java" />
     <entry file="file://$PROJECT_DIR$/src/simModel/Station.java" />
     <entry file="file://$PROJECT_DIR$/src/simModel/MaintenancePerson.java">
@@ -551,17 +530,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/Initialise.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-321">
-          <caret line="62" column="94" selection-start-line="62" selection-start-column="88" selection-end-line="62" selection-end-column="94" />
-          <folding>
-            <element signature="e#341#342#0" expanded="true" />
-            <element signature="e#389#390#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/simModel/CastingRepairQueue.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -653,31 +621,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/OutputBinFromStation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="39" column="9" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
+          <folding>
+            <element signature="e#263#264#0" expanded="true" />
+            <element signature="e#305#306#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/simModel/UDPs.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-238">
-          <caret line="72" column="53" lean-forward="true" selection-start-line="72" selection-start-column="53" selection-end-line="72" selection-end-column="53" />
+        <state relative-caret-position="170">
+          <caret line="135" column="62" lean-forward="true" selection-start-line="135" selection-start-column="62" selection-end-line="135" selection-end-column="62" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/simModel/ModelName.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="144" column="70" selection-start-line="144" selection-start-column="70" selection-end-line="144" selection-end-column="70" />
+        <state relative-caret-position="600">
+          <caret line="111" column="38" selection-start-line="111" selection-start-column="32" selection-end-line="111" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/OutputBinFromStation.java">
+    <entry file="file://$PROJECT_DIR$/src/simModel/Initialise.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="40" column="9" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="9" />
+        <state relative-caret-position="-420">
+          <caret line="54" column="84" selection-start-line="54" selection-start-column="84" selection-end-line="54" selection-end-column="84" />
           <folding>
-            <element signature="e#263#264#0" expanded="true" />
-            <element signature="e#305#306#0" expanded="true" />
+            <element signature="e#341#342#0" expanded="true" />
+            <element signature="e#389#390#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/Output.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
         </state>
       </provider>
     </entry>
