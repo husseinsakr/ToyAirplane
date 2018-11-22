@@ -227,6 +227,7 @@ public class ModelName extends AOSimulationModel
 		// Setup an updateTrjSequences() method in the Output class
 		// and call here if you have Trajectory Sets
 		// updateTrjSequences()
+		output.updateSequences();
  	}
 
 	// Standard Procedure to start Sequel Activities with no parameters
