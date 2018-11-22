@@ -35,6 +35,8 @@ public class MoveBins extends ConditionalActivity {
     @Override
     public void terminatingEvent(){
         modelName.moverLines[destinationArea][Constants.IN].add(moverId);
+        System.out.println("Finished moving bins from " + currentArea + " with stationId " + stationId + " to " + destinationArea );
+        modelName.printAllVariablesForDebuggingPurposes();
     }
 
 

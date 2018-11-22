@@ -205,7 +205,7 @@ public class ModelName extends AOSimulationModel
 			scheduleActivity(act);
 			statusChanged = true;
 
-			System.out.println("Moving bins from " + act.currentArea + " to " + act.destinationArea);
+			System.out.println("Starting to move bins from " + act.currentArea + " with stationid " + act.stationId + " to " + act.destinationArea);
 			printAllVariablesForDebuggingPurposes();
 		}
 
