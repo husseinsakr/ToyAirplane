@@ -15,7 +15,7 @@ class UDPs
 	public int castingStationReadyForProcessing(){
 		for (int stationID = 0; stationID < model.castingStations.length; stationID++){
 			if (model.castingStations[stationID].status == model.constants.IDLE
-					&& model.castingStations[stationID].bin. n < model.constants.BIN_CAP){
+					&& model.castingStations[stationID].bin.n < model.constants.BIN_CAP){
 				return stationID;
 			}
 		}
@@ -73,10 +73,10 @@ class UDPs
 		//Cutting/Grinding and Coating stations
 		for (int areaID = model.constants.CUT - 1; areaID < model.constants.COAT; areaID++){
 			for (int stationID = 0; stationID < model.processingStations[areaID].length; stationID++){
-				if(model.processingStations[areaID][stationID].bin.n == model.constants.BIN_CAP
+				if(model.processingStations[areaID][stationID].bin != null
 					&& model.inputOutputQueues[areaID + 1][model.constants.OUT][stationID].size() < model.constants.IN_OUT_CAP)
-				{
-					areaIdAndStationId[0] = areaID;
+				{ // && model.processingStations[areaID][stationID].bin.n == model.constants.BIN_CAP, I DONT THINK WE NEED THIS ANYMORE
+					areaIdAndStationId[0] = areaID + 1;
 					areaIdAndStationId[1] = stationID;
 					return areaIdAndStationId;
 				}
@@ -94,10 +94,12 @@ class UDPs
 			if(!model.moverLines[areaId][Constants.OUT].isEmpty()) {
 				for (int stationId = 0; stationId < model.inputOutputQueues[areaId][Constants.OUT].length; stationId++) {
 					mover = model.movers[model.moverLines[areaId][Constants.OUT].peek()];
-					if (model.inputOutputQueues[areaId][Constants.OUT][stationId].size() <= mover.n){
+					int x = model.inputOutputQueues[areaId][Constants.OUT][stationId].size();
+					if (model.inputOutputQueues[areaId][Constants.OUT][stationId].size() >= Constants.MOVER_CAP - mover.n){
 						areaIdAndStationId = new int[2];
 						areaIdAndStationId[0] = areaId;
 						areaIdAndStationId[1] = stationId;
+						return areaIdAndStationId;
 					}
 				}
 			}
@@ -108,7 +110,7 @@ class UDPs
 	public int fillTrolley(int moverId, int areaId, int stationId){
 		int destinationArea = areaId;
 		for(int i = 0; i < Constants.MOVER_CAP; i++){ // fill trolley by also making sure that we don't overwrite an existing bin
-			if(model.movers[moverId].trolley[i] != null){
+			if(model.movers[moverId].trolley[i] == null){
 				model.movers[moverId].trolley[i] = model.inputOutputQueues[areaId][Constants.OUT][stationId].poll();
 				model.movers[moverId].n++;
 			}
@@ -131,7 +133,21 @@ class UDPs
 	public int canDistributeBins(){
 		for(int areaId = Constants.CUT; areaId <= Constants.INSP; areaId++){
 			if(!model.moverLines[areaId][Constants.IN].isEmpty()){
-				return areaId;
+				int numOfStationsAtAreaId = model.inputOutputQueues[areaId][Constants.IN].length;
+				int canFit = 0;
+				for(IOArea ioArea : model.inputOutputQueues[areaId][Constants.IN]){
+					canFit += ioArea.remainingCapacity();
+				}
+				if(areaId == Constants.CUT){
+					int moverId = model.moverLines[areaId][Constants.IN].peek();
+					for(Bin bin : model.movers[moverId].trolley){
+						if(bin.type == Constants.SPITFIRE){
+							canFit++;
+						}
+					}
+				}
+				if (canFit >= Constants.MOVER_CAP)
+					return areaId;
 			}
 		}
 		return Constants.NONE;

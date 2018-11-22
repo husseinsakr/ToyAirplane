@@ -28,6 +28,7 @@ class Initialise extends ScheduledAction
 			model.castingStations[x] = new CastingStation();
 			model.castingStations[x].type = model.constants.SPITFIRE;
 			model.castingStations[x].status = model.constants.IDLE;
+			model.castingStations[x].timeToNextBreak = 30; // fix
 			model.castingStations[x].bin = new Bin();
 			model.castingStations[x].bin.type = model.constants.SPITFIRE;
 			model.castingStations[x].bin.n = model.constants.EMPTY;
@@ -39,6 +40,7 @@ class Initialise extends ScheduledAction
 			model.castingStations[y] = new CastingStation();
 			model.castingStations[y].type = model.constants.F16;
 			model.castingStations[y].status = model.constants.IDLE;
+			model.castingStations[y].timeToNextBreak = 30;
 			model.castingStations[y].bin = new Bin();
 			model.castingStations[y].bin.type = model.constants.F16;
 			model.castingStations[y].bin.n = model.constants.EMPTY;
@@ -50,6 +52,7 @@ class Initialise extends ScheduledAction
 			model.castingStations[z] = new CastingStation();
 			model.castingStations[z].type = model.constants.CONCORDE;
 			model.castingStations[z].status = model.constants.IDLE;
+			model.castingStations[z].timeToNextBreak = 30;
 			model.castingStations[z].bin = new Bin();
 			model.castingStations[z].bin.type = model.constants.CONCORDE;
 			model.castingStations[z].bin.n = model.constants.EMPTY;

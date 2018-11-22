@@ -25,7 +25,7 @@ public class StationProcessing extends Activity {
         this.areaId = areaIdAndStationId[0];
         this.stationId = areaIdAndStationId[1];
         modelName.processingStations[areaId][stationId].status = Constants.BUSY;
-        modelName.processingStations[areaId][stationId].bin = modelName.inputOutputQueues[areaId][Constants.IN][stationId].poll();
+        modelName.processingStations[areaId][stationId].bin = modelName.inputOutputQueues[areaId + 1][Constants.IN][stationId].poll();
     }
 
     @Override
@@ -38,8 +38,6 @@ public class StationProcessing extends Activity {
         modelName.processingStations[areaId][stationId].status = Constants.IDLE;
         if (areaId == Constants.INSP){ // needs to be worked on
             //update output here for leaving planes
-             modelName.processingStations[areaId][stationId].bin = null;
-
         }
 
     }

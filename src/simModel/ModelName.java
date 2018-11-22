@@ -11,6 +11,7 @@ public class ModelName extends AOSimulationModel
 {
 	// Constants available from Constants class
 	public Constants constants = new Constants();
+	public static int x = 0;
 	/* Parameter */
         // Define the parameters
 	public int numCastingStationsSpitfire;
@@ -54,13 +55,13 @@ public class ModelName extends AOSimulationModel
 	public ModelName(double t0time, double tftime, /*define other args,*/ Seeds sd)
 	{
 		// Initialise parameters here
-		this.numCastingStationsSpitfire = 2;
-		this.numCastingStationsF16 = 2;
-		this.numCastingStationsConcorde = 3;
+		this.numCastingStationsSpitfire = 1;
+		this.numCastingStationsF16 = 1;
+		this.numCastingStationsConcorde = 1;
 		this.numCuttingGrindingStations = 1;
 		this.numCoatingStations = 1;
 		this.numInspectionPackagingStations = 1;
-		this.numMovers = 25;
+		this.numMovers = 5;
 
 		// Create RVP object with given seed
 		rvp = new RVPs(this,sd);
@@ -123,8 +124,80 @@ public class ModelName extends AOSimulationModel
 	{
 		reschedule (behObj);
 		// Check preconditions of Conditional Activities
+		while (scanPreconditions() == true)/* repeat */;
 
 		// Check preconditions of Interruptions in Extended Activities
+	}
+
+	public boolean scanPreconditions(){
+		boolean statusChanged = false;
+
+		// Conditional Actions
+		if (OutputBinFromStation.precondition(this) == true)
+		{
+			OutputBinFromStation act = new OutputBinFromStation(this); // Generate instance																// instance
+			act.actionEvent();
+			statusChanged = true;
+			System.out.println("Output bin from station " + act.stationId + " with a station type " + act.areaId + " now has an output queue of size: " + act.modelName.inputOutputQueues[act.areaId][1][act.stationId].size());
+		}
+
+		if (CastNeedsMaintenance.precondition(this) == true)
+		{
+			CastNeedsMaintenance act = new CastNeedsMaintenance(this); // Generate instance
+			act.actionEvent();
+			statusChanged = true;
+			System.out.println("Casting station " + act.stationId + " requires maintenance");
+		}
+
+
+		if(DistributeBins.precondition(this) == true)
+		{
+			DistributeBins distributeBins = new DistributeBins(this); // Generate instance
+			distributeBins.actionEvent();
+			statusChanged = true;
+			System.out.println("Distribute bins at areaId " + distributeBins.areaId);
+		}
+
+		// Conditional Activities
+		if (PlaneMoldCast.precondition(this) == true)
+		{
+			PlaneMoldCast act = new PlaneMoldCast(this); // Generate instance
+			act.startingEvent();
+			scheduleActivity(act);
+			statusChanged = true;
+			System.out.println("Casting station starts operating with stationId " + act.stationId + " and holding "
+					+ act.modelName.castingStations[act.stationId].bin.n + " planes.");
+		}
+
+		if (CastRepaired.precondition(this) == true)
+		{
+			CastRepaired act = new CastRepaired(this); // Generate instance
+			act.startingEvent();
+			scheduleActivity(act);
+			statusChanged = true;
+			System.out.println("Casting station got repaired with stationId " + act.stationId);
+		}
+
+		if (StationProcessing.precondition(this) == true)
+		{
+			StationProcessing act = new StationProcessing(this); // Generate instance
+			act.startingEvent();
+			scheduleActivity(act);
+			statusChanged = true;
+			System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId + " and has an output size of " + act.modelName.inputOutputQueues[act.areaId + 1][1][act.stationId].size());
+		}
+
+
+		if (MoveBins.precondition(this) == true)
+		{
+			MoveBins act = new MoveBins(this); // Generate instance
+			act.startingEvent();
+			scheduleActivity(act);
+			statusChanged = true;
+			System.out.println("Moving bins from " + act.currentArea + " to " + act.destinationArea);
+		}
+
+		return statusChanged;
 	}
 	
 	public void eventOccured()

@@ -21,12 +21,13 @@ public class DistributeBins extends ConditionalAction {
 
     public void actionEvent(){
         areaId = modelName.udp.canDistributeBins();
-        mover = modelName.movers[modelName.moverLines[areaId][Constants.IN].pop()];
+        int moverId = modelName.moverLines[areaId][Constants.IN].pop();
+        mover = modelName.movers[moverId];
         for (int trolleyIndex = 0; trolleyIndex < Constants.MOVER_CAP; trolleyIndex++){
             Bin bin = new Bin();
             bin.type = mover.trolley[trolleyIndex].type;
             bin.n = mover.trolley[trolleyIndex].n;
-            if(areaId == Constants.COAT && bin.type != Constants.SPITFIRE) {
+            if(areaId != Constants.COAT || (areaId == Constants.COAT && bin.type != Constants.SPITFIRE)) {
                 int[] queueLengths = new int[modelName.inputOutputQueues[areaId][Constants.IN].length];
                 for(int i = 0; i < queueLengths.length; i++){
                     queueLengths[i] = modelName.inputOutputQueues[areaId][Constants.IN][i].size();
@@ -35,8 +36,8 @@ public class DistributeBins extends ConditionalAction {
                 mover.trolley[trolleyIndex] = null;
                 mover.n--;
             }
-
         }
+            modelName.moverLines[areaId][Constants.OUT].add(moverId);
     }
 
     //returns the index of the smallest int in an array
