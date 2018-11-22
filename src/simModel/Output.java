@@ -82,6 +82,8 @@ class Output
 		double currentTimeCoatBlocked=0.0;
 
 		//casting blocked
+		//model.castingStations[castingStationId].bin.n == model.constants.BIN_CAP
+		//					&& model.inputOutputQueues[model.constants.CAST][model.constants.OUT][castingStationId].size() < model.constants.IN_OUT_CAP
 		for(int i=0;i < model.numCastingStationsConcorde + model.numCastingStationsF16 + model.numCastingStationsSpitfire;i++) {
 			if(model.castingStations[i].status == Constants.IDLE && model.castingStations[i].bin.n == 24) currentTimeCastBlocked++;
 			if(currentTimeCastBlocked!=lastPerCastBlocked) {
@@ -92,6 +94,9 @@ class Output
 
 
 		//cutting/Grinding blocked
+		//(model.processingStations[areaID][stationID].bin != null
+		//					&& model.processingStations[areaID][stationID].status == Constants.IDLE
+		//					&& (areaID == Constants.COAT || model.inputOutputQueues[areaID + 1][model.constants.OUT][stationID].size() < model.constants.IN_OUT_CAP))
 		for(int i=0;i<model.numCuttingGrindingStations;i++) {
 			if(model.processingStations[Constants.CUT][i].status == Constants.IDLE && model.processingStations[Constants.CUT][i].bin != null) currentTimeCutBlocked++;
 			if(currentTimeCutBlocked!=lastPerCutBlocked) {
