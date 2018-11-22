@@ -28,8 +28,8 @@ public class MoveBins extends ConditionalActivity {
     }
 
     @Override
-    public double duration(){ // FIX WITH DVP STUFF. NOTE: Please make sure that there is a special cast from CUT -> INSP
-        return 0.0;
+    public double duration(){
+        return modelName.dvp.uMovingStationsTime(currentArea, destinationArea);
     }
 
     @Override

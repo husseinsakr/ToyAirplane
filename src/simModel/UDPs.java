@@ -109,14 +109,13 @@ class UDPs
 	}
 
 	public int fillTrolley(int moverId, int areaId, int stationId){
-		int destinationArea = areaId;
+		int destinationArea = model.dvp.uNextStation(areaId);
 		for(int i = 0; i < Constants.MOVER_CAP; i++){ // fill trolley by also making sure that we don't overwrite an existing bin
 			if(model.movers[moverId].trolley[i] == null){
 				model.movers[moverId].trolley[i] = model.inputOutputQueues[areaId][Constants.OUT][stationId].poll();
 				model.movers[moverId].n++;
 			}
 		}
-		destinationArea++;
 		if(areaId == Constants.CUT) {
 			boolean allSpitfireBins = true;
 			for (Bin bin : model.movers[moverId].trolley){
@@ -126,7 +125,7 @@ class UDPs
 				}
 			}
 			if (allSpitfireBins)
-				destinationArea++;
+				destinationArea = model.dvp.uNextStation(destinationArea); // skip coating
 		}
 		return destinationArea;
 	}

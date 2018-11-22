@@ -27,7 +27,6 @@ class RVPs
 	public final double IT_MODE_TIME_TO_INSPECT = 0.30;
 	public final double IT_UPPER_TIME_TO_INSPECT = 0.40;
 	public final double PERCENT_PASS = 0.88;
-	public final double PERCENT_REJECT = 0.12;
 
 	// RVPS
 
@@ -45,9 +44,7 @@ class RVPs
 
 	public Exponential castBreakTime;
 
-
-
-
+	public MersenneTwister typeRandGen;
 
 
 	// Constructor
@@ -93,8 +90,12 @@ class RVPs
 		return operationTime;
 	}
 
-	public final double uNumPlanesAccepted(){ // I need this explained to me
-		return 0.0;
+	public final boolean uNumPlanesAccepted(){ // I need this explained to me
+		double randNum = typeRandGen.nextDouble();
+		if (randNum < PERCENT_PASS)
+			return true;
+		else
+			return false;
 	}
 
 }
