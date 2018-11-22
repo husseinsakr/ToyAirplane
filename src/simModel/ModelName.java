@@ -139,7 +139,10 @@ public class ModelName extends AOSimulationModel
 			OutputBinFromStation act = new OutputBinFromStation(this); // Generate instance																// instance
 			act.actionEvent();
 			statusChanged = true;
-			System.out.println("Output bin from station " + act.stationId + " with a station type " + act.areaId + " now has an output queue of size: " + act.modelName.inputOutputQueues[act.areaId][1][act.stationId].size());
+			if(act.areaId != Constants.INSP)
+				System.out.println("Output bin from station " + act.stationId + " with a station type " + act.areaId + " now has an output queue of size: " + act.modelName.inputOutputQueues[act.areaId][1][act.stationId].size());
+			else
+				System.out.println("Output bin from inspection station");
 			printAllVariablesForDebuggingPurposes();
 		}
 
@@ -193,7 +196,10 @@ public class ModelName extends AOSimulationModel
 			scheduleActivity(act);
 			statusChanged = true;
 
-			System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId + " and has an output size of " + act.modelName.inputOutputQueues[(act.areaId + 1) % Constants.INSP][1][act.stationId].size());
+			if(act.areaId+1 != Constants.INSP)
+				System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId + " and has an output size of " + act.modelName.inputOutputQueues[(act.areaId + 1) % Constants.INSP][1][act.stationId].size());
+			else
+				System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId);
 			printAllVariablesForDebuggingPurposes();
 		}
 

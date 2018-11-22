@@ -70,12 +70,12 @@ class UDPs
 			}
 		}
 
-		//Cutting/Grinding and Coating stations
-		for (int areaID = model.constants.CUT - 1; areaID < model.constants.COAT; areaID++){
+		//Cutting/Grinding, Coating and INSP stations
+		for (int areaID = model.constants.CUT - 1; areaID < model.constants.INSP; areaID++){
 			for (int stationID = 0; stationID < model.processingStations[areaID].length; stationID++){
 				if(model.processingStations[areaID][stationID].bin != null
 					&& model.processingStations[areaID][stationID].status == Constants.IDLE
-					&& model.inputOutputQueues[areaID + 1][model.constants.OUT][stationID].size() < model.constants.IN_OUT_CAP)
+					&& (areaID == Constants.COAT || model.inputOutputQueues[areaID + 1][model.constants.OUT][stationID].size() < model.constants.IN_OUT_CAP))
 				{ // && model.processingStations[areaID][stationID].bin.n == model.constants.BIN_CAP, I DONT THINK WE NEED THIS ANYMORE
 					areaIdAndStationId[0] = areaID + 1;
 					areaIdAndStationId[1] = stationID;

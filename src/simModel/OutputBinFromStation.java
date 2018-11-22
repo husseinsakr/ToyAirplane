@@ -36,8 +36,10 @@ public class OutputBinFromStation extends ConditionalAction{
             modelName.inputOutputQueues[areaId][Constants.OUT][stationId].add(bin);
             modelName.processingStations[areaId - 1][stationId].bin = null;
         } else { // We need to do something for when we at INSP station I am guessing
-
+            System.out.println("I AM HERE");
+            modelName.processingStations[areaId - 1][stationId].bin = null;
         }
+        System.out.println("areaID: " + areaId);
     }
 
 }
