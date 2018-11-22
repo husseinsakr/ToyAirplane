@@ -39,5 +39,7 @@ public class PlaneMoldCast extends Activity {
         }
         modelName.castingStations[stationId].bin.n += 6;
         modelName.castingStations[stationId].timeToNextBreak -= modelName.constants.CASTING_TIME;
+        System.out.println("Casting station with id " + stationId + " has finished casting. ");
+        modelName.printAllVariablesForDebuggingPurposes();
     }
 }

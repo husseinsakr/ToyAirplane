@@ -40,5 +40,8 @@ public class StationProcessing extends ConditionalActivity {
             //update output here for leaving planes
         } else {
         }
+        System.out.println("Station with type " + areaId + " and stationId " + stationId + " have finished processing");
+        modelName.printAllVariablesForDebuggingPurposes();
+
     }
 }
