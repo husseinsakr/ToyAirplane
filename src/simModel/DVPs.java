@@ -21,7 +21,7 @@ class DVPs
 		} else { //CUT -> INSP
 			movingTime = 0.43 + 0.41;
 		}
-		return model.getClock()+movingTime;
+		return movingTime;
 	}
 
 	protected int uNextStation(int currentAreaId) {

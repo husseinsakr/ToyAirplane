@@ -46,22 +46,36 @@ public class ModelName extends AOSimulationModel
 
 	// Output object
 	protected Output output = new Output(this);
+
+	public int getNumSptfireProduced(){
+		return output.numSpitfireProduced;
+	}
+
+	public int getNumF16Produced(){
+		return output.numF16Produced;
+	}
+
+	public int getNumConcordeProduced(){
+		return output.numConcordeProduced;
+	}
 	
 	// Output values - define the public methods that return values
 	// required for experimentation.
 
 
 	// Constructor
-	public ModelName(double t0time, double tftime, /*define other args,*/ Seeds sd)
+	public ModelName(double t0time, double tftime, int numCastingStationsSpitfire,
+					 int numCastingStationsF16, int numCastingStationsConcorde, int numCuttingGrindingStations,
+					 int numCoatingStations, int numInspectionPackagingStations, int numMovers,/*define other args,*/ Seeds sd)
 	{
 		// Initialise parameters here
-		this.numCastingStationsSpitfire = 1;
-		this.numCastingStationsF16 = 1;
-		this.numCastingStationsConcorde = 1;
-		this.numCuttingGrindingStations = 1;
-		this.numCoatingStations = 1;
-		this.numInspectionPackagingStations = 1;
-		this.numMovers = 5;
+		this.numCastingStationsSpitfire = numCastingStationsSpitfire;
+		this.numCastingStationsF16 = numCastingStationsF16;
+		this.numCastingStationsConcorde = numCastingStationsConcorde;
+		this.numCuttingGrindingStations = numCuttingGrindingStations;
+		this.numCoatingStations = numCoatingStations;
+		this.numInspectionPackagingStations = numInspectionPackagingStations;
+		this.numMovers = numMovers;
 
 		// Create RVP object with given seed
 		rvp = new RVPs(this,sd);
@@ -139,10 +153,12 @@ public class ModelName extends AOSimulationModel
 			OutputBinFromStation act = new OutputBinFromStation(this); // Generate instance																// instance
 			act.actionEvent();
 			statusChanged = true;
+			/*
 			if(act.areaId != Constants.INSP)
-				System.out.println("Output bin from station " + act.stationId + " with a station type " + act.areaId + " now has an output queue of size: " + act.modelName.inputOutputQueues[act.areaId][1][act.stationId].size());
+				//System.out.println("Output bin from station " + act.stationId + " with a station type " + act.areaId + " now has an output queue of size: " + act.modelName.inputOutputQueues[act.areaId][1][act.stationId].size());
 			else
-				System.out.println("Output bin from inspection station");
+				//System.out.println("Output bin from inspection station");
+				*/
 			printAllVariablesForDebuggingPurposes();
 		}
 
@@ -151,7 +167,7 @@ public class ModelName extends AOSimulationModel
 			CastNeedsMaintenance act = new CastNeedsMaintenance(this); // Generate instance
 			act.actionEvent();
 			statusChanged = true;
-			System.out.println("Casting station " + act.stationId + " requires maintenance");
+			//System.out.println("Casting station " + act.stationId + " requires maintenance");
 			printAllVariablesForDebuggingPurposes();
 		}
 
@@ -161,7 +177,7 @@ public class ModelName extends AOSimulationModel
 			DistributeBins distributeBins = new DistributeBins(this); // Generate instance
 			distributeBins.actionEvent();
 			statusChanged = true;
-			System.out.println("Distribute bins at areaId " + distributeBins.areaId);
+			//System.out.println("Distribute bins at areaId " + distributeBins.areaId);
 			printAllVariablesForDebuggingPurposes();
 		}
 
@@ -173,8 +189,8 @@ public class ModelName extends AOSimulationModel
 			scheduleActivity(act);
 			statusChanged = true;
 
-			System.out.println("Casting station starts operating with stationId " + act.stationId + " and holding "
-					+ act.modelName.castingStations[act.stationId].bin.n + " planes.");
+			//System.out.println("Casting station starts operating with stationId " + act.stationId + " and holding "
+			//		+ act.modelName.castingStations[act.stationId].bin.n + " planes.");
 			printAllVariablesForDebuggingPurposes();
 		}
 
@@ -185,7 +201,7 @@ public class ModelName extends AOSimulationModel
 			scheduleActivity(act);
 			statusChanged = true;
 
-			System.out.println("Casting station got repaired with stationId " + act.stationId);
+			//System.out.println("Casting station got repaired with stationId " + act.stationId);
 			printAllVariablesForDebuggingPurposes();
 		}
 
@@ -196,10 +212,12 @@ public class ModelName extends AOSimulationModel
 			scheduleActivity(act);
 			statusChanged = true;
 
+			/*
 			if(act.areaId+1 != Constants.INSP)
-				System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId + " and has an output size of " + act.modelName.inputOutputQueues[(act.areaId + 1) % Constants.INSP][1][act.stationId].size());
+				//System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId + " and has an output size of " + act.modelName.inputOutputQueues[(act.areaId + 1) % Constants.INSP][1][act.stationId].size());
 			else
-				System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId);
+				//System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId);
+			*/
 			printAllVariablesForDebuggingPurposes();
 		}
 
@@ -211,13 +229,21 @@ public class ModelName extends AOSimulationModel
 			scheduleActivity(act);
 			statusChanged = true;
 
-			System.out.println("Starting to move bins from " + act.currentArea + " with stationid " + act.stationId + " to " + act.destinationArea);
+			//System.out.println("Starting to move bins from " + act.currentArea + " with stationid " + act.stationId + " to " + act.destinationArea);
 			printAllVariablesForDebuggingPurposes();
 		}
 
 		return statusChanged;
 	}
-	
+
+	public boolean implicitStopCondition(){
+		if(sbl.isEmpty() || getClock() > 480){
+			//System.out.println("Current time at ending: " + getClock());
+			return true;
+		}
+		return false;
+	}
+
 	public void eventOccured()
 	{
 		//this.showSBL();
@@ -227,7 +253,8 @@ public class ModelName extends AOSimulationModel
 		// Setup an updateTrjSequences() method in the Output class
 		// and call here if you have Trajectory Sets
 		// updateTrjSequences()
-		output.updateSequences();
+
+		//output.updateSequences();
  	}
 
 	// Standard Procedure to start Sequel Activities with no parameters
@@ -238,6 +265,7 @@ public class ModelName extends AOSimulationModel
 	}
 
 	public void printAllVariablesForDebuggingPurposes(){
+		/*
 		System.out.println("--------------------------------------------------------------");
 		for(int i = 0; i < castingStations.length; i++){
 			System.out.println("Casting stationId: " + i + "; type=" + castingStations[i].type + " n=" + castingStations[i].bin.n + " status=" + castingStations[i].status + " timetobreak=" + castingStations[i].timeToNextBreak);
@@ -259,8 +287,7 @@ public class ModelName extends AOSimulationModel
 		for(int stationId : castingRepairQueue)
 			System.out.print(stationId + " ");
 		System.out.println("\n--------------------------------------------------------------");
-
-
+		*/
 	}
 
 }
