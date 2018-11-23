@@ -24,6 +24,47 @@ class Initialise extends ScheduledAction
 		//create all casting stations
 		int totalNumberOfCastingStations = model.numCastingStationsSpitfire + model.numCastingStationsF16
 											+ model.numCastingStationsConcorde;
+		int numSpit = model.numCastingStationsSpitfire;
+		int numF16 = model.numCastingStationsF16;
+		int numConcorde = model.numCastingStationsConcorde;
+		int x = 0;
+		while(x < model.castingStations.length){
+			if(numSpit > 0){
+				model.castingStations[x] = new CastingStation();
+				model.castingStations[x].type = model.constants.SPITFIRE;
+				model.castingStations[x].status = model.constants.IDLE;
+				model.castingStations[x].timeToNextBreak = model.rvp.uCastingBreakTime();
+				model.castingStations[x].bin = new Bin();
+				model.castingStations[x].bin.type = model.constants.SPITFIRE;
+				model.castingStations[x].bin.n = model.constants.EMPTY;
+				x++;
+				numSpit--;
+			}
+			if(numF16 > 0){
+				model.castingStations[x] = new CastingStation();
+				model.castingStations[x].type = model.constants.F16;
+				model.castingStations[x].status = model.constants.IDLE;
+				model.castingStations[x].timeToNextBreak = model.rvp.uCastingBreakTime();
+				model.castingStations[x].bin = new Bin();
+				model.castingStations[x].bin.type = model.constants.F16;
+				model.castingStations[x].bin.n = model.constants.EMPTY;
+				x++;
+				numF16--;
+			}
+			if(numConcorde > 0){
+				model.castingStations[x] = new CastingStation();
+				model.castingStations[x].type = model.constants.CONCORDE;
+				model.castingStations[x].status = model.constants.IDLE;
+				model.castingStations[x].timeToNextBreak = model.rvp.uCastingBreakTime();
+				model.castingStations[x].bin = new Bin();
+				model.castingStations[x].bin.type = model.constants.CONCORDE;
+				model.castingStations[x].bin.n = model.constants.EMPTY;
+				x++;
+				numConcorde--;
+			}
+		}
+
+		/*
 		for(int x = 0; x < model.numCastingStationsSpitfire; x++){
 			model.castingStations[x] = new CastingStation();
 			model.castingStations[x].type = model.constants.SPITFIRE;
@@ -57,6 +98,8 @@ class Initialise extends ScheduledAction
 			model.castingStations[z].bin.type = model.constants.CONCORDE;
 			model.castingStations[z].bin.n = model.constants.EMPTY;
 		}
+
+		*/
 
 		// create all queue objects for casting stations
 		for (int i = 0; i < totalNumberOfCastingStations; i++){

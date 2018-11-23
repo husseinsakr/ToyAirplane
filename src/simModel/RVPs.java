@@ -79,7 +79,7 @@ class RVPs
 				operationTime = Constants.BIN_CAP * (cutTime.next() + grindTime);
 				break;
 			case Constants.COAT:
-				operationTime = PROC_TIME_COAT * 2; // to reach 24 airplanes in bin since it produces 12 at a time
+				operationTime = PROC_TIME_COAT; // to reach 24 airplanes in bin since it produces 12 at a time
 				break;
 			case Constants.INSP:
 				operationTime = Constants.BIN_CAP * (inspTime.next());
