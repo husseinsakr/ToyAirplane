@@ -100,7 +100,7 @@ class UDPs
 					numberOfBinsCanPickup += model.inputOutputQueues[areaId][Constants.OUT][stationId].size();
 					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n){
 						return areaId;
-					} else if (numberOfBinsCanPickup > 0 && model.getClock() < model.endTime){
+					} else if (numberOfBinsCanPickup > 0 && model.getClock() > model.endTime){
 						return areaId;
 					}
 				}
@@ -131,10 +131,7 @@ class UDPs
 		for(int i = 0; i < Constants.MOVER_CAP; i++){ // fill trolley by also making sure that we don't overwrite an existing bin
 			int[] stationOutputLengths = getMaxOutputsInStations(areaId);
 			int stationId = indexOfBiggestInteger(stationOutputLengths);
-			if(model.getClock() < model.endTime && model.movers[moverId].trolley[i] == null){
-				model.movers[moverId].trolley[i] = model.inputOutputQueues[areaId][Constants.OUT][stationId].poll();
-				model.movers[moverId].n++;
-			} else if(model.inputOutputQueues[areaId][Constants.OUT][stationId].size() > 0) {
+			if(model.movers[moverId].trolley[i] == null){
 				model.movers[moverId].trolley[i] = model.inputOutputQueues[areaId][Constants.OUT][stationId].poll();
 				model.movers[moverId].n++;
 			}
