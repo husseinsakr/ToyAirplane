@@ -24,9 +24,13 @@ public class DistributeBins extends ConditionalAction {
         int moverId = modelName.moverLines[areaId][Constants.IN].pop();
         mover = modelName.movers[moverId];
         for (int trolleyIndex = 0; trolleyIndex < Constants.MOVER_CAP; trolleyIndex++){
-            Bin bin = new Bin();
-            bin.type = mover.trolley[trolleyIndex].type;
-            bin.n = mover.trolley[trolleyIndex].n;
+                Bin bin = new Bin();
+                if(mover.trolley[trolleyIndex] != null){
+                    bin.type = mover.trolley[trolleyIndex].type;
+                    bin.n = mover.trolley[trolleyIndex].n;
+                } else {
+                    continue;
+                }
             if(areaId != Constants.COAT || (areaId == Constants.COAT && bin.type != Constants.SPITFIRE)) {
                 int[] queueLengths = new int[modelName.inputOutputQueues[areaId][Constants.IN].length];
                 for(int i = 0; i < queueLengths.length; i++){

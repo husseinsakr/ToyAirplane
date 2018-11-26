@@ -100,6 +100,8 @@ class UDPs
 					numberOfBinsCanPickup += model.inputOutputQueues[areaId][Constants.OUT][stationId].size();
 					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n){
 						return areaId;
+					} else if (numberOfBinsCanPickup > 0 && model.getClock() < model.endTime){
+						return areaId;
 					}
 				}
 			}
@@ -129,7 +131,10 @@ class UDPs
 		for(int i = 0; i < Constants.MOVER_CAP; i++){ // fill trolley by also making sure that we don't overwrite an existing bin
 			int[] stationOutputLengths = getMaxOutputsInStations(areaId);
 			int stationId = indexOfBiggestInteger(stationOutputLengths);
-			if(model.movers[moverId].trolley[i] == null){
+			if(model.getClock() < model.endTime && model.movers[moverId].trolley[i] == null){
+				model.movers[moverId].trolley[i] = model.inputOutputQueues[areaId][Constants.OUT][stationId].poll();
+				model.movers[moverId].n++;
+			} else if(model.inputOutputQueues[areaId][Constants.OUT][stationId].size() > 0) {
 				model.movers[moverId].trolley[i] = model.inputOutputQueues[areaId][Constants.OUT][stationId].poll();
 				model.movers[moverId].n++;
 			}
@@ -137,7 +142,7 @@ class UDPs
 		if(areaId == Constants.CUT) {
 			boolean allSpitfireBins = true;
 			for (Bin bin : model.movers[moverId].trolley){
-				if (bin.type != Constants.SPITFIRE){
+				if (bin != null && bin.type != Constants.SPITFIRE){
 					allSpitfireBins = false;
 					break;
 				}
@@ -172,8 +177,12 @@ class UDPs
 				if(areaId == Constants.COAT){
 					int moverId = model.moverLines[areaId][Constants.IN].peek();
 					for(Bin bin : model.movers[moverId].trolley){
-						if(bin.type == Constants.SPITFIRE){
+						if(model.getClock() < model.endTime && bin.type == Constants.SPITFIRE){
 							canFit++;
+						} else if(model.getClock() > model.endTime){
+							if(bin != null && bin.type == Constants.SPITFIRE){
+								canFit++;
+							}
 						}
 					}
 				}
