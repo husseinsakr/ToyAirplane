@@ -38,13 +38,13 @@ class Experiment
        RandomSeedGenerator rsg = new RandomSeedGenerator();
        for (i = 0; i < NUMRUNS; i++) sds[i] = new Seeds(rsg);
 
-       int numCastingStationsSpitfire = 1;
+       int numCastingStationsSpitfire = 2;
        int numCastingStationsF16 = 0;
        int numCastingStationsConcorde = 0;
        int numCuttingGrindingStations = 1;
        int numCoatingStations = 1;
        int numInspectionPackagingStations = 1;
-       int numMovers = 9;
+       int numMovers = 200;
 
        // Case 1
        int[] parameters = new int[]{numCastingStationsSpitfire, numCastingStationsF16, numCastingStationsConcorde,

@@ -89,9 +89,22 @@ class UDPs
 		return null;
 	}
 
-	public int[] canStartMovingBins(){ // need more explanation on this one
-		int[] areaIdAndStationId = null;
+	public int canStartMovingBins(){ // need more explanation on this one
 		Mover mover;
+		int numberOfBinsCanPickup;
+		for(int areaId = Constants.CAST; areaId < Constants.INSP; areaId++){
+			numberOfBinsCanPickup = 0;
+			if(!model.moverLines[areaId][Constants.OUT].isEmpty()) {
+				for (int stationId = 0; stationId < model.inputOutputQueues[areaId][Constants.OUT].length; stationId++) {
+					mover = model.movers[model.moverLines[areaId][Constants.OUT].peek()];
+					numberOfBinsCanPickup += model.inputOutputQueues[areaId][Constants.OUT][stationId].size();
+					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n){
+						return areaId;
+					}
+				}
+			}
+		}
+		/*
 		for(int areaId = Constants.CAST; areaId < Constants.INSP; areaId++){
 			if(!model.moverLines[areaId][Constants.OUT].isEmpty()) {
 				for (int stationId = 0; stationId < model.inputOutputQueues[areaId][Constants.OUT].length; stationId++) {
@@ -106,12 +119,16 @@ class UDPs
 				}
 			}
 		}
-		return areaIdAndStationId;
+		*/
+		return Constants.NONE;
 	}
 
-	public int fillTrolley(int moverId, int areaId, int stationId){
+	public int fillTrolley(int moverId, int areaId){
 		int destinationArea = model.dvp.uNextStation(areaId);
+
 		for(int i = 0; i < Constants.MOVER_CAP; i++){ // fill trolley by also making sure that we don't overwrite an existing bin
+			int[] stationOutputLengths = getMaxOutputsInStations(areaId);
+			int stationId = indexOfBiggestInteger(stationOutputLengths);
 			if(model.movers[moverId].trolley[i] == null){
 				model.movers[moverId].trolley[i] = model.inputOutputQueues[areaId][Constants.OUT][stationId].poll();
 				model.movers[moverId].n++;
@@ -129,6 +146,19 @@ class UDPs
 				destinationArea = model.dvp.uNextStation(destinationArea); // skip coating
 		}
 		return destinationArea;
+	}
+
+	//returns the index of the smallest int in an array
+	public int indexOfBiggestInteger(int[] array){
+		int max = array[0];
+		int index = 0;
+		for(int i = 0; i < array.length; i++){
+			if(max < array[i]){
+				max = array[i];
+				index = i;
+			}
+		}
+		return index;
 	}
 
 	public int canDistributeBins(){
@@ -152,6 +182,14 @@ class UDPs
 			}
 		}
 		return Constants.NONE;
+	}
+
+	private int[] getMaxOutputsInStations(int areaId){
+		int[] stationsAtAreaId = new int[model.inputOutputQueues[areaId][Constants.OUT].length];
+		for(int i = 0; i < stationsAtAreaId.length; i++){
+			stationsAtAreaId[i] = model.inputOutputQueues[areaId][Constants.OUT][i].size();
+		}
+		return stationsAtAreaId;
 	}
 	
 	
