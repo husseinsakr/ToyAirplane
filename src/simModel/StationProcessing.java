@@ -26,7 +26,7 @@ public class StationProcessing extends ConditionalActivity {
         this.stationId = areaIdAndStationId[1];
         modelName.processingStations[areaId][stationId].status = Constants.BUSY;
         modelName.processingStations[areaId][stationId].bin = modelName.inputOutputQueues[areaId + 1][Constants.IN][stationId].poll();
-        //System.out.println("Processing a bin of type: " +  modelName.processingStations[areaId][stationId].bin.type);
+        System.out.println("Processing a bin of type: " +  modelName.processingStations[areaId][stationId].bin.type);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class StationProcessing extends ConditionalActivity {
         modelName.processingStations[areaId][stationId].status = Constants.IDLE;
         if ((areaId+1) == Constants.INSP){ // needs to be worked on
             //update output here for leaving planes
-           // System.out.println("I have a bin type of: " + modelName.processingStations[areaId][stationId].bin.type);
+            System.out.println("I have a bin type of: " + modelName.processingStations[areaId][stationId].bin.type);
             switch (modelName.processingStations[areaId][stationId].bin.type){
                 case Constants.SPITFIRE:
                     modelName.output.numSpitfireProduced += Constants.BIN_CAP;
@@ -55,7 +55,7 @@ public class StationProcessing extends ConditionalActivity {
                     break;
             }
         }
-        //System.out.println("Station with type " + (areaId+1) + " and stationId " + stationId + " have finished processing");
+        System.out.println("Station with type " + (areaId+1) + " and stationId " + stationId + " have finished processing");
         modelName.printAllVariablesForDebuggingPurposes();
 
     }

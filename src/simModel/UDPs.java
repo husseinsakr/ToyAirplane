@@ -15,7 +15,8 @@ class UDPs
 	public int castingStationReadyForProcessing(){
 		for (int stationID = 0; stationID < model.castingStations.length; stationID++){
 			if (model.castingStations[stationID].status == model.constants.IDLE
-					&& model.castingStations[stationID].bin.n < model.constants.BIN_CAP){
+					&& model.castingStations[stationID].bin.n < model.constants.BIN_CAP
+					&& model.getClock() < model.endTime){
 				return stationID;
 			}
 		}
