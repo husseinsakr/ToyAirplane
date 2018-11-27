@@ -1,9 +1,7 @@
 package simModel;
 
-import com.sun.tools.javac.Main;
 import simulationModelling.AOSimulationModel;
 import simulationModelling.Behaviour;
-import simulationModelling.SequelActivity;
 
 //
 // The Simulation model Class
@@ -274,17 +272,27 @@ public class ModelName extends AOSimulationModel
 	public void printAllVariablesForDebuggingPurposes(){
 		//showSBL();
 		//System.out.printf("Clock = %10.4f\n", getClock());
-
+		/*
 		System.out.println("--------------------------------------------------------------");
 		for(int i = 0; i < castingStations.length; i++){
 			System.out.println("Casting stationId: " + i + "; type=" + castingStations[i].type + " n=" + castingStations[i].bin.n + " status=" + castingStations[i].status + " timetobreak=" + castingStations[i].timeToNextBreak);
 			System.out.println("Casting output: " + inputOutputQueues[0][1][i].size());
 		}
-		System.out.println("Cutting input: " + inputOutputQueues[1][0][0].size());
-		System.out.println("Cutting output: " + inputOutputQueues[1][1][0].size());
-		System.out.println("Coating input: " + inputOutputQueues[2][0][0].size());
-		System.out.println("Coating output: " + inputOutputQueues[2][1][0].size());
-		System.out.println("Insp input: " + inputOutputQueues[3][0][0].size());
+
+		for(int j = 0; j < numCuttingGrindingStations; j++){
+			System.out.println("Cutting stationId: " + j + "; input: " + inputOutputQueues[1][0][j].size());
+			System.out.println("Cutting stationId: " + j + "; output: " + inputOutputQueues[1][1][j].size());
+		}
+
+		for(int k = 0; k < numCoatingStations; k++){
+			System.out.println("Coating stationId: " + k + "; input: " + inputOutputQueues[2][0][k].size());
+			System.out.println("Coating stationId: " + k + "; output: " + inputOutputQueues[2][1][k].size());
+		}
+
+		for(int l = 0; l < numInspectionPackagingStations; l++){
+			System.out.println("Insp stationId: " + l + "; input: " + inputOutputQueues[3][0][l].size());
+		}
+
 		System.out.println("MoverLine at casting output: " + moverLines[0][1].size());
 		System.out.println("MoverLine at cutting input: " + moverLines[1][0].size());
 		System.out.println("MoverLine at cutting output: " + moverLines[1][1].size());
@@ -296,7 +304,7 @@ public class ModelName extends AOSimulationModel
 		for(int stationId : castingRepairQueue)
 			System.out.print(stationId + " ");
 		System.out.println("\n--------------------------------------------------------------");
-
+		*/
 	}
 
 }

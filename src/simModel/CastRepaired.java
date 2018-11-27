@@ -12,7 +12,8 @@ public class CastRepaired extends Activity {
 
     public static boolean precondition(ModelName model) {
         boolean returnValue = false;
-        if (!model.castingRepairQueue.isEmpty() && model.maintenancePerson.available){
+        if (!model.castingRepairQueue.isEmpty() && model.maintenancePerson.available
+            && model.getClock() < model.endTime){
             returnValue = true;
         }
         return returnValue;

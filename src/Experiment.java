@@ -1,6 +1,7 @@
 // File: Experiment.java
 // Description:
 
+import cern.jet.math.Constants;
 import simModel.*;
 import cern.jet.random.engine.*;
 
@@ -9,16 +10,18 @@ import cern.jet.random.engine.*;
 class Experiment
 {
     public static boolean foundNumberOfSpitfireCastingStations = false;
+    public static boolean foundCastingStations = false;
     public static boolean foundNumberOfF16CastingStations = false;
     public static boolean foundNumberOfConcordeCastingStations = false;
-    public static boolean foundNumberOfCuttingGrindingStations = false;
+    public static boolean foundNumberOfCuttingGrindingStations = true;
     public static boolean foundNumberOfCoatingStations = false;
-    public static boolean foundNumberOfInspectionPackagingStations = false;
-    public static boolean foundNumberOfMovers = false;
+    public static boolean foundNumberOfInspectionPackagingStations = true;
+    public static boolean foundNumberOfMovers = true;
     public static final int maxNumberOfStationsPerType = 20;
+    public static final int minNumberOfStations = 1;
 
    public static void main(String[] args) {
-       int i, NUMRUNS = 1; //change later
+       int i, NUMRUNS = 3; //change later
        double startTime = 0.0, endTime = 480.0;
        Seeds[] sds = new Seeds[NUMRUNS];
        ModelName mname;  // Simulation object
@@ -38,21 +41,20 @@ class Experiment
        RandomSeedGenerator rsg = new RandomSeedGenerator();
        for (i = 0; i < NUMRUNS; i++) sds[i] = new Seeds(rsg);
 
-       int numCastingStationsSpitfire = 6;
-       int numCastingStationsF16 = 6;
-       int numCastingStationsConcorde = 6;
-       int numCuttingGrindingStations = 10;
-       int numCoatingStations = 10;
-       int numInspectionPackagingStations = 10;
+       int numCastingStationsSpitfire = minNumberOfStations;
+       int numCastingStationsF16 = minNumberOfStations;
+       int numCastingStationsConcorde = minNumberOfStations;
+       int numCuttingGrindingStations = maxNumberOfStationsPerType;
+       int numCoatingStations = maxNumberOfStationsPerType;
+       int numInspectionPackagingStations = maxNumberOfStationsPerType;
        int numMovers = 20;
 
        // Case 1
        int[] parameters = new int[]{numCastingStationsSpitfire, numCastingStationsF16, numCastingStationsConcorde,
                numCuttingGrindingStations, numCoatingStations, numInspectionPackagingStations, numMovers};
-        /*
+
        while (true)
        {
-       */
            double avgNumberOfSpitfireProducedDaily = 0.0;
            double avgNumberOfF16ProducedDaily = 0.0;
            double avgNumberOfConcordeProducedDaily = 0.0;
@@ -73,7 +75,7 @@ class Experiment
                System.out.println("getNumF16Produced(): " + mname.getNumF16Produced());
                System.out.println("getNumConcordeProduced(): " + mname.getNumConcordeProduced());
            }
-            /*
+
            avgNumberOfSpitfireProducedDaily /= NUMRUNS;
            avgNumberOfF16ProducedDaily /= NUMRUNS;
            avgNumberOfConcordeProducedDaily /= NUMRUNS;
@@ -94,22 +96,20 @@ class Experiment
            System.out.println("number of concorde stations: " + numCastingStationsConcorde);
            System.out.println("Number of movers: " + numMovers);
 
-
+           int totalNumberOfCastingStations = numCastingStationsConcorde + numCastingStationsF16 + numCastingStationsSpitfire;
 
            if(avgNumberOfSpitfireProducedDaily > spitfireProductionGoal){
                System.out.println("Found spitfire: " + numCastingStationsSpitfire);
                foundNumberOfSpitfireCastingStations = true;
            } else if (!foundNumberOfSpitfireCastingStations){
-               if(numCastingStationsSpitfire == 20){
+               if(totalNumberOfCastingStations+1 > 20){
                    System.out.println("Wtf spitfire, I am going to add more movers");
                    numCastingStationsSpitfire = 0;
-                   numCastingStationsF16 = 0;
-                   numCastingStationsConcorde = 0;
                    numMovers++;
                }
                numCastingStationsSpitfire++;
                continue;
-           } else if(avgNumberOfSpitfireProducedDaily < spitfireProductionGoal){
+           } else if(!foundCastingStations && avgNumberOfSpitfireProducedDaily < spitfireProductionGoal){
                foundNumberOfSpitfireCastingStations = false;
                continue;
            }
@@ -118,17 +118,15 @@ class Experiment
                System.out.println("Found f16: " + numCastingStationsF16);
                foundNumberOfF16CastingStations = true;
            } else if(!foundNumberOfF16CastingStations){
-               if(numCastingStationsF16 == 20){
+               if(totalNumberOfCastingStations+1 > 20){
                    System.out.println("Wtf f16, I am going to add more movers");
                    numMovers++;
-                   numCastingStationsSpitfire = 0;
                    numCastingStationsF16 = 0;
-                   numCastingStationsConcorde = 0;
                    foundNumberOfSpitfireCastingStations = false;
                }
                numCastingStationsF16++;
                continue;
-           } else if(avgNumberOfF16ProducedDaily < f16ProductionGoal){
+           } else if(!foundCastingStations && avgNumberOfF16ProducedDaily < f16ProductionGoal){
                foundNumberOfF16CastingStations = false;
                continue;
            }
@@ -137,71 +135,67 @@ class Experiment
                System.out.println("Found concorde: " + numCastingStationsConcorde);
                foundNumberOfConcordeCastingStations = true;
            } else if(!foundNumberOfConcordeCastingStations){
-               if(numCastingStationsConcorde == 20){
+               if(totalNumberOfCastingStations+1 > 20){
                    System.out.println("Wtf concorde, I am going to add more movers and restart everyone");
                    numMovers++;
-                   numCastingStationsSpitfire = 0;
-                   numCastingStationsF16 = 0;
                    numCastingStationsConcorde = 0;
-                   foundNumberOfSpitfireCastingStations = false;
-                   foundNumberOfF16CastingStations = false;
                }
                numCastingStationsConcorde++;
                continue;
-           } else if(avgNumberOfConcordeProducedDaily < concordeProductionGoal){
+           } else if(!foundCastingStations && avgNumberOfConcordeProducedDaily < concordeProductionGoal){
                foundNumberOfConcordeCastingStations = false;
                continue;
            }
 
-           if(avgNumberOfSpitfireProducedDaily < spitfireProductionGoal){
-               foundNumberOfSpitfireCastingStations = false;
-           }
+           foundCastingStations = true;
 
-           if(foundNumberOfSpitfireCastingStations && foundNumberOfF16CastingStations && foundNumberOfConcordeCastingStations){
-               if(!foundNumberOfCoatingStations && avgNumberOfConcordeProducedDaily >= spitfireProduction
-                       && avgNumberOfF16ProducedDaily >= f16ProductionGoal
-                       && avgNumberOfConcordeProducedDaily >= concordeProductionGoal)
-               {
-                   numCoatingStations--;
-                   continue;
-               } else if (!foundNumberOfCoatingStations){
-                   numCoatingStations++;
-                   foundNumberOfCoatingStations = true;
-                   continue;
-               }
-
-               if(!foundNumberOfCuttingGrindingStations && avgNumberOfConcordeProducedDaily >= spitfireProduction
-                       && avgNumberOfF16ProducedDaily >= f16ProductionGoal
-                       && avgNumberOfConcordeProducedDaily >= concordeProductionGoal)
-               {
-                   numCuttingGrindingStations--;
-                   continue;
-               } else if(!foundNumberOfCuttingGrindingStations){
-                   numCuttingGrindingStations++;
-                   foundNumberOfCuttingGrindingStations = true;
-                   continue;
-               }
-               if(!foundNumberOfInspectionPackagingStations && avgNumberOfConcordeProducedDaily >= spitfireProduction
-                       && avgNumberOfF16ProducedDaily >= f16ProductionGoal
-                       && avgNumberOfConcordeProducedDaily >= concordeProductionGoal){
-                   numInspectionPackagingStations--;
-                   continue;
-               } else if(!foundNumberOfInspectionPackagingStations) {
-                   numInspectionPackagingStations++;
-                   foundNumberOfInspectionPackagingStations = true;
-                   continue;
-               }
-               if(!foundNumberOfMovers && avgNumberOfConcordeProducedDaily >= spitfireProduction
-                       && avgNumberOfF16ProducedDaily >= f16ProductionGoal
-                       && avgNumberOfConcordeProducedDaily >= concordeProductionGoal){
-                   numMovers--;
-                   continue;
-               } else if(!foundNumberOfMovers){
-                   numMovers++;
-                   foundNumberOfMovers = true;
-                   break;
-               }
+           if(!foundNumberOfCoatingStations
+                   && avgNumberOfConcordeProducedDaily > spitfireProduction
+                   && avgNumberOfF16ProducedDaily > f16ProductionGoal
+                   && avgNumberOfConcordeProducedDaily > concordeProductionGoal)
+           {
+               numCoatingStations--;
+               continue;
+           } else if (!foundNumberOfCoatingStations){
+               numCoatingStations++;
+               foundNumberOfCoatingStations = true;
+               continue;
            }
+           /*
+
+           if(!foundNumberOfCuttingGrindingStations
+                   && avgNumberOfConcordeProducedDaily >= spitfireProduction
+                   && avgNumberOfF16ProducedDaily >= f16ProductionGoal
+                   && avgNumberOfConcordeProducedDaily >= concordeProductionGoal)
+           {
+               numCuttingGrindingStations--;
+               continue;
+           } else if(!foundNumberOfCuttingGrindingStations){
+               numCuttingGrindingStations++;
+               foundNumberOfCuttingGrindingStations = true;
+               continue;
+           }
+           if(!foundNumberOfInspectionPackagingStations && avgNumberOfConcordeProducedDaily >= spitfireProduction
+               && avgNumberOfF16ProducedDaily >= f16ProductionGoal
+               && avgNumberOfConcordeProducedDaily >= concordeProductionGoal){
+               numInspectionPackagingStations--;
+               continue;
+           } else if(!foundNumberOfInspectionPackagingStations) {
+               numInspectionPackagingStations++;
+               foundNumberOfInspectionPackagingStations = true;
+               continue;
+           }
+           if(!foundNumberOfMovers && avgNumberOfConcordeProducedDaily >= spitfireProduction
+               && avgNumberOfF16ProducedDaily >= f16ProductionGoal
+               && avgNumberOfConcordeProducedDaily >= concordeProductionGoal){
+               numMovers--;
+               continue;
+           } else if(!foundNumberOfMovers){
+               numMovers++;
+               foundNumberOfMovers = true;
+               break;
+           }
+           */
            System.out.println("Number of spitfire casting stations: " + numCastingStationsSpitfire);
            System.out.println("Number of F16 casting stations: " + numCastingStationsF16);
            System.out.println("Number of concorde casting stations: " + numCastingStationsConcorde);
@@ -241,6 +235,5 @@ class Experiment
            // See examples for hints on collecting output
            // and developping code for analysis
        }
-       */
    }
 }

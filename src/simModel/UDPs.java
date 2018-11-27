@@ -16,7 +16,7 @@ class UDPs
 		for (int stationID = 0; stationID < model.castingStations.length; stationID++){
 			if (model.castingStations[stationID].status == model.constants.IDLE
 					&& model.castingStations[stationID].bin.n < model.constants.BIN_CAP
-					&& model.getClock() < model.endTime){
+					&& model.getClock() + Constants.CASTING_TIME < model.endTime){
 				return stationID;
 			}
 		}
@@ -98,9 +98,9 @@ class UDPs
 				for (int stationId = 0; stationId < model.inputOutputQueues[areaId][Constants.OUT].length; stationId++) {
 					mover = model.movers[model.moverLines[areaId][Constants.OUT].peek()];
 					numberOfBinsCanPickup += model.inputOutputQueues[areaId][Constants.OUT][stationId].size();
-					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n){
+					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n) {
 						return areaId;
-					} else if (numberOfBinsCanPickup > 0 && model.getClock() > model.endTime){
+					} else if (numberOfBinsCanPickup > 0 && model.getClock() > model.endTime) {
 						return areaId;
 					}
 				}
