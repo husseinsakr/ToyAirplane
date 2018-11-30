@@ -42,13 +42,22 @@ public class StationProcessing extends ConditionalActivity {
             //System.out.println("I have a bin type of: " + modelName.processingStations[areaId][stationId].bin.type);
             switch (modelName.processingStations[areaId][stationId].bin.type){
                 case Constants.SPITFIRE:
-                    modelName.output.numSpitfireProduced += Constants.BIN_CAP;
+                    for(int i = 0; i < Constants.BIN_CAP; i++) {
+                        if(modelName.rvp.uNumPlanesAccepted())
+                            modelName.output.numSpitfireProduced++;
+                    }
                     break;
                 case Constants.F16:
-                    modelName.output.numF16Produced += Constants.BIN_CAP;
+                    for(int i = 0; i < Constants.BIN_CAP; i++) {
+                        if(modelName.rvp.uNumPlanesAccepted())
+                            modelName.output.numF16Produced++;
+                    }
                     break;
                 case Constants.CONCORDE:
-                    modelName.output.numConcordeProduced += Constants.BIN_CAP;
+                    for(int i = 0; i < Constants.BIN_CAP; i++) {
+                        if (modelName.rvp.uNumPlanesAccepted())
+                            modelName.output.numConcordeProduced++;
+                    }
                     break;
                 default:
                     System.out.println("Error: Invalid plane type. Check this!");

@@ -266,7 +266,7 @@ public class ModelName extends AOSimulationModel
 		if(log) {
 			System.out.printf("Clock = %10.4f\n", getClock());
 			showSBL();
-			
+
 			for (int i = 0; i < castingStations.length; i++) {
 				System.out.println("Casting stationId= " + i + "; type="
 						+ castingStations[i].type + "; n=" + castingStations[i].bin.n

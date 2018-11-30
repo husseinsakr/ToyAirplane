@@ -27,7 +27,7 @@ class Experiment
        Seeds[] sds = new Seeds[NUMRUNS];
        ModelName mname;  // Simulation object
        double percentProductionIncrease = 30.0 / 100.0;
-       boolean showLog = true;
+       boolean showLog = false;
 
        int spitfireProduction = 1000;
        int f16Production = 1500;
@@ -73,6 +73,8 @@ class Experiment
 
            // Loop for NUMRUN simulation runs for each case
            for (i = 0; i < NUMRUNS; i++) {
+               if(simulationNumber == 39)
+                   System.out.print("HI");
                mname = new ModelName(startTime, endTime, numCastingStationsSpitfire,
                        numCastingStationsF16, numCastingStationsConcorde, numCuttingGrindingStations, numCoatingStations,
                        numInspectionPackagingStations, numMovers, sds[i], showLog);
@@ -166,7 +168,7 @@ class Experiment
            foundNumberOfCastingStations = true;
 
            if(!foundNumberOfCoatingStations
-                   && avgNumberOfConcordeProducedDaily > spitfireProduction
+                   && avgNumberOfConcordeProducedDaily > spitfireProductionGoal
                    && avgNumberOfF16ProducedDaily > f16ProductionGoal
                    && avgNumberOfConcordeProducedDaily > concordeProductionGoal)
            {
@@ -179,7 +181,7 @@ class Experiment
            }
 
            if(!foundNumberOfCuttingGrindingStations
-                   && avgNumberOfConcordeProducedDaily > spitfireProduction
+                   && avgNumberOfConcordeProducedDaily > spitfireProductionGoal
                    && avgNumberOfF16ProducedDaily > f16ProductionGoal
                    && avgNumberOfConcordeProducedDaily > concordeProductionGoal)
            {
@@ -192,7 +194,7 @@ class Experiment
            }
 
            if(!foundNumberOfInspectionPackagingStations
-                   && avgNumberOfConcordeProducedDaily > spitfireProduction
+                   && avgNumberOfConcordeProducedDaily > spitfireProductionGoal
                    && avgNumberOfF16ProducedDaily > f16ProductionGoal
                    && avgNumberOfConcordeProducedDaily > concordeProductionGoal){
                numInspectionPackagingStations--;
@@ -204,7 +206,7 @@ class Experiment
            }
 
            if(!foundNumberOfMovers
-                   && avgNumberOfConcordeProducedDaily > spitfireProduction
+                   && avgNumberOfConcordeProducedDaily > spitfireProductionGoal
                    && avgNumberOfF16ProducedDaily > f16ProductionGoal
                    && avgNumberOfConcordeProducedDaily > concordeProductionGoal){
                numMovers--;
@@ -214,6 +216,8 @@ class Experiment
                foundNumberOfMovers = true;
                continue;
            }
+
+
            if(foundNumberOfCastingStations && foundNumberOfCuttingGrindingStations
                    && foundNumberOfCoatingStations && foundNumberOfInspectionPackagingStations
                    && foundNumberOfMovers)
