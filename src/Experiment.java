@@ -19,13 +19,15 @@ class Experiment
     public static boolean foundNumberOfMovers = false;
     public static final int maxNumberOfStationsPerType = 20;
     public static final int minNumberOfStations = 1;
+    public static int simulationNumber = 1;
 
    public static void main(String[] args) {
-       int i, NUMRUNS = 1; //change as you like
+       int i, NUMRUNS = 40; //change as you like
        double startTime = 0.0, endTime = 480.0;
        Seeds[] sds = new Seeds[NUMRUNS];
        ModelName mname;  // Simulation object
        double percentProductionIncrease = 30.0 / 100.0;
+       boolean showLog = true;
 
        int spitfireProduction = 1000;
        int f16Production = 1500;
@@ -50,7 +52,19 @@ class Experiment
        int[] parameters = new int[]{numCastingStationsSpitfire, numCastingStationsF16, numCastingStationsConcorde,
                numCuttingGrindingStations, numCoatingStations, numInspectionPackagingStations, numMovers};
 
-       System.out.println("Finding best parameters to reach desired outputs!");
+       if(showLog) {
+           NUMRUNS = 1;
+           numCastingStationsSpitfire = minNumberOfStations;
+           numCastingStationsF16 = minNumberOfStations;
+           numCastingStationsConcorde = minNumberOfStations;
+           numCuttingGrindingStations = minNumberOfStations;
+           numCoatingStations = minNumberOfStations;
+           numInspectionPackagingStations = minNumberOfStations;
+           numMovers = maxNumberOfStationsPerType; //ideal amount for now
+       } else {
+           System.out.println("Finding best parameters to reach desired outputs!\n");
+       }
+
        while (true)
        {
            double avgNumberOfSpitfireProducedDaily = 0.0;
@@ -61,7 +75,7 @@ class Experiment
            for (i = 0; i < NUMRUNS; i++) {
                mname = new ModelName(startTime, endTime, numCastingStationsSpitfire,
                        numCastingStationsF16, numCastingStationsConcorde, numCuttingGrindingStations, numCoatingStations,
-                       numInspectionPackagingStations, numMovers, sds[i]);
+                       numInspectionPackagingStations, numMovers, sds[i], showLog);
                mname.runSimulation();
 
                avgNumberOfSpitfireProducedDaily += mname.getNumSptfireProduced();
@@ -78,6 +92,31 @@ class Experiment
            double percentConcordeProduced = (double) avgNumberOfConcordeProducedDaily / concordeProductionGoal;
 
            int totalNumberOfCastingStations = numCastingStationsConcorde + numCastingStationsF16 + numCastingStationsSpitfire;
+
+           if(!showLog) {
+               System.out.println("Simulation " + simulationNumber++);
+               System.out.println("---------------------------------------------------------------");
+               System.out.println("Parameters:");
+               System.out.println("Number of spitfire casting stations: " + numCastingStationsSpitfire);
+               System.out.println("Number of F16 casting stations: " + numCastingStationsF16);
+               System.out.println("Number of concorde casting stations: " + numCastingStationsConcorde);
+               System.out.println("Number of cutting/grinding stations: " + numCuttingGrindingStations);
+               System.out.println("Number of coating stations: " + numCoatingStations);
+               System.out.println("Number of inspection stations: " + numInspectionPackagingStations);
+               System.out.println("Number of movers: " + numMovers);
+
+               System.out.println("Outputs:");
+               System.out.println("Num F16 produced: " + avgNumberOfF16ProducedDaily +
+                       "(" + String.format("%.2f", percentF16Produced * 100) + "%)");
+               System.out.println("Num Concorde produced: " + avgNumberOfConcordeProducedDaily +
+                       "(" + String.format("%.2f", percentConcordeProduced * 100) + "%)");
+               System.out.println("Num Spitfire produced: " + avgNumberOfSpitfireProducedDaily +
+                       "(" + String.format("%.2f", percentSpitfireProduced * 100) + "%)");
+               System.out.println("---------------------------------------------------------------\n");
+           } else {
+               break;
+           }
+
 
            if(!foundNumberOfCastingStations) {
                if (avgNumberOfSpitfireProducedDaily > spitfireProductionGoal) {
@@ -175,45 +214,15 @@ class Experiment
                foundNumberOfMovers = true;
                continue;
            }
-            /*
-           System.out.println("Number of spitfire casting stations: " + numCastingStationsSpitfire);
-           System.out.println("Number of F16 casting stations: " + numCastingStationsF16);
-           System.out.println("Number of concorde casting stations: " + numCastingStationsConcorde);
-           System.out.println("Number of cutting/grinding stations: " + numCuttingGrindingStations);
-           System.out.println("Number of coating stations: " + numCoatingStations);
-           System.out.println("Number of inspection stations: " + numInspectionPackagingStations);
-           System.out.println("Number of movers: " + numMovers);
-
-           System.out.println("Num F16 produced: " + avgNumberOfF16ProducedDaily +
-                   "(" + String.format("%.2f", percentF16Produced * 100) + "%)");
-           System.out.println("Num Concorde produced: " + avgNumberOfConcordeProducedDaily +
-                   "(" + String.format("%.2f", percentConcordeProduced * 100) + "%)");
-           System.out.println("Num Spitfire produced: " + avgNumberOfSpitfireProducedDaily +
-                   "(" + String.format("%.2f", percentSpitfireProduced * 100) + "%)");
-                   */
            if(foundNumberOfCastingStations && foundNumberOfCuttingGrindingStations
                    && foundNumberOfCoatingStations && foundNumberOfInspectionPackagingStations
                    && foundNumberOfMovers)
            {
-               System.out.println("Number of spitfire casting stations: " + numCastingStationsSpitfire);
-               System.out.println("Number of F16 casting stations: " + numCastingStationsF16);
-               System.out.println("Number of concorde casting stations: " + numCastingStationsConcorde);
-               System.out.println("Number of cutting/grinding stations: " + numCuttingGrindingStations);
-               System.out.println("Number of coating stations: " + numCoatingStations);
-               System.out.println("Number of inspection stations: " + numInspectionPackagingStations);
-               System.out.println("Number of movers: " + numMovers);
-
-               System.out.println("Num F16 produced: " + avgNumberOfF16ProducedDaily +
-                       "(" + String.format("%.2f", percentF16Produced * 100) + "%)");
-               System.out.println("Num Concorde produced: " + avgNumberOfConcordeProducedDaily +
-                       "(" + String.format("%.2f", percentConcordeProduced * 100) + "%)");
-               System.out.println("Num Spitfire produced: " + avgNumberOfSpitfireProducedDaily +
-                       "(" + String.format("%.2f", percentSpitfireProduced * 100) + "%)");
+               System.out.println("Found perfect parameters!");
                break;
            }
-
            // See examples for hints on collecting output
-           // and developping code for analysis
+           // and developing code for analysis
        }
    }
 }

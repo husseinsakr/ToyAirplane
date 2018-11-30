@@ -21,7 +21,7 @@ class RVPs
 	public final double CT_MODE_TIME_TO_CUT = 0.28;
 	public final double CT_UPPER_TIME_TO_CUT = 0.35;
 	public final double GT_A_PARAM = 43; // NEEDS TO BE CHANGED
-	public final double GT_B_PARAM = 0.0056039; // NEEDS TO BE CHANGED
+	public final double GT_B_PARAM = 178; // NEEDS TO BE CHANGED
 	public final double PROC_TIME_COAT = Constants.COATING_TIME;
 	public final double IT_LOWER_TIME_TO_INSPECT = 0.27;
 	public final double IT_MODE_TIME_TO_INSPECT = 0.30;
@@ -75,7 +75,7 @@ class RVPs
 				operationTime = PROC_TIME_CAST;
 				break;
 			case Constants.CUT:
-				operationTime = Constants.BIN_CAP * (cutTime.next() + 0);
+				operationTime = Constants.BIN_CAP * (cutTime.next() + grindTime.nextDouble());
 				break;
 			case Constants.COAT:
 				operationTime = PROC_TIME_COAT; // to reach 24 airplanes in bin since it produces 12 at a time

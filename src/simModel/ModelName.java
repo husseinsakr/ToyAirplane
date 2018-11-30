@@ -9,6 +9,7 @@ public class ModelName extends AOSimulationModel
 {
 	// Constants available from Constants class
 	public Constants constants = new Constants();
+	public boolean log;
 	public static int x = 0;
 	public double endTime;
 	/* Parameter */
@@ -65,8 +66,9 @@ public class ModelName extends AOSimulationModel
 	// Constructor
 	public ModelName(double t0time, double tftime, int numCastingStationsSpitfire,
 					 int numCastingStationsF16, int numCastingStationsConcorde, int numCuttingGrindingStations,
-					 int numCoatingStations, int numInspectionPackagingStations, int numMovers,/*define other args,*/ Seeds sd)
+					 int numCoatingStations, int numInspectionPackagingStations, int numMovers, Seeds sd, boolean log)
 	{
+		this.log = log;
 		// Initialise parameters here
 		this.endTime = tftime;
 		this.numCastingStationsSpitfire = numCastingStationsSpitfire;
@@ -128,7 +130,7 @@ public class ModelName extends AOSimulationModel
 		     // Schedule the first arrivals and employee scheduling
 		Initialise init = new Initialise(this);
 		scheduleAction(init);  // Should always be first one scheduled.
-		showSBL();
+		//showSBL();
 		// Schedule other scheduled actions and acitvities here
 	}
 
@@ -155,11 +157,12 @@ public class ModelName extends AOSimulationModel
 			act.actionEvent();
 			statusChanged = true;
 
+			/*
 			if(act.areaId != Constants.INSP)
 				System.out.println("Output bin from station " + act.stationId + " with a station type " + act.areaId + " now has an output queue of size: " + act.modelName.inputOutputQueues[act.areaId][1][act.stationId].size());
 			else
 				System.out.println("Output bin from inspection station");
-			printAllVariablesForDebuggingPurposes();
+				*/
 
 		}
 
@@ -168,8 +171,8 @@ public class ModelName extends AOSimulationModel
 			CastNeedsMaintenance act = new CastNeedsMaintenance(this); // Generate instance
 			act.actionEvent();
 			statusChanged = true;
-			System.out.println("Casting station " + act.stationId + " requires maintenance");
-			printAllVariablesForDebuggingPurposes();
+			//System.out.println("Casting station " + act.stationId + " requires maintenance");
+
 		}
 
 
@@ -178,8 +181,8 @@ public class ModelName extends AOSimulationModel
 			DistributeBins distributeBins = new DistributeBins(this); // Generate instance
 			distributeBins.actionEvent();
 			statusChanged = true;
-			System.out.println("Distribute bins at areaId " + distributeBins.areaId);
-			printAllVariablesForDebuggingPurposes();
+			//System.out.println("Distribute bins at areaId " + distributeBins.areaId);
+
 		}
 
 		// Conditional Activities
@@ -190,9 +193,10 @@ public class ModelName extends AOSimulationModel
 			scheduleActivity(act);
 			statusChanged = true;
 
+			/*
 			System.out.println("Casting station starts operating with stationId " + act.stationId + " and holding "
 					+ act.modelName.castingStations[act.stationId].bin.n + " planes.");
-			printAllVariablesForDebuggingPurposes();
+			*/
 		}
 
 		if (CastRepaired.precondition(this) == true)
@@ -202,8 +206,8 @@ public class ModelName extends AOSimulationModel
 			scheduleActivity(act);
 			statusChanged = true;
 
-			System.out.println("Casting station got repaired with stationId " + act.stationId);
-			printAllVariablesForDebuggingPurposes();
+			//System.out.println("Casting station got repaired with stationId " + act.stationId);
+
 		}
 
 		if (StationProcessing.precondition(this) == true)
@@ -213,12 +217,12 @@ public class ModelName extends AOSimulationModel
 			scheduleActivity(act);
 			statusChanged = true;
 
-
+			/*
 			if(act.areaId+1 != Constants.INSP)
 				System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId + " and has an output size of " + act.modelName.inputOutputQueues[(act.areaId + 1) % Constants.INSP][1][act.stationId].size());
 			else
 				System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId);
-			printAllVariablesForDebuggingPurposes();
+			*/
 		}
 
 
@@ -229,8 +233,7 @@ public class ModelName extends AOSimulationModel
 			scheduleActivity(act);
 			statusChanged = true;
 
-			System.out.println("Starting to move bins from " + act.currentArea + " with stationid to " + act.destinationArea);
-			printAllVariablesForDebuggingPurposes();
+			//System.out.println("Starting to move bins from " + act.currentArea + " with stationid to " + act.destinationArea);
 		}
 
 		return statusChanged;
@@ -247,17 +250,7 @@ public class ModelName extends AOSimulationModel
 
 	public void eventOccured()
 	{
-		System.out.printf("Clock = %10.4f\n", getClock());
-		//showSBL();
-		//this.showSBL();
-		// Can add other debug code to monitor the status of the system
-		// See examples for suggestions on setup logging
-
-		// Setup an updateTrjSequences() method in the Output class
-		// and call here if you have Trajectory Sets
-		// updateTrjSequences()
-
-		//output.updateSequences();
+		printAllVariablesForDebuggingPurposes();
  	}
 
  	/*
@@ -270,41 +263,66 @@ public class ModelName extends AOSimulationModel
 	*/
 
 	public void printAllVariablesForDebuggingPurposes(){
-		//showSBL();
-		//System.out.printf("Clock = %10.4f\n", getClock());
-		/*
-		System.out.println("--------------------------------------------------------------");
-		for(int i = 0; i < castingStations.length; i++){
-			System.out.println("Casting stationId: " + i + "; type=" + castingStations[i].type + " n=" + castingStations[i].bin.n + " status=" + castingStations[i].status + " timetobreak=" + castingStations[i].timeToNextBreak);
-			System.out.println("Casting output: " + inputOutputQueues[0][1][i].size());
-		}
+		if(log) {
+			System.out.printf("Clock = %10.4f\n", getClock());
+			showSBL();
+			
+			for (int i = 0; i < castingStations.length; i++) {
+				System.out.println("Casting stationId= " + i + "; type="
+						+ castingStations[i].type + "; n=" + castingStations[i].bin.n
+						+ "; status=" + castingStations[i].status +
+						"; timetobreak=" + castingStations[i].timeToNextBreak
+						+ "; output: " + inputOutputQueues[0][1][i].size()
+						+ "; planeType: " + castingStations[i].type + ";");
+			}
 
-		for(int j = 0; j < numCuttingGrindingStations; j++){
-			System.out.println("Cutting stationId: " + j + "; input: " + inputOutputQueues[1][0][j].size());
-			System.out.println("Cutting stationId: " + j + "; output: " + inputOutputQueues[1][1][j].size());
-		}
+			for (int j = 0; j < numCuttingGrindingStations; j++) {
+				System.out.print("Cutting stationId= " + j
+						+ "; status= " + processingStations[0][j].status + ";");
+				if(processingStations[0][j].status == Constants.BUSY)
+					System.out.print(" bin.n= " + processingStations[0][j].bin.n
+							+"; binType=" +processingStations[0][j].bin.type) ;
+				else
+					System.out.print(" bin=NOBIN");
+				System.out.print("; input= " + inputOutputQueues[1][0][j].size()
+						+ "; output= " + inputOutputQueues[1][1][j].size() + ";\n");
+			}
 
-		for(int k = 0; k < numCoatingStations; k++){
-			System.out.println("Coating stationId: " + k + "; input: " + inputOutputQueues[2][0][k].size());
-			System.out.println("Coating stationId: " + k + "; output: " + inputOutputQueues[2][1][k].size());
-		}
+			for (int k = 0; k < numCoatingStations; k++) {
+				System.out.print("Coating stationId= " + k
+						+ "; status= " + processingStations[1][k].status + ";");
+				if(processingStations[1][k].status == Constants.BUSY)
+					System.out.print(" bin.n= " + processingStations[1][k].bin.n
+							+"; binType=" +processingStations[1][k].bin.type);
+				else
+					System.out.print(" bin=NOBIN");
+				System.out.print("; input= " + inputOutputQueues[2][0][k].size()
+						+ "; output= " + inputOutputQueues[2][1][k].size() +";\n");
+			}
 
-		for(int l = 0; l < numInspectionPackagingStations; l++){
-			System.out.println("Insp stationId: " + l + "; input: " + inputOutputQueues[3][0][l].size());
-		}
+			for (int l = 0; l < numInspectionPackagingStations; l++) {
+				System.out.print("Insp stationId= " + l + "; status= "
+						+ processingStations[2][l].status + ";");
+				if(processingStations[2][l].status == Constants.BUSY)
+					System.out.print(" bin.n= " + processingStations[2][l].bin.n
+							+"; binType=" +processingStations[2][l].bin.type) ;
+				else
+					System.out.print(" bin=NOBIN");
+				System.out.print("; input= " + inputOutputQueues[3][0][l].size()+";\n");
+			}
 
-		System.out.println("MoverLine at casting output: " + moverLines[0][1].size());
-		System.out.println("MoverLine at cutting input: " + moverLines[1][0].size());
-		System.out.println("MoverLine at cutting output: " + moverLines[1][1].size());
-		System.out.println("MoverLine at coating input: " + moverLines[2][0].size());
-		System.out.println("MoverLine at coating output: " + moverLines[2][1].size());
-		System.out.println("MoverLine at inspection input: " + moverLines[3][0].size());
-		System.out.println("Maintenance person is available: " + maintenancePerson.available);
-		System.out.print("Casting repair queue: ");
-		for(int stationId : castingRepairQueue)
-			System.out.print(stationId + " ");
-		System.out.println("\n--------------------------------------------------------------");
-		*/
+			System.out.println("MoverLine at casting output: " + moverLines[0][1].size());
+			System.out.println("MoverLine at cutting input: " + moverLines[1][0].size());
+			System.out.println("MoverLine at cutting output: " + moverLines[1][1].size());
+			System.out.println("MoverLine at coating input: " + moverLines[2][0].size());
+			System.out.println("MoverLine at coating output: " + moverLines[2][1].size());
+			System.out.println("MoverLine at inspection input: " + moverLines[3][0].size());
+			System.out.println("Maintenance person is available: " + maintenancePerson.available);
+			System.out.print("Casting repair queue: ");
+			for (int stationId : castingRepairQueue)
+				System.out.print(stationId + " ");
+			System.out.println("\n--------------------------------------------------------------");
+		}
 	}
 
 }
