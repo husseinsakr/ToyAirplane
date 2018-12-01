@@ -32,14 +32,7 @@ public class PlaneMoldCast extends Activity {
     @Override
     public void terminatingEvent(){
         modelName.castingStations[stationId].status = modelName.constants.IDLE;
-        if(modelName.castingStations[stationId].bin == null){
-            modelName.castingStations[stationId].bin = new Bin();
-            modelName.castingStations[stationId].bin.type = modelName.castingStations[stationId].type;
-            modelName.castingStations[stationId].bin.n = Constants.EMPTY;
-        }
         modelName.castingStations[stationId].bin.n += 6;
         modelName.castingStations[stationId].timeToNextBreak -= modelName.constants.CASTING_TIME;
-        //System.out.println("Casting station with id " + stationId + " has finished casting. ");
-        modelName.printAllVariablesForDebuggingPurposes();
     }
 }

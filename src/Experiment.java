@@ -27,7 +27,7 @@ class Experiment
        Seeds[] sds = new Seeds[NUMRUNS];
        ModelName mname;  // Simulation object
        double percentProductionIncrease = 30.0 / 100.0;
-       boolean showLog = true;
+       boolean showLog = false;
 
        int spitfireProduction = 1000;
        int f16Production = 1500;

@@ -26,7 +26,7 @@ public class ModelName extends AOSimulationModel
 	/* Group and Queue Entities */
 	public CastingStation[] castingStations;
 	public ProcessingStation[][] processingStations;
-	public IOArea[][][] inputOutputQueues = new IOArea[4][2][]; // [areaID][IN OR OUT][stationId]
+	public IOArea[][][] qIOArea = new IOArea[4][2][]; // [areaID][IN OR OUT][stationId]
 	public Mover[] movers;
 	public MoversLine[][] moverLines = new MoversLine[4][2]; // [areaID][IN or OUT]
 
@@ -98,21 +98,18 @@ public class ModelName extends AOSimulationModel
 		processingStations[constants.INSP - 1] = new ProcessingStation[numInspectionPackagingStations];
 
 		// Input and Output Queues
-		inputOutputQueues[constants.CAST][constants.OUT] = new IOArea[totalNumberOfCastingStations];
-		inputOutputQueues[constants.CUT][constants.IN] = new IOArea[numCuttingGrindingStations];
-		inputOutputQueues[constants.CUT][constants.OUT] = new IOArea[numCuttingGrindingStations];
-		inputOutputQueues[constants.COAT][constants.IN] = new IOArea[numCoatingStations];
-		inputOutputQueues[constants.COAT][constants.OUT] = new IOArea[numCoatingStations];
-		inputOutputQueues[constants.INSP][constants.IN] = new IOArea[numInspectionPackagingStations];
+		qIOArea[constants.CAST][constants.OUT] = new IOArea[totalNumberOfCastingStations];
+		qIOArea[constants.CUT][constants.IN] = new IOArea[numCuttingGrindingStations];
+		qIOArea[constants.CUT][constants.OUT] = new IOArea[numCuttingGrindingStations];
+		qIOArea[constants.COAT][constants.IN] = new IOArea[numCoatingStations];
+		qIOArea[constants.COAT][constants.OUT] = new IOArea[numCoatingStations];
+		qIOArea[constants.INSP][constants.IN] = new IOArea[numInspectionPackagingStations];
 
 		// Movers
 		movers = new Mover[numMovers];
 
 		// Maintenance person
 		maintenancePerson = new MaintenancePerson();
-
-		// CastingRepairQueue
-		castingRepairQueue = new CastingRepairQueue();
 
 		// MoverLine Queues
 		moverLines[constants.CAST][constants.OUT] = new MoversLine();
@@ -159,7 +156,7 @@ public class ModelName extends AOSimulationModel
 
 			/*
 			if(act.areaId != Constants.INSP)
-				System.out.println("Output bin from station " + act.stationId + " with a station type " + act.areaId + " now has an output queue of size: " + act.modelName.inputOutputQueues[act.areaId][1][act.stationId].size());
+				System.out.println("Output bin from station " + act.stationId + " with a station type " + act.areaId + " now has an output queue of size: " + act.modelName.qIOArea[act.areaId][1][act.stationId].size());
 			else
 				System.out.println("Output bin from inspection station");
 				*/
@@ -219,7 +216,7 @@ public class ModelName extends AOSimulationModel
 
 			/*
 			if(act.areaId+1 != Constants.INSP)
-				System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId + " and has an output size of " + act.modelName.inputOutputQueues[(act.areaId + 1) % Constants.INSP][1][act.stationId].size());
+				System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId + " and has an output size of " + act.modelName.qIOArea[(act.areaId + 1) % Constants.INSP][1][act.stationId].size());
 			else
 				System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId);
 			*/
@@ -272,7 +269,7 @@ public class ModelName extends AOSimulationModel
 						+ castingStations[i].type + "; n=" + castingStations[i].bin.n
 						+ "; status=" + castingStations[i].status +
 						"; timetobreak=" + castingStations[i].timeToNextBreak
-						+ "; output: " + inputOutputQueues[0][1][i].size()
+						+ "; output: " + qIOArea[0][1][i].size()
 						+ "; planeType: " + castingStations[i].type + ";");
 			}
 
@@ -284,8 +281,8 @@ public class ModelName extends AOSimulationModel
 							+"; binType=" +processingStations[0][j].bin.type) ;
 				else
 					System.out.print(" bin=NOBIN");
-				System.out.print("; input= " + inputOutputQueues[1][0][j].size()
-						+ "; output= " + inputOutputQueues[1][1][j].size() + ";\n");
+				System.out.print("; input= " + qIOArea[1][0][j].size()
+						+ "; output= " + qIOArea[1][1][j].size() + ";\n");
 			}
 
 			for (int k = 0; k < numCoatingStations; k++) {
@@ -296,8 +293,8 @@ public class ModelName extends AOSimulationModel
 							+"; binType=" +processingStations[1][k].bin.type);
 				else
 					System.out.print(" bin=NOBIN");
-				System.out.print("; input= " + inputOutputQueues[2][0][k].size()
-						+ "; output= " + inputOutputQueues[2][1][k].size() +";\n");
+				System.out.print("; input= " + qIOArea[2][0][k].size()
+						+ "; output= " + qIOArea[2][1][k].size() +";\n");
 			}
 
 			for (int l = 0; l < numInspectionPackagingStations; l++) {
@@ -308,7 +305,7 @@ public class ModelName extends AOSimulationModel
 							+"; binType=" +processingStations[2][l].bin.type) ;
 				else
 					System.out.print(" bin=NOBIN");
-				System.out.print("; input= " + inputOutputQueues[3][0][l].size()+";\n");
+				System.out.print("; input= " + qIOArea[3][0][l].size()+";\n");
 			}
 
 			System.out.println("MoverLine at casting output: " + moverLines[0][1].size());

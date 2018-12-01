@@ -103,30 +103,33 @@ class Initialise extends ScheduledAction
 
 		// create all queue objects for casting stations
 		for (int i = 0; i < totalNumberOfCastingStations; i++){
-			model.inputOutputQueues[model.constants.CAST][model.constants.OUT][i] = new IOArea(model.constants.IN_OUT_CAP);
+			model.qIOArea[model.constants.CAST][model.constants.OUT][i] = new IOArea(model.constants.IN_OUT_CAP);
 		}
 
 		// create all cutting/grinding stations with their input/output areas
 		for (int j = 0; j < model.numCuttingGrindingStations; j++){
 			model.processingStations[model.constants.CUT - 1][j] = new ProcessingStation();
 			model.processingStations[model.constants.CUT - 1][j].status = model.constants.IDLE;
-			model.inputOutputQueues[model.constants.CUT][model.constants.IN][j] = new IOArea(model.constants.IN_OUT_CAP);
-			model.inputOutputQueues[model.constants.CUT][model.constants.OUT][j] = new IOArea(model.constants.IN_OUT_CAP);
+			model.processingStations[model.constants.CUT - 1][j].bin = Constants.NO_BIN;
+			model.qIOArea[model.constants.CUT][model.constants.IN][j] = new IOArea(model.constants.IN_OUT_CAP);
+			model.qIOArea[model.constants.CUT][model.constants.OUT][j] = new IOArea(model.constants.IN_OUT_CAP);
 		}
 
 		// create all coating stations with their input/output areas
 		for (int k = 0; k < model.numCoatingStations; k++){
 			model.processingStations[model.constants.COAT - 1][k] = new ProcessingStation();
 			model.processingStations[model.constants.COAT - 1][k].status = model.constants.IDLE;
-			model.inputOutputQueues[model.constants.COAT][model.constants.IN][k] = new IOArea(model.constants.IN_OUT_CAP);
-			model.inputOutputQueues[model.constants.COAT][model.constants.OUT][k] = new IOArea(model.constants.IN_OUT_CAP);
+			model.processingStations[model.constants.COAT - 1][k].bin = Constants.NO_BIN;
+			model.qIOArea[model.constants.COAT][model.constants.IN][k] = new IOArea(model.constants.IN_OUT_CAP);
+			model.qIOArea[model.constants.COAT][model.constants.OUT][k] = new IOArea(model.constants.IN_OUT_CAP);
 		}
 
 		// create all insp/packaging stations with it's input area
 		for (int l = 0; l < model.numInspectionPackagingStations; l++){
 			model.processingStations[model.constants.INSP - 1][l] = new ProcessingStation();
 			model.processingStations[model.constants.INSP - 1][l].status = model.constants.IDLE;
-			model.inputOutputQueues[model.constants.INSP][model.constants.IN][l] = new IOArea(model.constants.IN_OUT_CAP);
+			model.processingStations[model.constants.INSP - 1][l].bin = Constants.NO_BIN;
+			model.qIOArea[model.constants.INSP][model.constants.IN][l] = new IOArea(model.constants.IN_OUT_CAP);
 		}
 
 		// creating all movers
@@ -139,6 +142,9 @@ class Initialise extends ScheduledAction
 
 		// setting maintenance person to available
 		model.maintenancePerson.available = true;
+
+		// creating casting repair queue
+		model.castingRepairQueue = new CastingRepairQueue();
 	}
 	
 

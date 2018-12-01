@@ -24,7 +24,7 @@ class Constants
     public final static int NEEDS_MAINTENANCE = 3;
     public final static int EMPTY = 0;
     public final static int NONE = -1;
-    public final static Object NO_BIN = null;
+    public final static Bin NO_BIN = null;
     public final static Object NULL = null;
 
 }

@@ -46,7 +46,7 @@ class UDPs
 			for (int stationID = 0; stationID < model.processingStations[areaID].length; stationID++){
 				if(model.processingStations[areaID][stationID].status == Constants.IDLE
 						&& model.processingStations[areaID][stationID].bin == null
-						&& !model.inputOutputQueues[areaID + 1][Constants.IN][stationID].isEmpty())
+						&& !model.qIOArea[areaID + 1][Constants.IN][stationID].isEmpty())
 				{
 					areaIdAndStationId[0] = areaID;
 					areaIdAndStationId[1] = stationID;
@@ -63,7 +63,7 @@ class UDPs
 		//Casting station
 		for (int castingStationId = 0; castingStationId < model.castingStations.length; castingStationId++){
 			if(model.castingStations[castingStationId].bin.n == model.constants.BIN_CAP
-					&& model.inputOutputQueues[model.constants.CAST][model.constants.OUT][castingStationId].size() < model.constants.IN_OUT_CAP)
+					&& model.qIOArea[model.constants.CAST][model.constants.OUT][castingStationId].size() < model.constants.IN_OUT_CAP)
 			{
 				areaIdAndStationId[0] = model.constants.CAST;
 				areaIdAndStationId[1] = castingStationId;
@@ -76,7 +76,7 @@ class UDPs
 			for (int stationID = 0; stationID < model.processingStations[areaID].length; stationID++){
 				if(model.processingStations[areaID][stationID].bin != null
 					&& model.processingStations[areaID][stationID].status == Constants.IDLE
-					&& (areaID == Constants.COAT || model.inputOutputQueues[areaID + 1][model.constants.OUT][stationID].size() < model.constants.IN_OUT_CAP))
+					&& (areaID == Constants.COAT || model.qIOArea[areaID + 1][model.constants.OUT][stationID].size() < model.constants.IN_OUT_CAP))
 				{ // && model.processingStations[areaID][stationID].bin.n == model.constants.BIN_CAP, I DONT THINK WE NEED THIS ANYMORE
 					areaIdAndStationId[0] = areaID + 1;
 					areaIdAndStationId[1] = stationID;
@@ -95,9 +95,9 @@ class UDPs
 		for (int areaId = Constants.CAST; areaId < Constants.INSP; areaId++) {
 			numberOfBinsCanPickup = 0;
 			if (!model.moverLines[areaId][Constants.OUT].isEmpty()) {
-				for (int stationId = 0; stationId < model.inputOutputQueues[areaId][Constants.OUT].length; stationId++) {
+				for (int stationId = 0; stationId < model.qIOArea[areaId][Constants.OUT].length; stationId++) {
 					mover = model.movers[model.moverLines[areaId][Constants.OUT].peek()];
-					numberOfBinsCanPickup += model.inputOutputQueues[areaId][Constants.OUT][stationId].size();
+					numberOfBinsCanPickup += model.qIOArea[areaId][Constants.OUT][stationId].size();
 					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n) {
 						return areaId;
 					}
@@ -114,7 +114,7 @@ class UDPs
 			int[] stationOutputLengths = getMaxOutputsInStations(areaId);
 			int stationId = indexOfBiggestInteger(stationOutputLengths);
 			if(model.movers[moverId].trolley[i] == null){
-				model.movers[moverId].trolley[i] = model.inputOutputQueues[areaId][Constants.OUT][stationId].poll();
+				model.movers[moverId].trolley[i] = model.qIOArea[areaId][Constants.OUT][stationId].poll();
 				model.movers[moverId].n++;
 			}
 		}
@@ -148,9 +148,9 @@ class UDPs
 	public int canDistributeBins(){
 		for(int areaId = Constants.CUT; areaId <= Constants.INSP; areaId++){
 			if(!model.moverLines[areaId][Constants.IN].isEmpty()){
-				int numOfStationsAtAreaId = model.inputOutputQueues[areaId][Constants.IN].length;
+				int numOfStationsAtAreaId = model.qIOArea[areaId][Constants.IN].length;
 				int canFit = 0;
-				for(IOArea ioArea : model.inputOutputQueues[areaId][Constants.IN]){
+				for(IOArea ioArea : model.qIOArea[areaId][Constants.IN]){
 					canFit += ioArea.remainingCapacity();
 				}
 				if(areaId == Constants.COAT){
@@ -173,9 +173,9 @@ class UDPs
 	}
 
 	private int[] getMaxOutputsInStations(int areaId){
-		int[] stationsAtAreaId = new int[model.inputOutputQueues[areaId][Constants.OUT].length];
+		int[] stationsAtAreaId = new int[model.qIOArea[areaId][Constants.OUT].length];
 		for(int i = 0; i < stationsAtAreaId.length; i++){
-			stationsAtAreaId[i] = model.inputOutputQueues[areaId][Constants.OUT][i].size();
+			stationsAtAreaId[i] = model.qIOArea[areaId][Constants.OUT][i].size();
 		}
 		return stationsAtAreaId;
 	}

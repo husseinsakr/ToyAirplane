@@ -32,11 +32,11 @@ public class DistributeBins extends ConditionalAction {
                     continue;
                 }
             if(areaId != Constants.COAT || (areaId == Constants.COAT && bin.type != Constants.SPITFIRE)) {
-                int[] queueLengths = new int[modelName.inputOutputQueues[areaId][Constants.IN].length];
+                int[] queueLengths = new int[modelName.qIOArea[areaId][Constants.IN].length];
                 for(int i = 0; i < queueLengths.length; i++){
-                    queueLengths[i] = modelName.inputOutputQueues[areaId][Constants.IN][i].size();
+                    queueLengths[i] = modelName.qIOArea[areaId][Constants.IN][i].size();
                 }
-                modelName.inputOutputQueues[areaId][Constants.IN][indexOfSmallestInteger(queueLengths)].add(bin);
+                modelName.qIOArea[areaId][Constants.IN][indexOfSmallestInteger(queueLengths)].add(bin);
                 mover.trolley[trolleyIndex] = null;
                 mover.n--;
             }
