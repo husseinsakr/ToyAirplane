@@ -92,36 +92,18 @@ class UDPs
 	public int canStartMovingBins(){ // need more explanation on this one
 		Mover mover;
 		int numberOfBinsCanPickup;
-		for(int areaId = Constants.CAST; areaId < Constants.INSP; areaId++){
+		for (int areaId = Constants.CAST; areaId < Constants.INSP; areaId++) {
 			numberOfBinsCanPickup = 0;
-			if(!model.moverLines[areaId][Constants.OUT].isEmpty()) {
+			if (!model.moverLines[areaId][Constants.OUT].isEmpty()) {
 				for (int stationId = 0; stationId < model.inputOutputQueues[areaId][Constants.OUT].length; stationId++) {
 					mover = model.movers[model.moverLines[areaId][Constants.OUT].peek()];
 					numberOfBinsCanPickup += model.inputOutputQueues[areaId][Constants.OUT][stationId].size();
 					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n) {
 						return areaId;
-					} else if (numberOfBinsCanPickup > 0 && model.getClock() > model.endTime) {
-						return areaId;
 					}
 				}
 			}
 		}
-		/*
-		for(int areaId = Constants.CAST; areaId < Constants.INSP; areaId++){
-			if(!model.moverLines[areaId][Constants.OUT].isEmpty()) {
-				for (int stationId = 0; stationId < model.inputOutputQueues[areaId][Constants.OUT].length; stationId++) {
-					mover = model.movers[model.moverLines[areaId][Constants.OUT].peek()];
-					int x = model.inputOutputQueues[areaId][Constants.OUT][stationId].size();
-					if (model.inputOutputQueues[areaId][Constants.OUT][stationId].size() >= Constants.MOVER_CAP - mover.n){
-						areaIdAndStationId = new int[2];
-						areaIdAndStationId[0] = areaId;
-						areaIdAndStationId[1] = stationId;
-						return areaIdAndStationId;
-					}
-				}
-			}
-		}
-		*/
 		return Constants.NONE;
 	}
 

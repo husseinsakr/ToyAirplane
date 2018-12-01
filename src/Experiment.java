@@ -27,7 +27,7 @@ class Experiment
        Seeds[] sds = new Seeds[NUMRUNS];
        ModelName mname;  // Simulation object
        double percentProductionIncrease = 30.0 / 100.0;
-       boolean showLog = false;
+       boolean showLog = true;
 
        int spitfireProduction = 1000;
        int f16Production = 1500;
@@ -54,12 +54,12 @@ class Experiment
 
        if(showLog) {
            NUMRUNS = 1;
-           numCastingStationsSpitfire = minNumberOfStations;
-           numCastingStationsF16 = minNumberOfStations;
-           numCastingStationsConcorde = minNumberOfStations;
-           numCuttingGrindingStations = minNumberOfStations;
-           numCoatingStations = minNumberOfStations;
-           numInspectionPackagingStations = minNumberOfStations;
+           numCastingStationsSpitfire = minNumberOfStations + 2;
+           numCastingStationsF16 = minNumberOfStations + 2;
+           numCastingStationsConcorde = minNumberOfStations + 2;
+           numCuttingGrindingStations = minNumberOfStations + 2;
+           numCoatingStations = minNumberOfStations + 2;
+           numInspectionPackagingStations = minNumberOfStations + 2;
            numMovers = maxNumberOfStationsPerType; //ideal amount for now
        } else {
            System.out.println("Finding best parameters to reach desired outputs!\n");
@@ -73,8 +73,9 @@ class Experiment
 
            // Loop for NUMRUN simulation runs for each case
            for (i = 0; i < NUMRUNS; i++) {
-               if(simulationNumber == 39)
+               if(simulationNumber == 39 && i == 27) {
                    System.out.print("HI");
+               }
                mname = new ModelName(startTime, endTime, numCastingStationsSpitfire,
                        numCastingStationsF16, numCastingStationsConcorde, numCuttingGrindingStations, numCoatingStations,
                        numInspectionPackagingStations, numMovers, sds[i], showLog);
@@ -84,6 +85,7 @@ class Experiment
                avgNumberOfF16ProducedDaily += mname.getNumF16Produced();
                avgNumberOfConcordeProducedDaily += mname.getNumConcordeProduced();
            }
+
 
            avgNumberOfSpitfireProducedDaily /= NUMRUNS;
            avgNumberOfF16ProducedDaily /= NUMRUNS;
