@@ -27,6 +27,7 @@ class Initialise extends ScheduledAction
 		int numSpit = model.numCastingStationsSpitfire;
 		int numF16 = model.numCastingStationsF16;
 		int numConcorde = model.numCastingStationsConcorde;
+
 		int x = 0;
 		while(x < model.rcCastingStation.length){
 			if(numSpit > 0){

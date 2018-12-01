@@ -27,7 +27,7 @@ class Experiment
        Seeds[] sds = new Seeds[NUMRUNS];
        ToyManufacturingModel mname;  // Simulation object
        double percentProductionIncrease = 30.0 / 100.0;
-       boolean showLog = false;
+       boolean showLog = true;
 
        int spitfireProduction = 1000;
        int f16Production = 1500;
@@ -54,12 +54,12 @@ class Experiment
 
        if(showLog) {
            NUMRUNS = 1;
-           numCastingStationsSpitfire = minNumberOfStations + 2;
-           numCastingStationsF16 = minNumberOfStations + 2;
-           numCastingStationsConcorde = minNumberOfStations + 2;
-           numCuttingGrindingStations = minNumberOfStations + 2;
-           numCoatingStations = minNumberOfStations + 2;
-           numInspectionPackagingStations = minNumberOfStations + 2;
+           numCastingStationsSpitfire = minNumberOfStations;
+           numCastingStationsF16 = minNumberOfStations;
+           numCastingStationsConcorde = minNumberOfStations;
+           numCuttingGrindingStations = minNumberOfStations;
+           numCoatingStations = minNumberOfStations;
+           numInspectionPackagingStations = minNumberOfStations;
            numMovers = maxNumberOfStationsPerType; //ideal amount for now
        } else {
            System.out.println("Finding best parameters to reach desired outputs!\n");

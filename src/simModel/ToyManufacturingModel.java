@@ -263,7 +263,7 @@ public class ToyManufacturingModel extends AOSimulationModel
 		if(log) {
 			System.out.printf("Clock = %10.4f\n", getClock());
 			showSBL();
-
+			/*
 			for (int i = 0; i < rcCastingStation.length; i++) {
 				System.out.println("Casting stationId= " + i + "; type="
 						+ rcCastingStation[i].type + "; n=" + rcCastingStation[i].bin.n
@@ -319,6 +319,7 @@ public class ToyManufacturingModel extends AOSimulationModel
 			for (int stationId : qCastingRepairQueue)
 				System.out.print(stationId + " ");
 			System.out.println("\n--------------------------------------------------------------");
+			*/
 		}
 	}
 
