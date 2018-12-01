@@ -25,7 +25,7 @@ class Experiment
        int i, NUMRUNS = 40; //change as you like
        double startTime = 0.0, endTime = 480.0;
        Seeds[] sds = new Seeds[NUMRUNS];
-       ModelName mname;  // Simulation object
+       ToyManufacturingModel mname;  // Simulation object
        double percentProductionIncrease = 30.0 / 100.0;
        boolean showLog = false;
 
@@ -76,7 +76,7 @@ class Experiment
                if(simulationNumber == 39 && i == 27) {
                    System.out.print("HI");
                }
-               mname = new ModelName(startTime, endTime, numCastingStationsSpitfire,
+               mname = new ToyManufacturingModel(startTime, endTime, numCastingStationsSpitfire,
                        numCastingStationsF16, numCastingStationsConcorde, numCuttingGrindingStations, numCoatingStations,
                        numInspectionPackagingStations, numMovers, sds[i], showLog);
                mname.runSimulation();

@@ -3,14 +3,14 @@ package simModel;
 import simulationModelling.ConditionalActivity;
 
 public class MoveBins extends ConditionalActivity {
-    ModelName modelName;
+    ToyManufacturingModel ToyManufacturingModel;
     int currentArea, destinationArea, moverId;
 
-    public MoveBins(ModelName modelName){
-        this.modelName = modelName;
+    public MoveBins(ToyManufacturingModel ToyManufacturingModel){
+        this.ToyManufacturingModel = ToyManufacturingModel;
     }
 
-    public static boolean precondition(ModelName model){
+    public static boolean precondition(ToyManufacturingModel model){
         boolean returnValue = false;
         if(model.udp.canStartMovingBins() != Constants.NONE){
             returnValue = true;
@@ -20,23 +20,23 @@ public class MoveBins extends ConditionalActivity {
 
     @Override
     public void startingEvent(){
-        //int[] areaIdAndStationId = modelName.udp.canStartMovingBins();
-        this.currentArea = modelName.udp.canStartMovingBins();
+        //int[] areaIdAndStationId = ToyManufacturingModel.udp.canStartMovingBins();
+        this.currentArea = ToyManufacturingModel.udp.canStartMovingBins();
         //currentArea = areaIdAndStationId[0];
         //stationId = areaIdAndStationId[1];
-        moverId = modelName.moverLines[currentArea][Constants.OUT].poll();
-        destinationArea = modelName.udp.fillTrolley(moverId, currentArea);
+        moverId = ToyManufacturingModel.gMoverLines[currentArea][Constants.OUT].poll();
+        destinationArea = ToyManufacturingModel.udp.fillTrolley(moverId, currentArea);
     }
 
     @Override
     public double duration(){
-        return modelName.dvp.uMovingStationsTime(currentArea, destinationArea);
+        return ToyManufacturingModel.dvp.uMovingStationsTime(currentArea, destinationArea);
     }
 
     @Override
     public void terminatingEvent(){
-        modelName.moverLines[destinationArea][Constants.IN].add(moverId);
-        //System.out.println("Finished moving bins from " + currentArea + " with stationId to " + destinationArea );
-        modelName.printAllVariablesForDebuggingPurposes();
+        ToyManufacturingModel.gMoverLines[destinationArea][Constants.IN].add(moverId);
+            //System.out.println("Finished moving bins from " + currentArea + " with stationId to " + destinationArea );
+        ToyManufacturingModel.printAllVariablesForDebuggingPurposes();
     }
 }

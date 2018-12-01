@@ -4,10 +4,10 @@ import simulationModelling.ScheduledAction;
 
 class Initialise extends ScheduledAction
 {
-	ModelName model;
+	ToyManufacturingModel model;
 
 	// Constructor
-	protected Initialise(ModelName model) { this.model = model; }
+	protected Initialise(ToyManufacturingModel model) { this.model = model; }
 
 	double [] ts = { 0.0, -1.0 }; // -1.0 ends scheduling
 	int tsix = 0;  // set index to first entry.
@@ -28,37 +28,37 @@ class Initialise extends ScheduledAction
 		int numF16 = model.numCastingStationsF16;
 		int numConcorde = model.numCastingStationsConcorde;
 		int x = 0;
-		while(x < model.castingStations.length){
+		while(x < model.rcCastingStation.length){
 			if(numSpit > 0){
-				model.castingStations[x] = new CastingStation();
-				model.castingStations[x].type = model.constants.SPITFIRE;
-				model.castingStations[x].status = model.constants.IDLE;
-				model.castingStations[x].timeToNextBreak = model.rvp.uCastingBreakTime();
-				model.castingStations[x].bin = new Bin();
-				model.castingStations[x].bin.type = model.constants.SPITFIRE;
-				model.castingStations[x].bin.n = model.constants.EMPTY;
+				model.rcCastingStation[x] = new CastingStation();
+				model.rcCastingStation[x].type = model.constants.SPITFIRE;
+				model.rcCastingStation[x].status = model.constants.IDLE;
+				model.rcCastingStation[x].timeToNextBreak = model.rvp.uCastingBreakTime();
+				model.rcCastingStation[x].bin = new Bin();
+				model.rcCastingStation[x].bin.type = model.constants.SPITFIRE;
+				model.rcCastingStation[x].bin.n = model.constants.EMPTY;
 				x++;
 				numSpit--;
 			}
 			if(numF16 > 0){
-				model.castingStations[x] = new CastingStation();
-				model.castingStations[x].type = model.constants.F16;
-				model.castingStations[x].status = model.constants.IDLE;
-				model.castingStations[x].timeToNextBreak = model.rvp.uCastingBreakTime();
-				model.castingStations[x].bin = new Bin();
-				model.castingStations[x].bin.type = model.constants.F16;
-				model.castingStations[x].bin.n = model.constants.EMPTY;
+				model.rcCastingStation[x] = new CastingStation();
+				model.rcCastingStation[x].type = model.constants.F16;
+				model.rcCastingStation[x].status = model.constants.IDLE;
+				model.rcCastingStation[x].timeToNextBreak = model.rvp.uCastingBreakTime();
+				model.rcCastingStation[x].bin = new Bin();
+				model.rcCastingStation[x].bin.type = model.constants.F16;
+				model.rcCastingStation[x].bin.n = model.constants.EMPTY;
 				x++;
 				numF16--;
 			}
 			if(numConcorde > 0){
-				model.castingStations[x] = new CastingStation();
-				model.castingStations[x].type = model.constants.CONCORDE;
-				model.castingStations[x].status = model.constants.IDLE;
-				model.castingStations[x].timeToNextBreak = model.rvp.uCastingBreakTime();
-				model.castingStations[x].bin = new Bin();
-				model.castingStations[x].bin.type = model.constants.CONCORDE;
-				model.castingStations[x].bin.n = model.constants.EMPTY;
+				model.rcCastingStation[x] = new CastingStation();
+				model.rcCastingStation[x].type = model.constants.CONCORDE;
+				model.rcCastingStation[x].status = model.constants.IDLE;
+				model.rcCastingStation[x].timeToNextBreak = model.rvp.uCastingBreakTime();
+				model.rcCastingStation[x].bin = new Bin();
+				model.rcCastingStation[x].bin.type = model.constants.CONCORDE;
+				model.rcCastingStation[x].bin.n = model.constants.EMPTY;
 				x++;
 				numConcorde--;
 			}
@@ -66,37 +66,37 @@ class Initialise extends ScheduledAction
 
 		/*
 		for(int x = 0; x < model.numCastingStationsSpitfire; x++){
-			model.castingStations[x] = new CastingStation();
-			model.castingStations[x].type = model.constants.SPITFIRE;
-			model.castingStations[x].status = model.constants.IDLE;
-			model.castingStations[x].timeToNextBreak = model.rvp.uCastingBreakTime();
-			model.castingStations[x].bin = new Bin();
-			model.castingStations[x].bin.type = model.constants.SPITFIRE;
-			model.castingStations[x].bin.n = model.constants.EMPTY;
+			model.rcCastingStation[x] = new CastingStation();
+			model.rcCastingStation[x].type = model.constants.SPITFIRE;
+			model.rcCastingStation[x].status = model.constants.IDLE;
+			model.rcCastingStation[x].timeToNextBreak = model.rvp.uCastingBreakTime();
+			model.rcCastingStation[x].bin = new Bin();
+			model.rcCastingStation[x].bin.type = model.constants.SPITFIRE;
+			model.rcCastingStation[x].bin.n = model.constants.EMPTY;
 		}
 
 		int startingIndexOfF16 = model.numCastingStationsSpitfire;
 		int endingIndexOfF16 = model.numCastingStationsSpitfire + model.numCastingStationsF16;
 		for(int y = startingIndexOfF16; y < endingIndexOfF16; y++){
-			model.castingStations[y] = new CastingStation();
-			model.castingStations[y].type = model.constants.F16;
-			model.castingStations[y].status = model.constants.IDLE;
-			model.castingStations[y].timeToNextBreak = model.rvp.uCastingBreakTime();
-			model.castingStations[y].bin = new Bin();
-			model.castingStations[y].bin.type = model.constants.F16;
-			model.castingStations[y].bin.n = model.constants.EMPTY;
+			model.rcCastingStation[y] = new CastingStation();
+			model.rcCastingStation[y].type = model.constants.F16;
+			model.rcCastingStation[y].status = model.constants.IDLE;
+			model.rcCastingStation[y].timeToNextBreak = model.rvp.uCastingBreakTime();
+			model.rcCastingStation[y].bin = new Bin();
+			model.rcCastingStation[y].bin.type = model.constants.F16;
+			model.rcCastingStation[y].bin.n = model.constants.EMPTY;
 		}
 
 		int startingIndexOfConcorde = model.numCastingStationsSpitfire + model.numCastingStationsF16;
 		int endingIndexOfConcorde = totalNumberOfCastingStations;
 		for(int z = startingIndexOfConcorde; z < endingIndexOfConcorde; z++){
-			model.castingStations[z] = new CastingStation();
-			model.castingStations[z].type = model.constants.CONCORDE;
-			model.castingStations[z].status = model.constants.IDLE;
-			model.castingStations[z].timeToNextBreak = model.rvp.uCastingBreakTime();
-			model.castingStations[z].bin = new Bin();
-			model.castingStations[z].bin.type = model.constants.CONCORDE;
-			model.castingStations[z].bin.n = model.constants.EMPTY;
+			model.rcCastingStation[z] = new CastingStation();
+			model.rcCastingStation[z].type = model.constants.CONCORDE;
+			model.rcCastingStation[z].status = model.constants.IDLE;
+			model.rcCastingStation[z].timeToNextBreak = model.rvp.uCastingBreakTime();
+			model.rcCastingStation[z].bin = new Bin();
+			model.rcCastingStation[z].bin.type = model.constants.CONCORDE;
+			model.rcCastingStation[z].bin.n = model.constants.EMPTY;
 		}
 
 		*/
@@ -108,43 +108,43 @@ class Initialise extends ScheduledAction
 
 		// create all cutting/grinding stations with their input/output areas
 		for (int j = 0; j < model.numCuttingGrindingStations; j++){
-			model.processingStations[model.constants.CUT - 1][j] = new ProcessingStation();
-			model.processingStations[model.constants.CUT - 1][j].status = model.constants.IDLE;
-			model.processingStations[model.constants.CUT - 1][j].bin = Constants.NO_BIN;
+			model.rProcessingStation[model.constants.CUT - 1][j] = new ProcessingStation();
+			model.rProcessingStation[model.constants.CUT - 1][j].status = model.constants.IDLE;
+			model.rProcessingStation[model.constants.CUT - 1][j].bin = Constants.NO_BIN;
 			model.qIOArea[model.constants.CUT][model.constants.IN][j] = new IOArea(model.constants.IN_OUT_CAP);
 			model.qIOArea[model.constants.CUT][model.constants.OUT][j] = new IOArea(model.constants.IN_OUT_CAP);
 		}
 
 		// create all coating stations with their input/output areas
 		for (int k = 0; k < model.numCoatingStations; k++){
-			model.processingStations[model.constants.COAT - 1][k] = new ProcessingStation();
-			model.processingStations[model.constants.COAT - 1][k].status = model.constants.IDLE;
-			model.processingStations[model.constants.COAT - 1][k].bin = Constants.NO_BIN;
+			model.rProcessingStation[model.constants.COAT - 1][k] = new ProcessingStation();
+			model.rProcessingStation[model.constants.COAT - 1][k].status = model.constants.IDLE;
+			model.rProcessingStation[model.constants.COAT - 1][k].bin = Constants.NO_BIN;
 			model.qIOArea[model.constants.COAT][model.constants.IN][k] = new IOArea(model.constants.IN_OUT_CAP);
 			model.qIOArea[model.constants.COAT][model.constants.OUT][k] = new IOArea(model.constants.IN_OUT_CAP);
 		}
 
 		// create all insp/packaging stations with it's input area
 		for (int l = 0; l < model.numInspectionPackagingStations; l++){
-			model.processingStations[model.constants.INSP - 1][l] = new ProcessingStation();
-			model.processingStations[model.constants.INSP - 1][l].status = model.constants.IDLE;
-			model.processingStations[model.constants.INSP - 1][l].bin = Constants.NO_BIN;
+			model.rProcessingStation[model.constants.INSP - 1][l] = new ProcessingStation();
+			model.rProcessingStation[model.constants.INSP - 1][l].status = model.constants.IDLE;
+			model.rProcessingStation[model.constants.INSP - 1][l].bin = Constants.NO_BIN;
 			model.qIOArea[model.constants.INSP][model.constants.IN][l] = new IOArea(model.constants.IN_OUT_CAP);
 		}
 
-		// creating all movers
-		for (int moverId = 0; moverId < model.movers.length; moverId++){
-			model.movers[moverId] = new Mover();
-			model.movers[moverId].trolley = new Bin[model.constants.MOVER_CAP];
-			model.movers[moverId].n = model.constants.EMPTY;
-			model.moverLines[model.constants.CAST][model.constants.OUT].add(moverId);
+		// creating all qMover
+		for (int moverId = 0; moverId < model.qMover.length; moverId++){
+			model.qMover[moverId] = new Mover();
+			model.qMover[moverId].trolley = new Bin[model.constants.MOVER_CAP];
+			model.qMover[moverId].n = model.constants.EMPTY;
+			model.gMoverLines[model.constants.CAST][model.constants.OUT].add(moverId);
 		}
 
 		// setting maintenance person to available
-		model.maintenancePerson.available = true;
+		model.rMaintenancePerson.available = true;
 
 		// creating casting repair queue
-		model.castingRepairQueue = new CastingRepairQueue();
+		model.qCastingRepairQueue = new CastingRepairQueue();
 	}
 	
 

@@ -2,10 +2,10 @@ package simModel;
 
 class DVPs
 {
-	ModelName model;  // for accessing the clock
+	ToyManufacturingModel model;  // for accessing the clock
 
 	// Constructor
-	protected DVPs(ModelName model) { this.model = model; }
+	protected DVPs(ToyManufacturingModel model) { this.model = model; }
 
 
 	protected double uMovingStationsTime(int currentAreaId,int destinationAreaId) {

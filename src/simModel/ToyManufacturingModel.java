@@ -24,16 +24,16 @@ public class ToyManufacturingModel extends AOSimulationModel
 
 	/*-------------Entity Data Structures-------------------*/
 	/* Group and Queue Entities */
-	public CastingStation[] castingStations;
-	public ProcessingStation[][] processingStations;
+	public CastingStation[] rcCastingStation;
+	public ProcessingStation[][] rProcessingStation;
 	public IOArea[][][] qIOArea = new IOArea[4][2][]; // [areaID][IN OR OUT][stationId]
-	public Mover[] movers;
-	public MoversLine[][] moverLines = new MoversLine[4][2]; // [areaID][IN or OUT]
+	public Mover[] qMover;
+	public MoversLine[][] gMoverLines = new MoversLine[4][2]; // [areaID][IN or OUT]
 
 	// Define the reference variables to the various 
 	// entities with scope Set and Unary
-	public MaintenancePerson maintenancePerson;
-	public CastingRepairQueue castingRepairQueue;
+	public MaintenancePerson rMaintenancePerson;
+	public CastingRepairQueue qCastingRepairQueue;
 	// Objects can be created here or in the Initialise Action
 
 	/* Input Variables */
@@ -86,16 +86,16 @@ public class ToyManufacturingModel extends AOSimulationModel
 
 		//casting stations
 		int totalNumberOfCastingStations = numCastingStationsSpitfire + numCastingStationsF16 + numCastingStationsConcorde;
-		castingStations = new CastingStation[totalNumberOfCastingStations];
+		rcCastingStation = new CastingStation[totalNumberOfCastingStations];
 
 		//Cutting/Grinding, Coating and Inspection/Packaging stations
 		//Cutting = 0, Coating = 1, Insp/Pack = 2
 		int types = 3; //types of stations
-		processingStations = new ProcessingStation[types][];
-		// We subtract by 1 because casting station is not part of processingStations
-		processingStations[constants.CUT - 1] = new ProcessingStation[numCuttingGrindingStations];
-		processingStations[constants.COAT - 1] = new ProcessingStation[numCoatingStations];
-		processingStations[constants.INSP - 1] = new ProcessingStation[numInspectionPackagingStations];
+		rProcessingStation = new ProcessingStation[types][];
+		// We subtract by 1 because casting station is not part of rProcessingStation
+		rProcessingStation[constants.CUT - 1] = new ProcessingStation[numCuttingGrindingStations];
+		rProcessingStation[constants.COAT - 1] = new ProcessingStation[numCoatingStations];
+		rProcessingStation[constants.INSP - 1] = new ProcessingStation[numInspectionPackagingStations];
 
 		// Input and Output Queues
 		qIOArea[constants.CAST][constants.OUT] = new IOArea[totalNumberOfCastingStations];
@@ -105,19 +105,19 @@ public class ToyManufacturingModel extends AOSimulationModel
 		qIOArea[constants.COAT][constants.OUT] = new IOArea[numCoatingStations];
 		qIOArea[constants.INSP][constants.IN] = new IOArea[numInspectionPackagingStations];
 
-		// Movers
-		movers = new Mover[numMovers];
+		// qMover
+		qMover = new Mover[numMovers];
 
 		// Maintenance person
-		maintenancePerson = new MaintenancePerson();
+		rMaintenancePerson = new MaintenancePerson();
 
 		// MoverLine Queues
-		moverLines[constants.CAST][constants.OUT] = new MoversLine();
-		moverLines[constants.CUT][constants.IN] = new MoversLine();
-		moverLines[constants.CUT][constants.OUT] = new MoversLine();
-		moverLines[constants.COAT][constants.IN] = new MoversLine();
-		moverLines[constants.COAT][constants.OUT] = new MoversLine();
-		moverLines[constants.INSP][constants.IN] = new MoversLine();
+		gMoverLines[constants.CAST][constants.OUT] = new MoversLine();
+		gMoverLines[constants.CUT][constants.IN] = new MoversLine();
+		gMoverLines[constants.CUT][constants.OUT] = new MoversLine();
+		gMoverLines[constants.COAT][constants.IN] = new MoversLine();
+		gMoverLines[constants.COAT][constants.OUT] = new MoversLine();
+		gMoverLines[constants.INSP][constants.IN] = new MoversLine();
 		
 		// rgCounter and qCustLine objects created in Initalise Action
 		
@@ -192,7 +192,7 @@ public class ToyManufacturingModel extends AOSimulationModel
 
 			/*
 			System.out.println("Casting station starts operating with stationId " + act.stationId + " and holding "
-					+ act.ToyManufacturingModel.castingStations[act.stationId].bin.n + " planes.");
+					+ act.ToyManufacturingModel.rcCastingStation[act.stationId].bin.n + " planes.");
 			*/
 		}
 
@@ -264,21 +264,21 @@ public class ToyManufacturingModel extends AOSimulationModel
 			System.out.printf("Clock = %10.4f\n", getClock());
 			showSBL();
 
-			for (int i = 0; i < castingStations.length; i++) {
+			for (int i = 0; i < rcCastingStation.length; i++) {
 				System.out.println("Casting stationId= " + i + "; type="
-						+ castingStations[i].type + "; n=" + castingStations[i].bin.n
-						+ "; status=" + castingStations[i].status +
-						"; timetobreak=" + castingStations[i].timeToNextBreak
+						+ rcCastingStation[i].type + "; n=" + rcCastingStation[i].bin.n
+						+ "; status=" + rcCastingStation[i].status +
+						"; timetobreak=" + rcCastingStation[i].timeToNextBreak
 						+ "; output: " + qIOArea[0][1][i].size()
-						+ "; planeType: " + castingStations[i].type + ";");
+						+ "; planeType: " + rcCastingStation[i].type + ";");
 			}
 
 			for (int j = 0; j < numCuttingGrindingStations; j++) {
 				System.out.print("Cutting stationId= " + j
-						+ "; status= " + processingStations[0][j].status + ";");
-				if(processingStations[0][j].status == Constants.BUSY)
-					System.out.print(" bin.n= " + processingStations[0][j].bin.n
-							+"; binType=" +processingStations[0][j].bin.type) ;
+						+ "; status= " + rProcessingStation[0][j].status + ";");
+				if(rProcessingStation[0][j].status == Constants.BUSY)
+					System.out.print(" bin.n= " + rProcessingStation[0][j].bin.n
+							+"; binType=" +rProcessingStation[0][j].bin.type) ;
 				else
 					System.out.print(" bin=NOBIN");
 				System.out.print("; input= " + qIOArea[1][0][j].size()
@@ -287,10 +287,10 @@ public class ToyManufacturingModel extends AOSimulationModel
 
 			for (int k = 0; k < numCoatingStations; k++) {
 				System.out.print("Coating stationId= " + k
-						+ "; status= " + processingStations[1][k].status + ";");
-				if(processingStations[1][k].status == Constants.BUSY)
-					System.out.print(" bin.n= " + processingStations[1][k].bin.n
-							+"; binType=" +processingStations[1][k].bin.type);
+						+ "; status= " + rProcessingStation[1][k].status + ";");
+				if(rProcessingStation[1][k].status == Constants.BUSY)
+					System.out.print(" bin.n= " + rProcessingStation[1][k].bin.n
+							+"; binType=" +rProcessingStation[1][k].bin.type);
 				else
 					System.out.print(" bin=NOBIN");
 				System.out.print("; input= " + qIOArea[2][0][k].size()
@@ -299,24 +299,24 @@ public class ToyManufacturingModel extends AOSimulationModel
 
 			for (int l = 0; l < numInspectionPackagingStations; l++) {
 				System.out.print("Insp stationId= " + l + "; status= "
-						+ processingStations[2][l].status + ";");
-				if(processingStations[2][l].status == Constants.BUSY)
-					System.out.print(" bin.n= " + processingStations[2][l].bin.n
-							+"; binType=" +processingStations[2][l].bin.type) ;
+						+ rProcessingStation[2][l].status + ";");
+				if(rProcessingStation[2][l].status == Constants.BUSY)
+					System.out.print(" bin.n= " + rProcessingStation[2][l].bin.n
+							+"; binType=" +rProcessingStation[2][l].bin.type) ;
 				else
 					System.out.print(" bin=NOBIN");
 				System.out.print("; input= " + qIOArea[3][0][l].size()+";\n");
 			}
 
-			System.out.println("MoverLine at casting output: " + moverLines[0][1].size());
-			System.out.println("MoverLine at cutting input: " + moverLines[1][0].size());
-			System.out.println("MoverLine at cutting output: " + moverLines[1][1].size());
-			System.out.println("MoverLine at coating input: " + moverLines[2][0].size());
-			System.out.println("MoverLine at coating output: " + moverLines[2][1].size());
-			System.out.println("MoverLine at inspection input: " + moverLines[3][0].size());
-			System.out.println("Maintenance person is available: " + maintenancePerson.available);
+			System.out.println("MoverLine at casting output: " + gMoverLines[0][1].size());
+			System.out.println("MoverLine at cutting input: " + gMoverLines[1][0].size());
+			System.out.println("MoverLine at cutting output: " + gMoverLines[1][1].size());
+			System.out.println("MoverLine at coating input: " + gMoverLines[2][0].size());
+			System.out.println("MoverLine at coating output: " + gMoverLines[2][1].size());
+			System.out.println("MoverLine at inspection input: " + gMoverLines[3][0].size());
+			System.out.println("Maintenance person is available: " + rMaintenancePerson.available);
 			System.out.print("Casting repair queue: ");
-			for (int stationId : castingRepairQueue)
+			for (int stationId : qCastingRepairQueue)
 				System.out.print(stationId + " ");
 			System.out.println("\n--------------------------------------------------------------");
 		}

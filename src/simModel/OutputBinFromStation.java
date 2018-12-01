@@ -4,15 +4,15 @@ import simulationModelling.ConditionalAction;
 
 public class OutputBinFromStation extends ConditionalAction{
 
-    ModelName modelName;
+    ToyManufacturingModel ToyManufacturingModel;
     int[] areaIdAndStationId;
     int areaId, stationId;
 
-    public OutputBinFromStation(ModelName modelName){
-        this.modelName = modelName;
+    public OutputBinFromStation(ToyManufacturingModel ToyManufacturingModel){
+        this.ToyManufacturingModel = ToyManufacturingModel;
     }
 
-    public static boolean precondition(ModelName model){
+    public static boolean precondition(ToyManufacturingModel model){
         boolean returnValue = false;
         if (model.udp.binReadyForOutput() != null){
             returnValue = true;
@@ -21,22 +21,22 @@ public class OutputBinFromStation extends ConditionalAction{
     }
 
     public void actionEvent(){
-        areaIdAndStationId = modelName.udp.binReadyForOutput();
+        areaIdAndStationId = ToyManufacturingModel.udp.binReadyForOutput();
         areaId = areaIdAndStationId[0];
         stationId = areaIdAndStationId[1];
         if(areaId == Constants.CAST){
-            modelName.qIOArea[areaId][Constants.OUT][stationId].add(modelName.castingStations[stationId].bin);
-            modelName.castingStations[stationId].bin = new Bin();
-            modelName.castingStations[stationId].bin.type = modelName.castingStations[stationId].type;
-            modelName.castingStations[stationId].bin.n = 0;
+            ToyManufacturingModel.qIOArea[areaId][Constants.OUT][stationId].add(ToyManufacturingModel.rcCastingStation[stationId].bin);
+            ToyManufacturingModel.rcCastingStation[stationId].bin = new Bin();
+            ToyManufacturingModel.rcCastingStation[stationId].bin.type = ToyManufacturingModel.rcCastingStation[stationId].type;
+            ToyManufacturingModel.rcCastingStation[stationId].bin.n = 0;
         } else if(areaId != Constants.INSP){
-            Bin bin = new Bin();
-            bin.type = modelName.processingStations[areaId - 1][stationId].bin.type;
-            bin.n = modelName.processingStations[areaId - 1][stationId].bin.n;
-            modelName.qIOArea[areaId][Constants.OUT][stationId].add(bin);
-            modelName.processingStations[areaId - 1][stationId].bin = null;
+            Bin igBin = new Bin();
+            igBin.type = ToyManufacturingModel.rProcessingStation[areaId - 1][stationId].bin.type;
+            igBin.n = ToyManufacturingModel.rProcessingStation[areaId - 1][stationId].bin.n;
+            ToyManufacturingModel.qIOArea[areaId][Constants.OUT][stationId].add(igBin);
+            ToyManufacturingModel.rProcessingStation[areaId - 1][stationId].bin = null;
         } else { // We need to do something for when we at INSP station I am guessing
-            modelName.processingStations[areaId - 1][stationId].bin = null;
+            ToyManufacturingModel.rProcessingStation[areaId - 1][stationId].bin = null;
         }
     }
 

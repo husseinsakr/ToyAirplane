@@ -4,18 +4,18 @@ import simulationModelling.ConditionalActivity;
 
 class UDPs
 {
-	ModelName model;  // for accessing the clock
+	ToyManufacturingModel model;  // for accessing the clock
 	
 	// Constructor
-	protected UDPs(ModelName model) { this.model = model; }
+	protected UDPs(ToyManufacturingModel model) { this.model = model; }
 
 	/*
 	 * Returns the identifier stationID of a casting station that is ready for processing
 	 */
 	public int castingStationReadyForProcessing(){
-		for (int stationID = 0; stationID < model.castingStations.length; stationID++){
-			if (model.castingStations[stationID].status == model.constants.IDLE
-					&& model.castingStations[stationID].bin.n < model.constants.BIN_CAP
+		for (int stationID = 0; stationID < model.rcCastingStation.length; stationID++){
+			if (model.rcCastingStation[stationID].status == model.constants.IDLE
+					&& model.rcCastingStation[stationID].bin.n < model.constants.BIN_CAP
 					&& model.getClock() + Constants.CASTING_TIME < model.endTime){
 				return stationID;
 			}
@@ -27,9 +27,9 @@ class UDPs
 	 * Returns the identifier stationID of a casting station that is about to break
 	 */
 	public int castingAboutToBreak(){
-		for (int stationID = 0; stationID < model.castingStations.length; stationID++){
-			if (model.castingStations[stationID].timeToNextBreak < model.constants.CASTING_TIME
-					&& model.castingStations[stationID].status == model.constants.IDLE){
+		for (int stationID = 0; stationID < model.rcCastingStation.length; stationID++){
+			if (model.rcCastingStation[stationID].timeToNextBreak < model.constants.CASTING_TIME
+					&& model.rcCastingStation[stationID].status == model.constants.IDLE){
 				return stationID;
 			}
 		}
@@ -41,11 +41,11 @@ class UDPs
 	 */
 	public int[] stationReadyForOperation() {
 		int[] areaIdAndStationId = new int[2];
-		//checking all ProcessingStations if they can operate
+		//checking all rProcessingStation if they can operate
 		for (int areaID = Constants.CUT - 1; areaID < Constants.INSP; areaID++){
-			for (int stationID = 0; stationID < model.processingStations[areaID].length; stationID++){
-				if(model.processingStations[areaID][stationID].status == Constants.IDLE
-						&& model.processingStations[areaID][stationID].bin == null
+			for (int stationID = 0; stationID < model.rProcessingStation[areaID].length; stationID++){
+				if(model.rProcessingStation[areaID][stationID].status == Constants.IDLE
+						&& model.rProcessingStation[areaID][stationID].bin == null
 						&& !model.qIOArea[areaID + 1][Constants.IN][stationID].isEmpty())
 				{
 					areaIdAndStationId[0] = areaID;
@@ -61,8 +61,9 @@ class UDPs
 		int[] areaIdAndStationId = new int[2];
 
 		//Casting station
-		for (int castingStationId = 0; castingStationId < model.castingStations.length; castingStationId++){
-			if(model.castingStations[castingStationId].bin.n == model.constants.BIN_CAP
+		for (int castingStationId = 0; castingStationId < model.rcCastingStation.length; castingStationId++){
+			if(model.rcCastingStation[castingStationId].bin.n == model.constants.BIN_CAP
+					&& model.rcCastingStation[castingStationId].status == Constants.IDLE
 					&& model.qIOArea[model.constants.CAST][model.constants.OUT][castingStationId].size() < model.constants.IN_OUT_CAP)
 			{
 				areaIdAndStationId[0] = model.constants.CAST;
@@ -73,11 +74,11 @@ class UDPs
 
 		//Cutting/Grinding, Coating and INSP stations
 		for (int areaID = model.constants.CUT - 1; areaID < model.constants.INSP; areaID++){
-			for (int stationID = 0; stationID < model.processingStations[areaID].length; stationID++){
-				if(model.processingStations[areaID][stationID].bin != null
-					&& model.processingStations[areaID][stationID].status == Constants.IDLE
+			for (int stationID = 0; stationID < model.rProcessingStation[areaID].length; stationID++){
+				if(model.rProcessingStation[areaID][stationID].bin != null
+					&& model.rProcessingStation[areaID][stationID].status == Constants.IDLE
 					&& (areaID == Constants.COAT || model.qIOArea[areaID + 1][model.constants.OUT][stationID].size() < model.constants.IN_OUT_CAP))
-				{ // && model.processingStations[areaID][stationID].bin.n == model.constants.BIN_CAP, I DONT THINK WE NEED THIS ANYMORE
+				{ // && model.rProcessingStation[areaID][stationID].bin.n == model.constants.BIN_CAP, I DONT THINK WE NEED THIS ANYMORE
 					areaIdAndStationId[0] = areaID + 1;
 					areaIdAndStationId[1] = stationID;
 					return areaIdAndStationId;
@@ -94,9 +95,9 @@ class UDPs
 		int numberOfBinsCanPickup;
 		for (int areaId = Constants.CAST; areaId < Constants.INSP; areaId++) {
 			numberOfBinsCanPickup = 0;
-			if (!model.moverLines[areaId][Constants.OUT].isEmpty()) {
+			if (!model.gMoverLines[areaId][Constants.OUT].isEmpty()) {
 				for (int stationId = 0; stationId < model.qIOArea[areaId][Constants.OUT].length; stationId++) {
-					mover = model.movers[model.moverLines[areaId][Constants.OUT].peek()];
+					mover = model.qMover[model.gMoverLines[areaId][Constants.OUT].peek()];
 					numberOfBinsCanPickup += model.qIOArea[areaId][Constants.OUT][stationId].size();
 					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n) {
 						return areaId;
@@ -113,15 +114,15 @@ class UDPs
 		for(int i = 0; i < Constants.MOVER_CAP; i++){ // fill trolley by also making sure that we don't overwrite an existing bin
 			int[] stationOutputLengths = getMaxOutputsInStations(areaId);
 			int stationId = indexOfBiggestInteger(stationOutputLengths);
-			if(model.movers[moverId].trolley[i] == null){
-				model.movers[moverId].trolley[i] = model.qIOArea[areaId][Constants.OUT][stationId].poll();
-				model.movers[moverId].n++;
+			if(model.qMover[moverId].trolley[i] == Constants.NO_BIN){
+				model.qMover[moverId].trolley[i] = model.qIOArea[areaId][Constants.OUT][stationId].poll();
+				model.qMover[moverId].n++;
 			}
 		}
 		if(areaId == Constants.CUT) {
 			boolean allSpitfireBins = true;
-			for (Bin bin : model.movers[moverId].trolley){
-				if (bin != null && bin.type != Constants.SPITFIRE){
+			for (Bin igBin : model.qMover[moverId].trolley){
+				if (igBin != null && igBin.type != Constants.SPITFIRE){
 					allSpitfireBins = false;
 					break;
 				}
@@ -147,19 +148,19 @@ class UDPs
 
 	public int canDistributeBins(){
 		for(int areaId = Constants.CUT; areaId <= Constants.INSP; areaId++){
-			if(!model.moverLines[areaId][Constants.IN].isEmpty()){
+			if(!model.gMoverLines[areaId][Constants.IN].isEmpty()){
 				int numOfStationsAtAreaId = model.qIOArea[areaId][Constants.IN].length;
 				int canFit = 0;
 				for(IOArea ioArea : model.qIOArea[areaId][Constants.IN]){
 					canFit += ioArea.remainingCapacity();
 				}
 				if(areaId == Constants.COAT){
-					int moverId = model.moverLines[areaId][Constants.IN].peek();
-					for(Bin bin : model.movers[moverId].trolley){
-						if(model.getClock() < model.endTime && bin.type == Constants.SPITFIRE){
+					int moverId = model.gMoverLines[areaId][Constants.IN].peek();
+					for(Bin igBin : model.qMover[moverId].trolley){
+						if(model.getClock() < model.endTime && igBin.type == Constants.SPITFIRE){
 							canFit++;
 						} else if(model.getClock() > model.endTime){
-							if(bin != null && bin.type == Constants.SPITFIRE){
+							if(igBin != null && igBin.type == Constants.SPITFIRE){
 								canFit++;
 							}
 						}

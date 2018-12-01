@@ -3,14 +3,14 @@ package simModel;
 import simulationModelling.Activity;
 
 public class PlaneMoldCast extends Activity {
-    ModelName modelName;
+    ToyManufacturingModel ToyManufacturingModel;
     int stationId;
 
-    public PlaneMoldCast(ModelName modelName){
-        this.modelName = modelName;
+    public PlaneMoldCast(ToyManufacturingModel ToyManufacturingModel){
+        this.ToyManufacturingModel = ToyManufacturingModel;
     }
 
-    public static boolean precondition(ModelName model){
+    public static boolean precondition(ToyManufacturingModel model){
         boolean returnValue = false;
         if(model.udp.castingStationReadyForProcessing() != model.constants.NONE){
             returnValue = true;
@@ -20,19 +20,19 @@ public class PlaneMoldCast extends Activity {
 
     @Override
     public void startingEvent(){
-        stationId = modelName.udp.castingStationReadyForProcessing(); // casting station ready to cast
-        modelName.castingStations[stationId].status = modelName.constants.BUSY;
+        stationId = ToyManufacturingModel.udp.castingStationReadyForProcessing(); // casting station ready to cast
+        ToyManufacturingModel.rcCastingStation[stationId].status = ToyManufacturingModel.constants.BUSY;
     }
 
     @Override
     public double duration(){
-        return modelName.rvp.uOperationTime(modelName.constants.CAST);
+        return ToyManufacturingModel.rvp.uOperationTime(ToyManufacturingModel.constants.CAST);
     }
 
     @Override
     public void terminatingEvent(){
-        modelName.castingStations[stationId].status = modelName.constants.IDLE;
-        modelName.castingStations[stationId].bin.n += 6;
-        modelName.castingStations[stationId].timeToNextBreak -= modelName.constants.CASTING_TIME;
+        ToyManufacturingModel.rcCastingStation[stationId].status = ToyManufacturingModel.constants.IDLE;
+        ToyManufacturingModel.rcCastingStation[stationId].bin.n += 6;
+        ToyManufacturingModel.rcCastingStation[stationId].timeToNextBreak -= ToyManufacturingModel.constants.CASTING_TIME;
     }
 }
