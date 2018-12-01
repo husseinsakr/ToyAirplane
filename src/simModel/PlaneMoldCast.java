@@ -3,11 +3,11 @@ package simModel;
 import simulationModelling.Activity;
 
 public class PlaneMoldCast extends Activity {
-    ToyManufacturingModel ToyManufacturingModel;
+    ToyManufacturingModel toyManufacturingModel;
     int stationId;
 
-    public PlaneMoldCast(ToyManufacturingModel ToyManufacturingModel){
-        this.ToyManufacturingModel = ToyManufacturingModel;
+    public PlaneMoldCast(ToyManufacturingModel toyManufacturingModel){
+        this.toyManufacturingModel = toyManufacturingModel;
     }
 
     public static boolean precondition(ToyManufacturingModel model){
@@ -20,19 +20,19 @@ public class PlaneMoldCast extends Activity {
 
     @Override
     public void startingEvent(){
-        stationId = ToyManufacturingModel.udp.castingStationReadyForProcessing(); // casting station ready to cast
-        ToyManufacturingModel.rcCastingStation[stationId].status = ToyManufacturingModel.constants.BUSY;
+        stationId = toyManufacturingModel.udp.castingStationReadyForProcessing(); // casting station ready to cast
+        toyManufacturingModel.rcCastingStation[stationId].status = toyManufacturingModel.constants.BUSY;
     }
 
     @Override
     public double duration(){
-        return ToyManufacturingModel.rvp.uOperationTime(ToyManufacturingModel.constants.CAST);
+        return toyManufacturingModel.rvp.uOperationTime(toyManufacturingModel.constants.CAST);
     }
 
     @Override
     public void terminatingEvent(){
-        ToyManufacturingModel.rcCastingStation[stationId].status = ToyManufacturingModel.constants.IDLE;
-        ToyManufacturingModel.rcCastingStation[stationId].bin.n += 6;
-        ToyManufacturingModel.rcCastingStation[stationId].timeToNextBreak -= ToyManufacturingModel.constants.CASTING_TIME;
+        toyManufacturingModel.rcCastingStation[stationId].status = toyManufacturingModel.constants.IDLE;
+        toyManufacturingModel.rcCastingStation[stationId].bin.n += 6;
+        toyManufacturingModel.rcCastingStation[stationId].timeToNextBreak -= toyManufacturingModel.constants.CASTING_TIME;
     }
 }

@@ -3,12 +3,12 @@ package simModel;
 import simulationModelling.ConditionalActivity;
 
 public class StationProcessing extends ConditionalActivity {
-    ToyManufacturingModel ToyManufacturingModel;
+    ToyManufacturingModel toyManufacturingModel;
     int[] areaIdAndStationId;
     int areaId, stationId;
 
-    public StationProcessing(ToyManufacturingModel ToyManufacturingModel){
-        this.ToyManufacturingModel = ToyManufacturingModel;
+    public StationProcessing(ToyManufacturingModel toyManufacturingModel){
+        this.toyManufacturingModel = toyManufacturingModel;
     }
 
     public static boolean precondition(ToyManufacturingModel model){
@@ -21,42 +21,42 @@ public class StationProcessing extends ConditionalActivity {
 
     @Override
     public void startingEvent(){
-        areaIdAndStationId = ToyManufacturingModel.udp.stationReadyForOperation();
+        areaIdAndStationId = toyManufacturingModel.udp.stationReadyForOperation();
         this.areaId = areaIdAndStationId[0];
         this.stationId = areaIdAndStationId[1];
-        ToyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.BUSY;
-        ToyManufacturingModel.rProcessingStation[areaId][stationId].bin = ToyManufacturingModel.qIOArea[areaId + 1][Constants.IN][stationId].poll();
+        toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.BUSY;
+        toyManufacturingModel.rProcessingStation[areaId][stationId].bin = toyManufacturingModel.qIOArea[areaId + 1][Constants.IN][stationId].poll();
         //System.out.println("Processing a bin of type: " +  ToyManufacturingModel.rProcessingStation[areaId][stationId].bin.type);
     }
 
     @Override
     public double duration(){
-        return ToyManufacturingModel.rvp.uOperationTime(areaId+1);
+        return toyManufacturingModel.rvp.uOperationTime(areaId+1);
     }
 
     @Override
     public void terminatingEvent(){
-        ToyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.IDLE;
+        toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.IDLE;
         if ((areaId+1) == Constants.INSP){ // needs to be worked on
             //update output here for leaving planes
             //System.out.println("I have a bin type of: " + ToyManufacturingModel.rProcessingStation[areaId][stationId].bin.type);
-            switch (ToyManufacturingModel.rProcessingStation[areaId][stationId].bin.type){
+            switch (toyManufacturingModel.rProcessingStation[areaId][stationId].bin.type){
                 case Constants.SPITFIRE:
                     for(int i = 0; i < Constants.BIN_CAP; i++) {
-                        if(ToyManufacturingModel.rvp.uNumPlanesAccepted())
-                            ToyManufacturingModel.output.numSpitfireProduced++;
+                        if(toyManufacturingModel.rvp.uNumPlanesAccepted())
+                            toyManufacturingModel.output.numSpitfireProduced++;
                     }
                     break;
                 case Constants.F16:
                     for(int i = 0; i < Constants.BIN_CAP; i++) {
-                        if(ToyManufacturingModel.rvp.uNumPlanesAccepted())
-                            ToyManufacturingModel.output.numF16Produced++;
+                        if(toyManufacturingModel.rvp.uNumPlanesAccepted())
+                            toyManufacturingModel.output.numF16Produced++;
                     }
                     break;
                 case Constants.CONCORDE:
                     for(int i = 0; i < Constants.BIN_CAP; i++) {
-                        if (ToyManufacturingModel.rvp.uNumPlanesAccepted())
-                            ToyManufacturingModel.output.numConcordeProduced++;
+                        if (toyManufacturingModel.rvp.uNumPlanesAccepted())
+                            toyManufacturingModel.output.numConcordeProduced++;
                     }
                     break;
                 default:
@@ -65,7 +65,7 @@ public class StationProcessing extends ConditionalActivity {
             }
         }
         //System.out.println("Station with type " + (areaId+1) + " and stationId " + stationId + " have finished processing");
-        ToyManufacturingModel.printAllVariablesForDebuggingPurposes();
+        toyManufacturingModel.printAllVariablesForDebuggingPurposes();
 
     }
 }

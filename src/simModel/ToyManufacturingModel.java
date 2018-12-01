@@ -27,8 +27,8 @@ public class ToyManufacturingModel extends AOSimulationModel
 	public CastingStation[] rcCastingStation;
 	public ProcessingStation[][] rProcessingStation;
 	public IOArea[][][] qIOArea = new IOArea[4][2][]; // [areaID][IN OR OUT][stationId]
-	public Mover[] qMover;
-	public MoversLine[][] gMoverLines = new MoversLine[4][2]; // [areaID][IN or OUT]
+	public Mover[] rgMover;
+	public MoversLine[][] qMoverLines = new MoversLine[4][2]; // [areaID][IN or OUT]
 
 	// Define the reference variables to the various 
 	// entities with scope Set and Unary
@@ -106,18 +106,18 @@ public class ToyManufacturingModel extends AOSimulationModel
 		qIOArea[constants.INSP][constants.IN] = new IOArea[numInspectionPackagingStations];
 
 		// qMover
-		qMover = new Mover[numMovers];
+		rgMover = new Mover[numMovers];
 
 		// Maintenance person
 		rMaintenancePerson = new MaintenancePerson();
 
 		// MoverLine Queues
-		gMoverLines[constants.CAST][constants.OUT] = new MoversLine();
-		gMoverLines[constants.CUT][constants.IN] = new MoversLine();
-		gMoverLines[constants.CUT][constants.OUT] = new MoversLine();
-		gMoverLines[constants.COAT][constants.IN] = new MoversLine();
-		gMoverLines[constants.COAT][constants.OUT] = new MoversLine();
-		gMoverLines[constants.INSP][constants.IN] = new MoversLine();
+		qMoverLines[constants.CAST][constants.OUT] = new MoversLine();
+		qMoverLines[constants.CUT][constants.IN] = new MoversLine();
+		qMoverLines[constants.CUT][constants.OUT] = new MoversLine();
+		qMoverLines[constants.COAT][constants.IN] = new MoversLine();
+		qMoverLines[constants.COAT][constants.OUT] = new MoversLine();
+		qMoverLines[constants.INSP][constants.IN] = new MoversLine();
 		
 		// rgCounter and qCustLine objects created in Initalise Action
 		
@@ -308,12 +308,12 @@ public class ToyManufacturingModel extends AOSimulationModel
 				System.out.print("; input= " + qIOArea[3][0][l].size()+";\n");
 			}
 
-			System.out.println("MoverLine at casting output: " + gMoverLines[0][1].size());
-			System.out.println("MoverLine at cutting input: " + gMoverLines[1][0].size());
-			System.out.println("MoverLine at cutting output: " + gMoverLines[1][1].size());
-			System.out.println("MoverLine at coating input: " + gMoverLines[2][0].size());
-			System.out.println("MoverLine at coating output: " + gMoverLines[2][1].size());
-			System.out.println("MoverLine at inspection input: " + gMoverLines[3][0].size());
+			System.out.println("MoverLine at casting output: " + qMoverLines[0][1].size());
+			System.out.println("MoverLine at cutting input: " + qMoverLines[1][0].size());
+			System.out.println("MoverLine at cutting output: " + qMoverLines[1][1].size());
+			System.out.println("MoverLine at coating input: " + qMoverLines[2][0].size());
+			System.out.println("MoverLine at coating output: " + qMoverLines[2][1].size());
+			System.out.println("MoverLine at inspection input: " + qMoverLines[3][0].size());
 			System.out.println("Maintenance person is available: " + rMaintenancePerson.available);
 			System.out.print("Casting repair queue: ");
 			for (int stationId : qCastingRepairQueue)

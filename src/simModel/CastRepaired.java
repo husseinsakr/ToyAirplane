@@ -3,11 +3,11 @@ package simModel;
 import simulationModelling.Activity;
 
 public class CastRepaired extends Activity {
-    ToyManufacturingModel ToyManufacturingModel;
+    ToyManufacturingModel toyManufacturingModel;
     int stationId;
 
-    protected CastRepaired(ToyManufacturingModel ToyManufacturingModel) {
-        this.ToyManufacturingModel = ToyManufacturingModel;
+    protected CastRepaired(ToyManufacturingModel toyManufacturingModel) {
+        this.toyManufacturingModel = toyManufacturingModel;
     }
 
     public static boolean precondition(ToyManufacturingModel model) {
@@ -21,22 +21,22 @@ public class CastRepaired extends Activity {
 
     @Override
     public void startingEvent() {
-        stationId = ToyManufacturingModel.qCastingRepairQueue.pop();
-        ToyManufacturingModel.rMaintenancePerson.available = false;
+        stationId = toyManufacturingModel.qCastingRepairQueue.pop();
+        toyManufacturingModel.rMaintenancePerson.available = false;
     }
 
     @Override
     public double duration() {
-        return ToyManufacturingModel.rvp.uCastingRepairTime();
+        return toyManufacturingModel.rvp.uCastingRepairTime();
     }
 
     @Override
     public void terminatingEvent() {
-        ToyManufacturingModel.rcCastingStation[stationId].status = Constants.IDLE;
-        ToyManufacturingModel.rcCastingStation[stationId].timeToNextBreak = ToyManufacturingModel.rvp.uCastingBreakTime();
-        ToyManufacturingModel.rMaintenancePerson.available = true;
+        toyManufacturingModel.rcCastingStation[stationId].status = Constants.IDLE;
+        toyManufacturingModel.rcCastingStation[stationId].timeToNextBreak = toyManufacturingModel.rvp.uCastingBreakTime();
+        toyManufacturingModel.rMaintenancePerson.available = true;
         //System.out.println("Maintenance person has finished repairing " + stationId);
-        ToyManufacturingModel.printAllVariablesForDebuggingPurposes();
+        toyManufacturingModel.printAllVariablesForDebuggingPurposes();
     }
 
 }

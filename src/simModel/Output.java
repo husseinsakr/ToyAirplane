@@ -9,7 +9,7 @@ class Output
 	public int numF16Produced = 0;
 	public int numConcordeProduced = 0;
 
-	public Output(ToyManufacturingModel ToyManufacturingModel){this.model = ToyManufacturingModel;}
+	public Output(ToyManufacturingModel toyManufacturingModel){this.model = toyManufacturingModel;}
 
 
 }

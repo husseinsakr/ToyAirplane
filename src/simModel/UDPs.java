@@ -95,9 +95,9 @@ class UDPs
 		int numberOfBinsCanPickup;
 		for (int areaId = Constants.CAST; areaId < Constants.INSP; areaId++) {
 			numberOfBinsCanPickup = 0;
-			if (!model.gMoverLines[areaId][Constants.OUT].isEmpty()) {
+			if (!model.qMoverLines[areaId][Constants.OUT].isEmpty()) {
 				for (int stationId = 0; stationId < model.qIOArea[areaId][Constants.OUT].length; stationId++) {
-					mover = model.qMover[model.gMoverLines[areaId][Constants.OUT].peek()];
+					mover = model.rgMover[model.qMoverLines[areaId][Constants.OUT].peek()];
 					numberOfBinsCanPickup += model.qIOArea[areaId][Constants.OUT][stationId].size();
 					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n) {
 						return areaId;
@@ -114,14 +114,14 @@ class UDPs
 		for(int i = 0; i < Constants.MOVER_CAP; i++){ // fill trolley by also making sure that we don't overwrite an existing bin
 			int[] stationOutputLengths = getMaxOutputsInStations(areaId);
 			int stationId = indexOfBiggestInteger(stationOutputLengths);
-			if(model.qMover[moverId].trolley[i] == Constants.NO_BIN){
-				model.qMover[moverId].trolley[i] = model.qIOArea[areaId][Constants.OUT][stationId].poll();
-				model.qMover[moverId].n++;
+			if(model.rgMover[moverId].trolley[i] == Constants.NO_BIN){
+				model.rgMover[moverId].trolley[i] = model.qIOArea[areaId][Constants.OUT][stationId].poll();
+				model.rgMover[moverId].n++;
 			}
 		}
 		if(areaId == Constants.CUT) {
 			boolean allSpitfireBins = true;
-			for (Bin igBin : model.qMover[moverId].trolley){
+			for (Bin igBin : model.rgMover[moverId].trolley){
 				if (igBin != null && igBin.type != Constants.SPITFIRE){
 					allSpitfireBins = false;
 					break;
@@ -148,15 +148,15 @@ class UDPs
 
 	public int canDistributeBins(){
 		for(int areaId = Constants.CUT; areaId <= Constants.INSP; areaId++){
-			if(!model.gMoverLines[areaId][Constants.IN].isEmpty()){
+			if(!model.qMoverLines[areaId][Constants.IN].isEmpty()){
 				int numOfStationsAtAreaId = model.qIOArea[areaId][Constants.IN].length;
 				int canFit = 0;
 				for(IOArea ioArea : model.qIOArea[areaId][Constants.IN]){
 					canFit += ioArea.remainingCapacity();
 				}
 				if(areaId == Constants.COAT){
-					int moverId = model.gMoverLines[areaId][Constants.IN].peek();
-					for(Bin igBin : model.qMover[moverId].trolley){
+					int moverId = model.qMoverLines[areaId][Constants.IN].peek();
+					for(Bin igBin : model.rgMover[moverId].trolley){
 						if(model.getClock() < model.endTime && igBin.type == Constants.SPITFIRE){
 							canFit++;
 						} else if(model.getClock() > model.endTime){

@@ -133,11 +133,11 @@ class Initialise extends ScheduledAction
 		}
 
 		// creating all qMover
-		for (int moverId = 0; moverId < model.qMover.length; moverId++){
-			model.qMover[moverId] = new Mover();
-			model.qMover[moverId].trolley = new Bin[model.constants.MOVER_CAP];
-			model.qMover[moverId].n = model.constants.EMPTY;
-			model.gMoverLines[model.constants.CAST][model.constants.OUT].add(moverId);
+		for (int moverId = 0; moverId < model.rgMover.length; moverId++){
+			model.rgMover[moverId] = new Mover();
+			model.rgMover[moverId].trolley = new Bin[model.constants.MOVER_CAP];
+			model.rgMover[moverId].n = model.constants.EMPTY;
+			model.qMoverLines[model.constants.CAST][model.constants.OUT].add(moverId);
 		}
 
 		// setting maintenance person to available

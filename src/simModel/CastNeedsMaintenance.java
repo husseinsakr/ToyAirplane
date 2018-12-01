@@ -3,11 +3,11 @@ package simModel;
 import simulationModelling.ConditionalAction;
 
 public class CastNeedsMaintenance extends ConditionalAction {
-    ToyManufacturingModel ToyManufacturingModel;
+    ToyManufacturingModel toyManufacturingModel;
     int stationId;
 
-    public CastNeedsMaintenance(ToyManufacturingModel ToyManufacturingModel){
-        this.ToyManufacturingModel = ToyManufacturingModel;
+    public CastNeedsMaintenance(ToyManufacturingModel toyManufacturingModel){
+        this.toyManufacturingModel = toyManufacturingModel;
     }
 
     public static boolean precondition(ToyManufacturingModel model){
@@ -19,8 +19,8 @@ public class CastNeedsMaintenance extends ConditionalAction {
     }
 
     public void actionEvent(){
-        stationId = ToyManufacturingModel.udp.castingAboutToBreak();
-        ToyManufacturingModel.rcCastingStation[stationId].status = Constants.NEEDS_MAINTENANCE;
-        ToyManufacturingModel.qCastingRepairQueue.add(stationId);
+        stationId = toyManufacturingModel.udp.castingAboutToBreak();
+        toyManufacturingModel.rcCastingStation[stationId].status = Constants.NEEDS_MAINTENANCE;
+        toyManufacturingModel.qCastingRepairQueue.add(stationId);
     }
 }

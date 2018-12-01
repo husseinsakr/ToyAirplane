@@ -3,12 +3,12 @@ package simModel;
 import simulationModelling.ConditionalAction;
 
 public class DistributeBins extends ConditionalAction {
-    ToyManufacturingModel ToyManufacturingModel;
+    ToyManufacturingModel toyManufacturingModel;
     int areaId;
     Mover mover;
 
-    public DistributeBins(ToyManufacturingModel ToyManufacturingModel){
-        this.ToyManufacturingModel = ToyManufacturingModel;
+    public DistributeBins(ToyManufacturingModel toyManufacturingModel){
+        this.toyManufacturingModel = toyManufacturingModel;
     }
 
     public static boolean precondition(ToyManufacturingModel model){
@@ -20,9 +20,9 @@ public class DistributeBins extends ConditionalAction {
     }
 
     public void actionEvent(){
-        areaId = ToyManufacturingModel.udp.canDistributeBins();
-        int moverId = ToyManufacturingModel.gMoverLines[areaId][Constants.IN].pop();
-        mover = ToyManufacturingModel.qMover[moverId];
+        areaId = toyManufacturingModel.udp.canDistributeBins();
+        int moverId = toyManufacturingModel.qMoverLines[areaId][Constants.IN].pop();
+        mover = toyManufacturingModel.rgMover[moverId];
         for (int trolleyIndex = 0; trolleyIndex < Constants.MOVER_CAP; trolleyIndex++){
                 Bin igBin = new Bin();
                 if(mover.trolley[trolleyIndex] != null){
@@ -32,16 +32,16 @@ public class DistributeBins extends ConditionalAction {
                     continue;
                 }
             if(areaId != Constants.COAT || (areaId == Constants.COAT && igBin.type != Constants.SPITFIRE)) {
-                int[] queueLengths = new int[ToyManufacturingModel.qIOArea[areaId][Constants.IN].length];
+                int[] queueLengths = new int[toyManufacturingModel.qIOArea[areaId][Constants.IN].length];
                 for(int i = 0; i < queueLengths.length; i++){
-                    queueLengths[i] = ToyManufacturingModel.qIOArea[areaId][Constants.IN][i].size();
+                    queueLengths[i] = toyManufacturingModel.qIOArea[areaId][Constants.IN][i].size();
                 }
-                ToyManufacturingModel.qIOArea[areaId][Constants.IN][indexOfSmallestInteger(queueLengths)].add(igBin);
+                toyManufacturingModel.qIOArea[areaId][Constants.IN][indexOfSmallestInteger(queueLengths)].add(igBin);
                 mover.trolley[trolleyIndex] = null;
                 mover.n--;
             }
         }
-            ToyManufacturingModel.gMoverLines[areaId % Constants.INSP][Constants.OUT].add(moverId);
+        toyManufacturingModel.qMoverLines[areaId % Constants.INSP][Constants.OUT].add(moverId);
     }
 
     //returns the index of the smallest int in an array
