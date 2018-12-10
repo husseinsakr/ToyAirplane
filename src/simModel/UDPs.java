@@ -16,7 +16,8 @@ class UDPs
 		for (int stationID = 0; stationID < model.rcCastingStation.length; stationID++){
 			if (model.rcCastingStation[stationID].status == model.constants.IDLE
 					&& model.rcCastingStation[stationID].bin.n < model.constants.BIN_CAP
-					&& model.getClock() + Constants.CASTING_TIME < model.endTime){
+					&& model.getClock() + Constants.CASTING_TIME < model.endTime
+					&& model.rcCastingStation[stationID].timeToNextBreak > Constants.CASTING_TIME){
 				return stationID;
 			}
 		}

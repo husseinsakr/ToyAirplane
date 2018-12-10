@@ -163,16 +163,6 @@ public class ToyManufacturingModel extends AOSimulationModel
 
 		}
 
-		if (CastNeedsMaintenance.precondition(this) == true)
-		{
-			CastNeedsMaintenance act = new CastNeedsMaintenance(this); // Generate instance
-			act.actionEvent();
-			statusChanged = true;
-			//System.out.println("Casting station " + act.stationId + " requires maintenance");
-
-		}
-
-
 		if(DistributeBins.precondition(this) == true)
 		{
 			DistributeBins distributeBins = new DistributeBins(this); // Generate instance
@@ -194,6 +184,16 @@ public class ToyManufacturingModel extends AOSimulationModel
 			System.out.println("Casting station starts operating with stationId " + act.stationId + " and holding "
 					+ act.ToyManufacturingModel.rcCastingStation[act.stationId].bin.n + " planes.");
 			*/
+		}
+
+		if (CastNeedsMaintenance.precondition(this) == true)
+		{
+			CastNeedsMaintenance act = new CastNeedsMaintenance(this); // Generate instance
+			act.startingEvent();
+			scheduleActivity(act);
+			statusChanged = true;
+			//System.out.println("Casting station " + act.stationId + " requires maintenance");
+
 		}
 
 		if (CastRepaired.precondition(this) == true)
@@ -263,6 +263,9 @@ public class ToyManufacturingModel extends AOSimulationModel
 		if(log) {
 			System.out.printf("Clock = %10.4f\n", getClock());
 			showSBL();
+			System.out.println("Cast 1: " + rcCastingStation[0].timeToNextBreak);
+			System.out.println("Cast 2: " + rcCastingStation[1].timeToNextBreak);
+			System.out.println("Cast 3: " + rcCastingStation[2].timeToNextBreak);
 			/*
 			for (int i = 0; i < rcCastingStation.length; i++) {
 				System.out.println("Casting stationId= " + i + "; type="

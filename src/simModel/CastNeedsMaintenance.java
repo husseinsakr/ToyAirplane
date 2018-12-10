@@ -1,8 +1,8 @@
 package simModel;
 
-import simulationModelling.ConditionalAction;
+import simulationModelling.Activity;
 
-public class CastNeedsMaintenance extends ConditionalAction {
+public class CastNeedsMaintenance extends Activity {
     ToyManufacturingModel toyManufacturingModel;
     int stationId;
 
@@ -18,9 +18,24 @@ public class CastNeedsMaintenance extends ConditionalAction {
         return returnValue;
     }
 
-    public void actionEvent(){
+    @Override
+    public void startingEvent() {
         stationId = toyManufacturingModel.udp.castingAboutToBreak();
         toyManufacturingModel.rcCastingStation[stationId].status = Constants.NEEDS_MAINTENANCE;
+    }
+
+    @Override
+    public double duration() {
+        return toyManufacturingModel.rcCastingStation[stationId].timeToNextBreak;
+    }
+
+    @Override
+    public void terminatingEvent() {
         toyManufacturingModel.qCastingRepairQueue.add(stationId);
     }
+
+    /*
+    public void actionEvent(){
+    }
+    */
 }
