@@ -14,7 +14,7 @@ public class OutputBinFromStation extends ConditionalAction{
 
     public static boolean precondition(ToyManufacturingModel model){
         boolean returnValue = false;
-        if (model.udp.binReadyForOutput() != null){
+        if (model.udp.binReadyForOutput() != Constants.NULL){
             returnValue = true;
         }
         return returnValue;
@@ -30,13 +30,11 @@ public class OutputBinFromStation extends ConditionalAction{
             toyManufacturingModel.rcCastingStation[stationId].bin.type = toyManufacturingModel.rcCastingStation[stationId].type;
             toyManufacturingModel.rcCastingStation[stationId].bin.n = 0;
         } else if(areaId != Constants.INSP){
-            Bin igBin = new Bin();
-            igBin.type = toyManufacturingModel.rProcessingStation[areaId - 1][stationId].bin.type;
-            igBin.n = toyManufacturingModel.rProcessingStation[areaId - 1][stationId].bin.n;
+            Bin igBin = toyManufacturingModel.rProcessingStation[areaId - 1][stationId].bin;
             toyManufacturingModel.qIOArea[areaId][Constants.OUT][stationId].add(igBin);
-            toyManufacturingModel.rProcessingStation[areaId - 1][stationId].bin = null;
+            toyManufacturingModel.rProcessingStation[areaId - 1][stationId].bin = Constants.NO_BIN;
         } else { // We need to do something for when we at INSP station I am guessing
-            toyManufacturingModel.rProcessingStation[areaId - 1][stationId].bin = null;
+            toyManufacturingModel.rProcessingStation[areaId - 1][stationId].bin = Constants.NO_BIN;
         }
     }
 

@@ -12,8 +12,7 @@ public class CastRepaired extends Activity {
 
     public static boolean precondition(ToyManufacturingModel model) {
         boolean returnValue = false;
-        if (!model.qCastingRepairQueue.isEmpty() && model.rMaintenancePerson.available
-            && model.getClock() < model.endTime){
+        if (!model.qCastingRepairQueue.isEmpty() && model.rMaintenancePerson.available){
             returnValue = true;
         }
         return returnValue;
@@ -36,7 +35,7 @@ public class CastRepaired extends Activity {
         toyManufacturingModel.rcCastingStation[stationId].timeToNextBreak = toyManufacturingModel.rvp.uCastingBreakTime();
         toyManufacturingModel.rMaintenancePerson.available = true;
         //System.out.println("Maintenance person has finished repairing " + stationId);
-        toyManufacturingModel.printAllVariablesForDebuggingPurposes();
+        //toyManufacturingModel.printAllVariablesForDebuggingPurposes();
     }
 
 }

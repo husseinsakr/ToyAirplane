@@ -1,10 +1,6 @@
 package simModel;
 
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.ArrayList;
 
-public class IOArea extends ArrayBlockingQueue<Bin> {
-
-    public IOArea(int capacity) {
-        super(capacity);
-    }
+public class IOArea extends ArrayList<Bin> {
 }

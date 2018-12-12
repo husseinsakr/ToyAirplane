@@ -97,8 +97,8 @@ class UDPs
 		for (int areaId = Constants.CAST; areaId < Constants.INSP; areaId++) {
 			numberOfBinsCanPickup = 0;
 			if (!model.qMoverLines[areaId][Constants.OUT].isEmpty()) {
+				mover = model.rgMover[model.qMoverLines[areaId][Constants.OUT].peek()];
 				for (int stationId = 0; stationId < model.qIOArea[areaId][Constants.OUT].length; stationId++) {
-					mover = model.rgMover[model.qMoverLines[areaId][Constants.OUT].peek()];
 					numberOfBinsCanPickup += model.qIOArea[areaId][Constants.OUT][stationId].size();
 					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n) {
 						return areaId;
@@ -116,7 +116,7 @@ class UDPs
 			int[] stationOutputLengths = getMaxOutputsInStations(areaId);
 			int stationId = indexOfBiggestInteger(stationOutputLengths);
 			if(model.rgMover[moverId].trolley[i] == Constants.NO_BIN){
-				model.rgMover[moverId].trolley[i] = model.qIOArea[areaId][Constants.OUT][stationId].poll();
+				model.rgMover[moverId].trolley[i] = model.qIOArea[areaId][Constants.OUT][stationId].remove(0);
 				model.rgMover[moverId].n++;
 			}
 		}
@@ -153,7 +153,7 @@ class UDPs
 				int numOfStationsAtAreaId = model.qIOArea[areaId][Constants.IN].length;
 				int canFit = 0;
 				for(IOArea ioArea : model.qIOArea[areaId][Constants.IN]){
-					canFit += ioArea.remainingCapacity();
+					canFit += Constants.IN_OUT_CAP - ioArea.size();
 				}
 				if(areaId == Constants.COAT){
 					int moverId = model.qMoverLines[areaId][Constants.IN].peek();

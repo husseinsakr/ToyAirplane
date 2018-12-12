@@ -34,8 +34,6 @@ class RVPs
 
 	// Needs to be corrected
 	public Gamma grindTime;
-	double mean1 = 7/30;
-	double stand1 = 0.0161;
 
 	public TriangularVariate inspTime;
 

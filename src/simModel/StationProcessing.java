@@ -25,7 +25,7 @@ public class StationProcessing extends ConditionalActivity {
         this.areaId = areaIdAndStationId[0];
         this.stationId = areaIdAndStationId[1];
         toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.BUSY;
-        toyManufacturingModel.rProcessingStation[areaId][stationId].bin = toyManufacturingModel.qIOArea[areaId + 1][Constants.IN][stationId].poll();
+        toyManufacturingModel.rProcessingStation[areaId][stationId].bin = toyManufacturingModel.qIOArea[areaId + 1][Constants.IN][stationId].remove(0);
         //System.out.println("Processing a bin of type: " +  ToyManufacturingModel.rProcessingStation[areaId][stationId].bin.type);
     }
 

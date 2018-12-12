@@ -104,7 +104,7 @@ class Initialise extends ScheduledAction
 
 		// create all queue objects for casting stations
 		for (int i = 0; i < totalNumberOfCastingStations; i++){
-			model.qIOArea[model.constants.CAST][model.constants.OUT][i] = new IOArea(model.constants.IN_OUT_CAP);
+			model.qIOArea[model.constants.CAST][model.constants.OUT][i] = new IOArea();
 		}
 
 		// create all cutting/grinding stations with their input/output areas
@@ -112,8 +112,8 @@ class Initialise extends ScheduledAction
 			model.rProcessingStation[model.constants.CUT - 1][j] = new ProcessingStation();
 			model.rProcessingStation[model.constants.CUT - 1][j].status = model.constants.IDLE;
 			model.rProcessingStation[model.constants.CUT - 1][j].bin = Constants.NO_BIN;
-			model.qIOArea[model.constants.CUT][model.constants.IN][j] = new IOArea(model.constants.IN_OUT_CAP);
-			model.qIOArea[model.constants.CUT][model.constants.OUT][j] = new IOArea(model.constants.IN_OUT_CAP);
+			model.qIOArea[model.constants.CUT][model.constants.IN][j] = new IOArea();
+			model.qIOArea[model.constants.CUT][model.constants.OUT][j] = new IOArea();
 		}
 
 		// create all coating stations with their input/output areas
@@ -121,8 +121,8 @@ class Initialise extends ScheduledAction
 			model.rProcessingStation[model.constants.COAT - 1][k] = new ProcessingStation();
 			model.rProcessingStation[model.constants.COAT - 1][k].status = model.constants.IDLE;
 			model.rProcessingStation[model.constants.COAT - 1][k].bin = Constants.NO_BIN;
-			model.qIOArea[model.constants.COAT][model.constants.IN][k] = new IOArea(model.constants.IN_OUT_CAP);
-			model.qIOArea[model.constants.COAT][model.constants.OUT][k] = new IOArea(model.constants.IN_OUT_CAP);
+			model.qIOArea[model.constants.COAT][model.constants.IN][k] = new IOArea();
+			model.qIOArea[model.constants.COAT][model.constants.OUT][k] = new IOArea();
 		}
 
 		// create all insp/packaging stations with it's input area
@@ -130,7 +130,7 @@ class Initialise extends ScheduledAction
 			model.rProcessingStation[model.constants.INSP - 1][l] = new ProcessingStation();
 			model.rProcessingStation[model.constants.INSP - 1][l].status = model.constants.IDLE;
 			model.rProcessingStation[model.constants.INSP - 1][l].bin = Constants.NO_BIN;
-			model.qIOArea[model.constants.INSP][model.constants.IN][l] = new IOArea(model.constants.IN_OUT_CAP);
+			model.qIOArea[model.constants.INSP][model.constants.IN][l] = new IOArea();
 		}
 
 		// creating all qMover

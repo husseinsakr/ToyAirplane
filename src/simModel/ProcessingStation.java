@@ -1,6 +1,6 @@
 package simModel;
 
 public class ProcessingStation {
-    protected int status; //status of station
-    protected Bin bin; //reference variable of bin in station
+    protected int status = Constants.IDLE; //status of station
+    protected Bin bin = Constants.NO_BIN; //reference variable of bin in station
 }
