@@ -25,19 +25,19 @@ public class StationProcessing extends ConditionalActivity {
         this.areaId = areaIdAndStationId[0];
         this.stationId = areaIdAndStationId[1];
         toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.StationStatus.BUSY;
-        toyManufacturingModel.rProcessingStation[areaId][stationId].bin = toyManufacturingModel.qIOArea[areaId + 1][Constants.IN][stationId].remove(0);
+        toyManufacturingModel.rProcessingStation[areaId][stationId].bin = toyManufacturingModel.qIOArea[areaId][Constants.IN][stationId].remove(0);
         //System.out.println("Processing a bin of type: " +  ToyManufacturingModel.rProcessingStation[areaId][stationId].bin.type);
     }
 
     @Override
     public double duration(){
-        return toyManufacturingModel.rvp.uOperationTime(areaId+1);
+        return toyManufacturingModel.rvp.uOperationTime(areaId);
     }
 
     @Override
     public void terminatingEvent(){
         toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.StationStatus.IDLE;
-        if ((areaId+1) == Constants.INSP){ // needs to be worked on
+        if ((areaId) == Constants.INSP){ // needs to be worked on
             //update output here for leaving planes
             //System.out.println("I have a bin type of: " + ToyManufacturingModel.rProcessingStation[areaId][stationId].bin.type);
             switch (toyManufacturingModel.rProcessingStation[areaId][stationId].bin.type){

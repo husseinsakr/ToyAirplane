@@ -92,11 +92,11 @@ public class ToyManufacturingModel extends AOSimulationModel
 
 		//Cutting/Grinding, Coating and Inspection/Packaging stations
 		//Cutting = 0, Coating = 1, Insp/Pack = 2
-		rProcessingStation = new ProcessingStation[3][];
+		rProcessingStation = new ProcessingStation[4][];
 		// We subtract by 1 because casting station is not part of rProcessingStation
-		rProcessingStation[constants.CUT - 1] = new ProcessingStation[numCuttingGrindingStations];
-		rProcessingStation[constants.COAT - 1] = new ProcessingStation[numCoatingStations];
-		rProcessingStation[constants.INSP - 1] = new ProcessingStation[numInspectionPackagingStations];
+		rProcessingStation[constants.CUT] = new ProcessingStation[numCuttingGrindingStations];
+		rProcessingStation[constants.COAT] = new ProcessingStation[numCoatingStations];
+		rProcessingStation[constants.INSP] = new ProcessingStation[numInspectionPackagingStations];
 
 		// Input and Output Queues
 		qIOArea[constants.CAST][constants.OUT] = new IOArea[totalNumberOfCastingStations];

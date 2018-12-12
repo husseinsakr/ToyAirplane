@@ -34,8 +34,4 @@ public class CastNeedsMaintenance extends Activity {
         toyManufacturingModel.qCastingRepairQueue.add(stationId);
     }
 
-    /*
-    public void actionEvent(){
-    }
-    */
 }

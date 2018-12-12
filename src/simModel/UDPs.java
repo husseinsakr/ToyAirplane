@@ -21,7 +21,7 @@ class UDPs
 				return stationID;
 			}
 		}
-		return model.constants.NONE;
+		return Constants.NONE;
 	}
 
 	/*
@@ -34,8 +34,10 @@ class UDPs
 				return stationID;
 			}
 		}
-		return model.constants.NONE;
+		return Constants.NONE;
 	}
+
+
 
 	/*
 	 * Returns the identifiers areaID and stationID of stations that are ready for operation
@@ -43,11 +45,11 @@ class UDPs
 	public int[] stationReadyForOperation() {
 		int[] areaIdAndStationId = new int[2];
 		//checking all rProcessingStation if they can operate
-		for (int areaID = Constants.CUT - 1; areaID < Constants.INSP; areaID++){
+		for (int areaID = Constants.CUT; areaID <= Constants.INSP; areaID++){
 			for (int stationID = 0; stationID < model.rProcessingStation[areaID].length; stationID++){
 				if(model.rProcessingStation[areaID][stationID].status == Constants.StationStatus.IDLE
 						&& model.rProcessingStation[areaID][stationID].bin == null
-						&& !model.qIOArea[areaID + 1][Constants.IN][stationID].isEmpty())
+						&& !model.qIOArea[areaID][Constants.IN][stationID].isEmpty())
 				{
 					areaIdAndStationId[0] = areaID;
 					areaIdAndStationId[1] = stationID;
@@ -67,20 +69,20 @@ class UDPs
 					&& model.rcCastingStation[castingStationId].status == Constants.StationStatus.IDLE
 					&& model.qIOArea[model.constants.CAST][model.constants.OUT][castingStationId].size() < model.constants.IN_OUT_CAP)
 			{
-				areaIdAndStationId[0] = model.constants.CAST;
+				areaIdAndStationId[0] = Constants.CAST;
 				areaIdAndStationId[1] = castingStationId;
 				return areaIdAndStationId;
 			}
 		}
 
 		//Cutting/Grinding, Coating and INSP stations
-		for (int areaID = model.constants.CUT - 1; areaID < model.constants.INSP; areaID++){
+		for (int areaID = Constants.CUT; areaID <= Constants.INSP; areaID++){
 			for (int stationID = 0; stationID < model.rProcessingStation[areaID].length; stationID++){
 				if(model.rProcessingStation[areaID][stationID].bin != null
-					&& model.rProcessingStation[areaID][stationID].status == Constants.StationStatus.IDLE
-					&& (areaID == Constants.COAT || model.qIOArea[areaID + 1][model.constants.OUT][stationID].size() < model.constants.IN_OUT_CAP))
-				{ // && model.rProcessingStation[areaID][stationID].bin.n == model.constants.BIN_CAP, I DONT THINK WE NEED THIS ANYMORE
-					areaIdAndStationId[0] = areaID + 1;
+						&& model.rProcessingStation[areaID][stationID].status == Constants.StationStatus.IDLE
+						&& (areaID == Constants.INSP || model.qIOArea[areaID][Constants.OUT][stationID].size() < Constants.IN_OUT_CAP))
+				{
+					areaIdAndStationId[0] = areaID;
 					areaIdAndStationId[1] = stationID;
 					return areaIdAndStationId;
 				}
@@ -90,6 +92,7 @@ class UDPs
 		// inspection station ?? update output or some shit
 		return null;
 	}
+
 
 	public int canStartMovingBins(){ // need more explanation on this one
 		Mover mover;

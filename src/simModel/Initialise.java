@@ -111,36 +111,36 @@ class Initialise extends ScheduledAction
 
 		// create all cutting/grinding stations with their input/output areas
 		for (int j = 0; j < model.numCuttingGrindingStations; j++){
-			model.rProcessingStation[model.constants.CUT - 1][j] = new ProcessingStation();
-			model.rProcessingStation[model.constants.CUT - 1][j].status = Constants.StationStatus.IDLE;
-			model.rProcessingStation[model.constants.CUT - 1][j].bin = Constants.NO_BIN;
-			model.qIOArea[model.constants.CUT][model.constants.IN][j] = new IOArea();
-			model.qIOArea[model.constants.CUT][model.constants.OUT][j] = new IOArea();
+			model.rProcessingStation[Constants.CUT][j] = new ProcessingStation();
+			model.rProcessingStation[Constants.CUT][j].status = Constants.StationStatus.IDLE;
+			model.rProcessingStation[Constants.CUT][j].bin = Constants.NO_BIN;
+			model.qIOArea[Constants.CUT][Constants.IN][j] = new IOArea();
+			model.qIOArea[Constants.CUT][Constants.OUT][j] = new IOArea();
 		}
 
 		// create all coating stations with their input/output areas
 		for (int k = 0; k < model.numCoatingStations; k++){
-			model.rProcessingStation[model.constants.COAT - 1][k] = new ProcessingStation();
-			model.rProcessingStation[model.constants.COAT - 1][k].status = Constants.StationStatus.IDLE;
-			model.rProcessingStation[model.constants.COAT - 1][k].bin = Constants.NO_BIN;
-			model.qIOArea[model.constants.COAT][model.constants.IN][k] = new IOArea();
-			model.qIOArea[model.constants.COAT][model.constants.OUT][k] = new IOArea();
+			model.rProcessingStation[Constants.COAT][k] = new ProcessingStation();
+			model.rProcessingStation[Constants.COAT][k].status = Constants.StationStatus.IDLE;
+			model.rProcessingStation[Constants.COAT][k].bin = Constants.NO_BIN;
+			model.qIOArea[Constants.COAT][Constants.IN][k] = new IOArea();
+			model.qIOArea[Constants.COAT][Constants.OUT][k] = new IOArea();
 		}
 
 		// create all insp/packaging stations with it's input area
 		for (int l = 0; l < model.numInspectionPackagingStations; l++){
-			model.rProcessingStation[model.constants.INSP - 1][l] = new ProcessingStation();
-			model.rProcessingStation[model.constants.INSP - 1][l].status = Constants.StationStatus.IDLE;
-			model.rProcessingStation[model.constants.INSP - 1][l].bin = Constants.NO_BIN;
-			model.qIOArea[model.constants.INSP][model.constants.IN][l] = new IOArea();
+			model.rProcessingStation[Constants.INSP][l] = new ProcessingStation();
+			model.rProcessingStation[Constants.INSP][l].status = Constants.StationStatus.IDLE;
+			model.rProcessingStation[Constants.INSP][l].bin = Constants.NO_BIN;
+			model.qIOArea[Constants.INSP][Constants.IN][l] = new IOArea();
 		}
 
 		// creating all qMover
 		for (int moverId = 0; moverId < model.rgMover.length; moverId++){
 			model.rgMover[moverId] = new Mover();
-			model.rgMover[moverId].trolley = new Bin[model.constants.MOVER_CAP];
-			model.rgMover[moverId].n = model.constants.EMPTY;
-			model.qMoverLines[model.constants.CAST][model.constants.OUT].add(moverId);
+			model.rgMover[moverId].trolley = new Bin[Constants.MOVER_CAP];
+			model.rgMover[moverId].n = Constants.EMPTY;
+			model.qMoverLines[Constants.CAST][Constants.OUT].add(moverId);
 		}
 
 		// setting maintenance person to available
