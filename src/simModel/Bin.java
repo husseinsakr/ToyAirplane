@@ -1,6 +1,6 @@
 package simModel;
 
 public class Bin {
-    public int type;
+    public Constants.PlaneType type;
     public int n;
 }

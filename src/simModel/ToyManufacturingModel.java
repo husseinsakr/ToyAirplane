@@ -3,6 +3,8 @@ package simModel;
 import simulationModelling.AOSimulationModel;
 import simulationModelling.Behaviour;
 
+import java.util.LinkedList;
+
 //
 // The Simulation model Class
 public class ToyManufacturingModel extends AOSimulationModel
@@ -33,7 +35,7 @@ public class ToyManufacturingModel extends AOSimulationModel
 	// Define the reference variables to the various 
 	// entities with scope Set and Unary
 	public MaintenancePerson rMaintenancePerson;
-	public CastingRepairQueue qCastingRepairQueue;
+	public LinkedList<Integer> qCastingRepairQueue;
 	// Objects can be created here or in the Initialise Action
 
 	/* Input Variables */

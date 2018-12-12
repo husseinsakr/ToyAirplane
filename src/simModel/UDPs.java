@@ -14,7 +14,7 @@ class UDPs
 	 */
 	public int castingStationReadyForProcessing(){
 		for (int stationID = 0; stationID < model.rcCastingStation.length; stationID++){
-			if (model.rcCastingStation[stationID].status == model.constants.IDLE
+			if (model.rcCastingStation[stationID].status == Constants.StationStatus.IDLE
 					&& model.rcCastingStation[stationID].bin.n < model.constants.BIN_CAP
 					&& model.getClock() + Constants.CASTING_TIME < model.endTime
 					&& model.rcCastingStation[stationID].timeToNextBreak > Constants.CASTING_TIME){
@@ -30,7 +30,7 @@ class UDPs
 	public int castingAboutToBreak(){
 		for (int stationID = 0; stationID < model.rcCastingStation.length; stationID++){
 			if (model.rcCastingStation[stationID].timeToNextBreak < model.constants.CASTING_TIME
-					&& model.rcCastingStation[stationID].status == model.constants.IDLE){
+					&& model.rcCastingStation[stationID].status == Constants.StationStatus.IDLE){
 				return stationID;
 			}
 		}
@@ -45,7 +45,7 @@ class UDPs
 		//checking all rProcessingStation if they can operate
 		for (int areaID = Constants.CUT - 1; areaID < Constants.INSP; areaID++){
 			for (int stationID = 0; stationID < model.rProcessingStation[areaID].length; stationID++){
-				if(model.rProcessingStation[areaID][stationID].status == Constants.IDLE
+				if(model.rProcessingStation[areaID][stationID].status == Constants.StationStatus.IDLE
 						&& model.rProcessingStation[areaID][stationID].bin == null
 						&& !model.qIOArea[areaID + 1][Constants.IN][stationID].isEmpty())
 				{
@@ -64,7 +64,7 @@ class UDPs
 		//Casting station
 		for (int castingStationId = 0; castingStationId < model.rcCastingStation.length; castingStationId++){
 			if(model.rcCastingStation[castingStationId].bin.n == model.constants.BIN_CAP
-					&& model.rcCastingStation[castingStationId].status == Constants.IDLE
+					&& model.rcCastingStation[castingStationId].status == Constants.StationStatus.IDLE
 					&& model.qIOArea[model.constants.CAST][model.constants.OUT][castingStationId].size() < model.constants.IN_OUT_CAP)
 			{
 				areaIdAndStationId[0] = model.constants.CAST;
@@ -77,7 +77,7 @@ class UDPs
 		for (int areaID = model.constants.CUT - 1; areaID < model.constants.INSP; areaID++){
 			for (int stationID = 0; stationID < model.rProcessingStation[areaID].length; stationID++){
 				if(model.rProcessingStation[areaID][stationID].bin != null
-					&& model.rProcessingStation[areaID][stationID].status == Constants.IDLE
+					&& model.rProcessingStation[areaID][stationID].status == Constants.StationStatus.IDLE
 					&& (areaID == Constants.COAT || model.qIOArea[areaID + 1][model.constants.OUT][stationID].size() < model.constants.IN_OUT_CAP))
 				{ // && model.rProcessingStation[areaID][stationID].bin.n == model.constants.BIN_CAP, I DONT THINK WE NEED THIS ANYMORE
 					areaIdAndStationId[0] = areaID + 1;
@@ -123,7 +123,7 @@ class UDPs
 		if(areaId == Constants.CUT) {
 			boolean allSpitfireBins = true;
 			for (Bin igBin : model.rgMover[moverId].trolley){
-				if (igBin != null && igBin.type != Constants.SPITFIRE){
+				if (igBin != null && igBin.type != Constants.PlaneType.SPITFIRE){
 					allSpitfireBins = false;
 					break;
 				}
@@ -158,10 +158,10 @@ class UDPs
 				if(areaId == Constants.COAT){
 					int moverId = model.qMoverLines[areaId][Constants.IN].peek();
 					for(Bin igBin : model.rgMover[moverId].trolley){
-						if(model.getClock() < model.endTime && igBin.type == Constants.SPITFIRE){
+						if(model.getClock() < model.endTime && igBin.type == Constants.PlaneType.SPITFIRE){
 							canFit++;
 						} else if(model.getClock() > model.endTime){
-							if(igBin != null && igBin.type == Constants.SPITFIRE){
+							if(igBin != null && igBin.type == Constants.PlaneType.SPITFIRE){
 								canFit++;
 							}
 						}

@@ -2,6 +2,8 @@ package simModel;
 
 import simulationModelling.ScheduledAction;
 
+import java.util.LinkedList;
+
 class Initialise extends ScheduledAction
 {
 	ToyManufacturingModel model;
@@ -32,33 +34,33 @@ class Initialise extends ScheduledAction
 		while(x < model.rcCastingStation.length){
 			if(numSpit > 0){
 				model.rcCastingStation[x] = new CastingStation();
-				model.rcCastingStation[x].type = model.constants.SPITFIRE;
-				model.rcCastingStation[x].status = model.constants.IDLE;
+				model.rcCastingStation[x].type = Constants.PlaneType.SPITFIRE;
+				model.rcCastingStation[x].status = Constants.StationStatus.IDLE;
 				model.rcCastingStation[x].timeToNextBreak = model.rvp.uCastingBreakTime();
 				model.rcCastingStation[x].bin = new Bin();
-				model.rcCastingStation[x].bin.type = model.constants.SPITFIRE;
+				model.rcCastingStation[x].bin.type = Constants.PlaneType.SPITFIRE;
 				model.rcCastingStation[x].bin.n = model.constants.EMPTY;
 				x++;
 				numSpit--;
 			}
 			if(numF16 > 0){
 				model.rcCastingStation[x] = new CastingStation();
-				model.rcCastingStation[x].type = model.constants.F16;
-				model.rcCastingStation[x].status = model.constants.IDLE;
+				model.rcCastingStation[x].type = Constants.PlaneType.F16;
+				model.rcCastingStation[x].status = Constants.StationStatus.IDLE;
 				model.rcCastingStation[x].timeToNextBreak = model.rvp.uCastingBreakTime();
 				model.rcCastingStation[x].bin = new Bin();
-				model.rcCastingStation[x].bin.type = model.constants.F16;
+				model.rcCastingStation[x].bin.type = Constants.PlaneType.F16;
 				model.rcCastingStation[x].bin.n = model.constants.EMPTY;
 				x++;
 				numF16--;
 			}
 			if(numConcorde > 0){
 				model.rcCastingStation[x] = new CastingStation();
-				model.rcCastingStation[x].type = model.constants.CONCORDE;
-				model.rcCastingStation[x].status = model.constants.IDLE;
+				model.rcCastingStation[x].type = Constants.PlaneType.CONCORDE;
+				model.rcCastingStation[x].status = Constants.StationStatus.IDLE;
 				model.rcCastingStation[x].timeToNextBreak = model.rvp.uCastingBreakTime();
 				model.rcCastingStation[x].bin = new Bin();
-				model.rcCastingStation[x].bin.type = model.constants.CONCORDE;
+				model.rcCastingStation[x].bin.type = Constants.PlaneType.CONCORDE;
 				model.rcCastingStation[x].bin.n = model.constants.EMPTY;
 				x++;
 				numConcorde--;
@@ -110,7 +112,7 @@ class Initialise extends ScheduledAction
 		// create all cutting/grinding stations with their input/output areas
 		for (int j = 0; j < model.numCuttingGrindingStations; j++){
 			model.rProcessingStation[model.constants.CUT - 1][j] = new ProcessingStation();
-			model.rProcessingStation[model.constants.CUT - 1][j].status = model.constants.IDLE;
+			model.rProcessingStation[model.constants.CUT - 1][j].status = Constants.StationStatus.IDLE;
 			model.rProcessingStation[model.constants.CUT - 1][j].bin = Constants.NO_BIN;
 			model.qIOArea[model.constants.CUT][model.constants.IN][j] = new IOArea();
 			model.qIOArea[model.constants.CUT][model.constants.OUT][j] = new IOArea();
@@ -119,7 +121,7 @@ class Initialise extends ScheduledAction
 		// create all coating stations with their input/output areas
 		for (int k = 0; k < model.numCoatingStations; k++){
 			model.rProcessingStation[model.constants.COAT - 1][k] = new ProcessingStation();
-			model.rProcessingStation[model.constants.COAT - 1][k].status = model.constants.IDLE;
+			model.rProcessingStation[model.constants.COAT - 1][k].status = Constants.StationStatus.IDLE;
 			model.rProcessingStation[model.constants.COAT - 1][k].bin = Constants.NO_BIN;
 			model.qIOArea[model.constants.COAT][model.constants.IN][k] = new IOArea();
 			model.qIOArea[model.constants.COAT][model.constants.OUT][k] = new IOArea();
@@ -128,7 +130,7 @@ class Initialise extends ScheduledAction
 		// create all insp/packaging stations with it's input area
 		for (int l = 0; l < model.numInspectionPackagingStations; l++){
 			model.rProcessingStation[model.constants.INSP - 1][l] = new ProcessingStation();
-			model.rProcessingStation[model.constants.INSP - 1][l].status = model.constants.IDLE;
+			model.rProcessingStation[model.constants.INSP - 1][l].status = Constants.StationStatus.IDLE;
 			model.rProcessingStation[model.constants.INSP - 1][l].bin = Constants.NO_BIN;
 			model.qIOArea[model.constants.INSP][model.constants.IN][l] = new IOArea();
 		}
@@ -145,7 +147,7 @@ class Initialise extends ScheduledAction
 		model.rMaintenancePerson.available = true;
 
 		// creating casting repair queue
-		model.qCastingRepairQueue = new CastingRepairQueue();
+		model.qCastingRepairQueue = new LinkedList<>();
 	}
 	
 

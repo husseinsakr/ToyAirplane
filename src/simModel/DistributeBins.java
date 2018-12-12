@@ -31,7 +31,7 @@ public class DistributeBins extends ConditionalAction {
                 } else {
                     continue;
                 }
-            if(areaId != Constants.COAT || (areaId == Constants.COAT && igBin.type != Constants.SPITFIRE)) {
+            if(areaId != Constants.COAT || (areaId == Constants.COAT && igBin.type != Constants.PlaneType.SPITFIRE)) {
                 int[] queueLengths = new int[toyManufacturingModel.qIOArea[areaId][Constants.IN].length];
                 for(int i = 0; i < queueLengths.length; i++){
                     queueLengths[i] = toyManufacturingModel.qIOArea[areaId][Constants.IN][i].size();

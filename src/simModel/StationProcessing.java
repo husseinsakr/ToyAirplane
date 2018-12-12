@@ -24,7 +24,7 @@ public class StationProcessing extends ConditionalActivity {
         areaIdAndStationId = toyManufacturingModel.udp.stationReadyForOperation();
         this.areaId = areaIdAndStationId[0];
         this.stationId = areaIdAndStationId[1];
-        toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.BUSY;
+        toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.StationStatus.BUSY;
         toyManufacturingModel.rProcessingStation[areaId][stationId].bin = toyManufacturingModel.qIOArea[areaId + 1][Constants.IN][stationId].remove(0);
         //System.out.println("Processing a bin of type: " +  ToyManufacturingModel.rProcessingStation[areaId][stationId].bin.type);
     }
@@ -36,24 +36,24 @@ public class StationProcessing extends ConditionalActivity {
 
     @Override
     public void terminatingEvent(){
-        toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.IDLE;
+        toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.StationStatus.IDLE;
         if ((areaId+1) == Constants.INSP){ // needs to be worked on
             //update output here for leaving planes
             //System.out.println("I have a bin type of: " + ToyManufacturingModel.rProcessingStation[areaId][stationId].bin.type);
             switch (toyManufacturingModel.rProcessingStation[areaId][stationId].bin.type){
-                case Constants.SPITFIRE:
+                case SPITFIRE:
                     for(int i = 0; i < Constants.BIN_CAP; i++) {
                         if(toyManufacturingModel.rvp.uNumPlanesAccepted())
                             toyManufacturingModel.output.numSpitfireProduced++;
                     }
                     break;
-                case Constants.F16:
+                case F16:
                     for(int i = 0; i < Constants.BIN_CAP; i++) {
                         if(toyManufacturingModel.rvp.uNumPlanesAccepted())
                             toyManufacturingModel.output.numF16Produced++;
                     }
                     break;
-                case Constants.CONCORDE:
+                case CONCORDE:
                     for(int i = 0; i < Constants.BIN_CAP; i++) {
                         if (toyManufacturingModel.rvp.uNumPlanesAccepted())
                             toyManufacturingModel.output.numConcordeProduced++;

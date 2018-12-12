@@ -21,7 +21,7 @@ public class CastNeedsMaintenance extends Activity {
     @Override
     public void startingEvent() {
         stationId = toyManufacturingModel.udp.castingAboutToBreak();
-        toyManufacturingModel.rcCastingStation[stationId].status = Constants.NEEDS_MAINTENANCE;
+        toyManufacturingModel.rcCastingStation[stationId].status = Constants.StationStatus.NEEDS_MAINTENANCE;
     }
 
     @Override

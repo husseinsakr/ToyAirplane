@@ -1,7 +1,6 @@
 // File: Experiment.java
 // Description:
 
-import cern.jet.math.Constants;
 import simModel.*;
 import cern.jet.random.engine.*;
 
@@ -27,7 +26,7 @@ class Experiment
        Seeds[] sds = new Seeds[NUMRUNS];
        ToyManufacturingModel mname;  // Simulation object
        double percentProductionIncrease = 30.0 / 100.0;
-       boolean showLog = true;
+       boolean showLog = false;
 
        int spitfireProduction = 1000;
        int f16Production = 1500;
