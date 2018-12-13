@@ -16,13 +16,11 @@ class RVPs
 	public final double CASTING_BREAK_MEAN = 60;
 	public final double RT_MEAN_TIME_TO_REPAIR = 8;
 	public final double RT_STD_DEV_TIME_TO_REPAIR = 2;
-	public final double PROC_TIME_CAST = Constants.CASTING_TIME;
 	public final double CT_LOWER_TIME_TO_CUT = 0.25;
 	public final double CT_MODE_TIME_TO_CUT = 0.28;
 	public final double CT_UPPER_TIME_TO_CUT = 0.35;
 	public final double GT_ALPHA = 43;
 	public final double GT_LAMBDA = 178;
-	public final double PROC_TIME_COAT = Constants.COATING_TIME;
 	public final double IT_LOWER_TIME_TO_INSPECT = 0.27;
 	public final double IT_MODE_TIME_TO_INSPECT = 0.30;
 	public final double IT_UPPER_TIME_TO_INSPECT = 0.40;
@@ -71,13 +69,13 @@ class RVPs
 		double operationTime = model.constants.NONE; // just a default value
 		switch(areaId){
 			case Constants.CAST:
-				operationTime = PROC_TIME_CAST;
+				operationTime = Constants.CASTING_TIME;
 				break;
 			case Constants.CUT:
 				operationTime = Constants.BIN_CAP * (cutTime.next() + grindTime.nextDouble());
 				break;
 			case Constants.COAT:
-				operationTime = PROC_TIME_COAT; // to reach 24 airplanes in bin since it produces 12 at a time
+				operationTime = Constants.COATING_TIME; // to reach 24 airplanes in bin since it produces 12 at a time
 				break;
 			case Constants.INSP:
 				operationTime = Constants.BIN_CAP * (inspTime.next());
