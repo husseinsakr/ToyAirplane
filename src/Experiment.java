@@ -72,9 +72,7 @@ class Experiment
 
            // Loop for NUMRUN simulation runs for each case
            for (i = 0; i < NUMRUNS; i++) {
-               if(simulationNumber == 39 && i == 27) {
-                   System.out.print("HI");
-               }
+
                mname = new ToyManufacturingModel(startTime, endTime, numCastingStationsSpitfire,
                        numCastingStationsF16, numCastingStationsConcorde, numCuttingGrindingStations, numCoatingStations,
                        numInspectionPackagingStations, numMovers, sds[i], showLog);

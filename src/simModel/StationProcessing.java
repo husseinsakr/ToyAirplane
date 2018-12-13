@@ -13,7 +13,7 @@ public class StationProcessing extends ConditionalActivity {
 
     public static boolean precondition(ToyManufacturingModel model){
         boolean returnValue = false;
-        if (model.udp.stationReadyForOperation() != Constants.NULL){
+        if (model.udp.stationReadyForOperation() != Constants.NO_RESULT){
             returnValue = true;
         }
         return returnValue;

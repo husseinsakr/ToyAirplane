@@ -14,7 +14,7 @@ public class OutputBinFromStation extends ConditionalAction{
 
     public static boolean precondition(ToyManufacturingModel model){
         boolean returnValue = false;
-        if (model.udp.binReadyForOutput() != Constants.NULL){
+        if (model.udp.binReadyForOutput() != Constants.NO_RESULT){
             returnValue = true;
         }
         return returnValue;
@@ -33,7 +33,7 @@ public class OutputBinFromStation extends ConditionalAction{
             Bin igBin = toyManufacturingModel.rProcessingStation[areaId][stationId].bin;
             toyManufacturingModel.qIOArea[areaId][Constants.OUT][stationId].add(igBin);
             toyManufacturingModel.rProcessingStation[areaId][stationId].bin = Constants.NO_BIN;
-        } else { // We need to do something for when we at INSP station I am guessing
+        } else { 
             toyManufacturingModel.rProcessingStation[areaId][stationId].bin = Constants.NO_BIN;
         }
     }

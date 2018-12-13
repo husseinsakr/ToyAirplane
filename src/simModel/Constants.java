@@ -19,7 +19,7 @@ class Constants
     public final static int EMPTY = 0;
     public final static int NONE = -1;
     public final static Bin NO_BIN = null;
-    public final static Object NULL = null;
+    public final static Object NO_RESULT = null;
 
     enum PlaneType {SPITFIRE, CONCORDE, F16};
     enum StationStatus {IDLE, BUSY, NEEDS_MAINTENANCE};
