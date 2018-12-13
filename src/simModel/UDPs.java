@@ -113,7 +113,7 @@ class UDPs
 	}
 
 	public int fillTrolley(int moverId, int areaId){
-		int destinationArea = model.dvp.uNextStation(areaId);
+		int destinationArea = uNextStation(areaId);
 
 		for(int i = 0; i < Constants.MOVER_CAP; i++){ // fill trolley by also making sure that we don't overwrite an existing bin
 			int[] stationOutputLengths = getMaxOutputsInStations(areaId);
@@ -132,9 +132,19 @@ class UDPs
 				}
 			}
 			if (allSpitfireBins)
-				destinationArea = model.dvp.uNextStation(destinationArea); // skip coating
+				destinationArea = uNextStation(destinationArea); // skip coating
 		}
 		return destinationArea;
+	}
+
+	protected int uNextStation(int currentAreaId) {
+		switch(currentAreaId) {
+			case Constants.CAST:return Constants.CUT;
+			case Constants.CUT:return Constants.COAT;
+			case Constants.COAT:return Constants.INSP;
+			case Constants.INSP:return Constants.CAST;
+			default:return Constants.NONE;
+		}
 	}
 
 	//returns the index of the smallest int in an array

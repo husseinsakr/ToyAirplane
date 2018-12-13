@@ -24,13 +24,5 @@ class DVPs
 		return movingTime;
 	}
 
-	protected int uNextStation(int currentAreaId) {
-		switch(currentAreaId) {
-			case Constants.CAST:return Constants.CUT;
-			case Constants.CUT:return Constants.COAT;
-			case Constants.COAT:return Constants.INSP;
-			case Constants.INSP:return Constants.CAST;
-			default:return Constants.NONE;
-		}
-	}
+
 }
