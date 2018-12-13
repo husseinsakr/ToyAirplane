@@ -3,6 +3,7 @@ package simModel;
 import simulationModelling.AOSimulationModel;
 import simulationModelling.Behaviour;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 //
@@ -28,9 +29,9 @@ public class ToyManufacturingModel extends AOSimulationModel
 	/* Group and Queue Entities */
 	public CastingStation[] rcCastingStation;
 	public ProcessingStation[][] rProcessingStation;
-	public IOArea[][][] qIOArea = new IOArea[4][2][]; // [areaID][IN OR OUT][stationId]
+	public ArrayList<Bin>[][][] qIOArea = new ArrayList[4][2][]; // [areaID][IN OR OUT][stationId]
 	public Mover[] rgMover;
-	public MoversLine[][] qMoverLines = new MoversLine[4][2]; // [areaID][IN or OUT]
+	public LinkedList<Integer>[][] qMoverLines = new LinkedList[4][2]; // [areaID][IN or OUT]
 
 	// Define the reference variables to the various 
 	// entities with scope Set and Unary
@@ -99,12 +100,12 @@ public class ToyManufacturingModel extends AOSimulationModel
 		rProcessingStation[constants.INSP] = new ProcessingStation[numInspectionPackagingStations];
 
 		// Input and Output Queues
-		qIOArea[constants.CAST][constants.OUT] = new IOArea[totalNumberOfCastingStations];
-		qIOArea[constants.CUT][constants.IN] = new IOArea[numCuttingGrindingStations];
-		qIOArea[constants.CUT][constants.OUT] = new IOArea[numCuttingGrindingStations];
-		qIOArea[constants.COAT][constants.IN] = new IOArea[numCoatingStations];
-		qIOArea[constants.COAT][constants.OUT] = new IOArea[numCoatingStations];
-		qIOArea[constants.INSP][constants.IN] = new IOArea[numInspectionPackagingStations];
+		qIOArea[constants.CAST][constants.OUT] = new ArrayList[totalNumberOfCastingStations];
+		qIOArea[constants.CUT][constants.IN] = new ArrayList[numCuttingGrindingStations];
+		qIOArea[constants.CUT][constants.OUT] = new ArrayList[numCuttingGrindingStations];
+		qIOArea[constants.COAT][constants.IN] = new ArrayList[numCoatingStations];
+		qIOArea[constants.COAT][constants.OUT] = new ArrayList[numCoatingStations];
+		qIOArea[constants.INSP][constants.IN] = new ArrayList[numInspectionPackagingStations];
 
 		// qMover
 		rgMover = new Mover[numMovers];

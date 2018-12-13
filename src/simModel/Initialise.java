@@ -107,7 +107,7 @@ class Initialise extends ScheduledAction
 
 		// create all queue objects for casting stations
 		for (int i = 0; i < totalNumberOfCastingStations; i++){
-			model.qIOArea[model.constants.CAST][model.constants.OUT][i] = new IOArea();
+			model.qIOArea[model.constants.CAST][model.constants.OUT][i] = new ArrayList();
 		}
 
 		// create all cutting/grinding stations with their input/output areas
@@ -115,8 +115,8 @@ class Initialise extends ScheduledAction
 			model.rProcessingStation[Constants.CUT][j] = new ProcessingStation();
 			model.rProcessingStation[Constants.CUT][j].status = Constants.StationStatus.IDLE;
 			model.rProcessingStation[Constants.CUT][j].bin = Constants.NO_BIN;
-			model.qIOArea[Constants.CUT][Constants.IN][j] = new IOArea();
-			model.qIOArea[Constants.CUT][Constants.OUT][j] = new IOArea();
+			model.qIOArea[Constants.CUT][Constants.IN][j] = new ArrayList();
+			model.qIOArea[Constants.CUT][Constants.OUT][j] = new ArrayList();
 		}
 
 		// create all coating stations with their input/output areas
@@ -124,8 +124,8 @@ class Initialise extends ScheduledAction
 			model.rProcessingStation[Constants.COAT][k] = new ProcessingStation();
 			model.rProcessingStation[Constants.COAT][k].status = Constants.StationStatus.IDLE;
 			model.rProcessingStation[Constants.COAT][k].bin = Constants.NO_BIN;
-			model.qIOArea[Constants.COAT][Constants.IN][k] = new IOArea();
-			model.qIOArea[Constants.COAT][Constants.OUT][k] = new IOArea();
+			model.qIOArea[Constants.COAT][Constants.IN][k] = new ArrayList();
+			model.qIOArea[Constants.COAT][Constants.OUT][k] = new ArrayList();
 		}
 
 		// create all insp/packaging stations with it's input area
@@ -133,16 +133,16 @@ class Initialise extends ScheduledAction
 			model.rProcessingStation[Constants.INSP][l] = new ProcessingStation();
 			model.rProcessingStation[Constants.INSP][l].status = Constants.StationStatus.IDLE;
 			model.rProcessingStation[Constants.INSP][l].bin = Constants.NO_BIN;
-			model.qIOArea[Constants.INSP][Constants.IN][l] = new IOArea();
+			model.qIOArea[Constants.INSP][Constants.IN][l] = new ArrayList();
 		}
 
 		// MoverLine Queues
-		model.qMoverLines[Constants.CAST][Constants.OUT] = new MoversLine();
-		model.qMoverLines[Constants.CUT][Constants.IN] = new MoversLine();
-		model.qMoverLines[Constants.CUT][Constants.OUT] = new MoversLine();
-		model.qMoverLines[Constants.COAT][Constants.IN] = new MoversLine();
-		model.qMoverLines[Constants.COAT][Constants.OUT] = new MoversLine();
-		model.qMoverLines[Constants.INSP][Constants.IN] = new MoversLine();
+		model.qMoverLines[Constants.CAST][Constants.OUT] = new LinkedList<Integer>();
+		model.qMoverLines[Constants.CUT][Constants.IN] = new LinkedList<Integer>();
+		model.qMoverLines[Constants.CUT][Constants.OUT] = new LinkedList<Integer>();
+		model.qMoverLines[Constants.COAT][Constants.IN] = new LinkedList<Integer>();
+		model.qMoverLines[Constants.COAT][Constants.OUT] = new LinkedList<Integer>();
+		model.qMoverLines[Constants.INSP][Constants.IN] = new LinkedList<Integer>();
 
 		// creating all qMover
 		for (int moverId = 0; moverId < model.rgMover.length; moverId++){

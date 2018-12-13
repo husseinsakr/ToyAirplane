@@ -34,8 +34,6 @@ public class CastRepaired extends Activity {
         toyManufacturingModel.rcCastingStation[stationId].status = Constants.StationStatus.IDLE;
         toyManufacturingModel.rcCastingStation[stationId].timeToNextBreak = toyManufacturingModel.rvp.uCastingBreakTime();
         toyManufacturingModel.rMaintenancePerson.available = true;
-        //System.out.println("Maintenance person has finished repairing " + stationId);
-        //toyManufacturingModel.printAllVariablesForDebuggingPurposes();
     }
 
 }

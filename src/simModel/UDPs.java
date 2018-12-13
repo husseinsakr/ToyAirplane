@@ -2,6 +2,8 @@ package simModel;
 
 import simulationModelling.ConditionalActivity;
 
+import java.util.ArrayList;
+
 class UDPs
 {
 	ToyManufacturingModel model;  // for accessing the clock
@@ -49,7 +51,7 @@ class UDPs
 			for (int stationID = 0; stationID < model.rProcessingStation[areaID].length; stationID++){
 				if(model.rProcessingStation[areaID][stationID].status == Constants.StationStatus.IDLE
 						&& model.rProcessingStation[areaID][stationID].bin == null
-						&& !model.qIOArea[areaID][Constants.IN][stationID].isEmpty())
+						&& model.qIOArea[areaID][Constants.IN][stationID].size() != 0)
 				{
 					areaIdAndStationId[0] = areaID;
 					areaIdAndStationId[1] = stationID;
@@ -78,7 +80,7 @@ class UDPs
 		//Cutting/Grinding, Coating and INSP stations
 		for (int areaID = Constants.CUT; areaID <= Constants.INSP; areaID++){
 			for (int stationID = 0; stationID < model.rProcessingStation[areaID].length; stationID++){
-				if(model.rProcessingStation[areaID][stationID].bin != null
+				if(model.rProcessingStation[areaID][stationID].bin != Constants.NO_BIN
 						&& model.rProcessingStation[areaID][stationID].status == Constants.StationStatus.IDLE
 						&& (areaID == Constants.INSP || model.qIOArea[areaID][Constants.OUT][stationID].size() < Constants.IN_OUT_CAP))
 				{
@@ -155,7 +157,7 @@ class UDPs
 			if(!model.qMoverLines[areaId][Constants.IN].isEmpty()){
 				int numOfStationsAtAreaId = model.qIOArea[areaId][Constants.IN].length;
 				int canFit = 0;
-				for(IOArea ioArea : model.qIOArea[areaId][Constants.IN]){
+				for(ArrayList ioArea : model.qIOArea[areaId][Constants.IN]){
 					canFit += Constants.IN_OUT_CAP - ioArea.size();
 				}
 				if(areaId == Constants.COAT){
