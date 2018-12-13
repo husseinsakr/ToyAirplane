@@ -37,4 +37,5 @@ public class OutputBinFromStation extends ConditionalAction{
             toyManufacturingModel.rProcessingStation[areaId][stationId].bin = Constants.NO_BIN;
         }
     }
+
 }

@@ -2,6 +2,7 @@ package simModel;
 
 import simulationModelling.ScheduledAction;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 class Initialise extends ScheduledAction
@@ -138,7 +139,7 @@ class Initialise extends ScheduledAction
 		// creating all qMover
 		for (int moverId = 0; moverId < model.rgMover.length; moverId++){
 			model.rgMover[moverId] = new Mover();
-			model.rgMover[moverId].trolley = new Bin[Constants.MOVER_CAP];
+			model.rgMover[moverId].trolley = new Bin[model.constants.MOVER_CAP];
 			model.rgMover[moverId].n = Constants.EMPTY;
 			model.qMoverLines[Constants.CAST][Constants.OUT].add(moverId);
 		}
