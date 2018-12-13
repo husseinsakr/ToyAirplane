@@ -136,6 +136,14 @@ class Initialise extends ScheduledAction
 			model.qIOArea[Constants.INSP][Constants.IN][l] = new IOArea();
 		}
 
+		// MoverLine Queues
+		model.qMoverLines[Constants.CAST][Constants.OUT] = new MoversLine();
+		model.qMoverLines[Constants.CUT][Constants.IN] = new MoversLine();
+		model.qMoverLines[Constants.CUT][Constants.OUT] = new MoversLine();
+		model.qMoverLines[Constants.COAT][Constants.IN] = new MoversLine();
+		model.qMoverLines[Constants.COAT][Constants.OUT] = new MoversLine();
+		model.qMoverLines[Constants.INSP][Constants.IN] = new MoversLine();
+
 		// creating all qMover
 		for (int moverId = 0; moverId < model.rgMover.length; moverId++){
 			model.rgMover[moverId] = new Mover();
@@ -149,6 +157,7 @@ class Initialise extends ScheduledAction
 
 		// creating casting repair queue
 		model.qCastingRepairQueue = new LinkedList<>();
+
 	}
 	
 

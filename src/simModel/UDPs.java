@@ -123,13 +123,8 @@ class UDPs
 				model.rgMover[moverId].n++;
 			}
 		}
-		// GAComment: Glad to see that this logic has been added, but it is not in the CM.
 		if(areaId == Constants.CUT) {
 			boolean allSpitfireBins = true;
-			//GAcomment:  I suspect that the following is the reason you selected an array
-			//            to represent the Resource group.  Note that this can also be done with an AarrayList
-			//            this class provides an iterator and can also give an array of objects in the list, etc.
-			//            So you may consider implementing RG.Mover entities as ArrayList objects.
 			for (Bin igBin : model.rgMover[moverId].trolley){
 				if (igBin != null && igBin.type != Constants.PlaneType.SPITFIRE){
 					allSpitfireBins = false;

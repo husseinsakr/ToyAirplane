@@ -111,14 +111,6 @@ public class ToyManufacturingModel extends AOSimulationModel
 
 		// Maintenance person
 		rMaintenancePerson = new MaintenancePerson();
-
-		// MoverLine Queues
-		qMoverLines[constants.CAST][constants.OUT] = new MoversLine();
-		qMoverLines[constants.CUT][constants.IN] = new MoversLine();
-		qMoverLines[constants.CUT][constants.OUT] = new MoversLine();
-		qMoverLines[constants.COAT][constants.IN] = new MoversLine();
-		qMoverLines[constants.COAT][constants.OUT] = new MoversLine();
-		qMoverLines[constants.INSP][constants.IN] = new MoversLine();
 		
 		// rgCounter and qCustLine objects created in Initalise Action
 		
