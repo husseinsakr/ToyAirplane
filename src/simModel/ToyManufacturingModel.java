@@ -258,63 +258,229 @@ public class ToyManufacturingModel extends AOSimulationModel
 			System.out.printf("Clock = %10.4f\n", getClock());
 			showSBL();
 
-			/*
+			System.out.println("             MOVER LINE");
+			System.out.println("                     INPUT AREA      STATION            OUTPUT AREA");
+			System.out.println("                                                                 MOVER LINE");
+
+			//Print status of Casting Stations
 			for (int i = 0; i < rcCastingStation.length; i++) {
-				System.out.println("Casting stationId= " + i + "; type="
-						+ rcCastingStation[i].type + "; n=" + rcCastingStation[i].bin.n
-						+ "; status=" + rcCastingStation[i].status +
-						"; timetobreak=" + rcCastingStation[i].timeToNextBreak
-						+ "; output: " + qIOArea[0][1][i].size()
-						+ "; planeType: " + rcCastingStation[i].type + ";");
+
+				String stat = "";
+				switch(rcCastingStation[i].status){
+					case IDLE: stat = "IDLE"; break;
+					case BUSY: stat = "BUSY"; break;
+					case NEEDS_MAINTENANCE: stat = "NMAINT"; break;
+				}
+
+				StringBuilder outq = new StringBuilder();
+				for (int m = 0; m < qIOArea[0][1][i].size(); m++){
+					switch(qIOArea[0][1][i].get(m).type){
+						case SPITFIRE: outq.append("S"); break;
+						case CONCORDE: outq.append("C"); break;
+						case F16: outq.append("F"); break;
+					}
+				}
+
+				System.out.printf("\n           %-8s             %-4s %-2s: %-6s [%-2s]    {%-5s}       TTB = %-6.2f min", rcCastingStation[i].type, "CAST", i, stat, rcCastingStation[i].bin.n, outq, rcCastingStation[i].timeToNextBreak);
 			}
 
+
+			//Print status of Moverline - CAST OUTPUT
+			StringBuilder mcastout = new StringBuilder();
+			for (int m = 0; m < qMoverLines[0][1].size(); m++){
+				mcastout.append("M");
+			}
+			System.out.printf("\n                                                           {%-20s} %-2s", mcastout.toString(), qMoverLines[0][1].size());
+			System.out.println("\n");
+
+
+
+
+
+
+			//Print status of Moverline - CUT INPUT
+			StringBuilder mcutin = new StringBuilder();
+			for (int m = 0; m < qMoverLines[1][0].size(); m++){
+				mcutin.append("M");
+			}
+			System.out.printf("\n%-2s {%20s}", qMoverLines[1][0].size(), mcutin.toString());
+
+
+			//Print status of Cutting/Grinding Stations
 			for (int j = 0; j < numCuttingGrindingStations; j++) {
-				System.out.print("Cutting stationId= " + j
-						+ "; status= " + rProcessingStation[0][j].status + ";");
-				if(rProcessingStation[0][j].status == Constants.StationStatus.BUSY)
-					System.out.print(" bin.n= " + rProcessingStation[0][j].bin.n
-							+"; binType=" +rProcessingStation[0][j].bin.type) ;
-				else
-					System.out.print(" bin=NOBIN");
-				System.out.print("; input= " + qIOArea[1][0][j].size()
-						+ "; output= " + qIOArea[1][1][j].size() + ";\n");
+
+				String bntyp = "";
+				if(rProcessingStation[1][j].status == Constants.StationStatus.BUSY){
+					switch(rProcessingStation[1][j].bin.type){
+						case SPITFIRE: bntyp = "S "; break;
+						case CONCORDE: bntyp = "C "; break;
+						case F16: bntyp = "F "; break;
+					}
+				} else {
+					bntyp = "  ";
+				}
+
+				StringBuilder inq = new StringBuilder();
+				for (int m = 0; m < qIOArea[1][0][j].size(); m++){
+					switch(qIOArea[1][0][j].get(m).type){
+						case SPITFIRE: inq.append("S"); break;
+						case CONCORDE: inq.append("C"); break;
+						case F16: inq.append("F"); break;
+					}
+				}
+
+				StringBuilder outq = new StringBuilder();
+				for (int m = 0; m < qIOArea[1][1][j].size(); m++){
+					switch(qIOArea[1][1][j].get(m).type){
+						case SPITFIRE: outq.append("S"); break;
+						case CONCORDE: outq.append("C"); break;
+						case F16: outq.append("F"); break;
+					}
+				}
+
+				System.out.printf("\n                     {%5s}    %-4s %-2s: %-6s [%-2s]    {%-5s}", inq, "CUT ", j, rProcessingStation[1][j].status, bntyp, outq);
 			}
 
+
+			//Print status of Moverline - CUT OUTPUT
+			StringBuilder mcutout = new StringBuilder();
+			for (int m = 0; m < qMoverLines[1][1].size(); m++){
+				mcutout.append("M");
+			}
+			System.out.printf("\n                                                           {%-20s} %-2s", mcutout.toString(), qMoverLines[1][1].size());
+			System.out.println("\n");
+
+
+
+
+
+
+			//Print status of Moverline - COAT INPUT
+			StringBuilder mcoatin = new StringBuilder();
+			for (int m = 0; m < qMoverLines[2][0].size(); m++){
+				mcoatin.append("M");
+			}
+			System.out.printf("\n%-2s {%20s}", qMoverLines[2][0].size(), mcoatin.toString());
+
+
+			//Print status of Coating Stations
 			for (int k = 0; k < numCoatingStations; k++) {
-				System.out.print("Coating stationId= " + k
-						+ "; status= " + rProcessingStation[1][k].status + ";");
-				if(rProcessingStation[1][k].status == Constants.StationStatus.BUSY)
-					System.out.print(" bin.n= " + rProcessingStation[1][k].bin.n
-							+"; binType=" +rProcessingStation[1][k].bin.type);
-				else
-					System.out.print(" bin=NOBIN");
-				System.out.print("; input= " + qIOArea[2][0][k].size()
-						+ "; output= " + qIOArea[2][1][k].size() +";\n");
+
+				String bntyp = "";
+				if(rProcessingStation[2][k].status == Constants.StationStatus.BUSY){
+					switch(rProcessingStation[2][k].bin.type){
+						case SPITFIRE: bntyp = "S "; break;
+						case CONCORDE: bntyp = "C "; break;
+						case F16: bntyp = "F "; break;
+					}
+				} else {
+					bntyp = "  ";
+				}
+
+				StringBuilder inq = new StringBuilder();
+				for (int m = 0; m < qIOArea[2][0][k].size(); m++){
+					switch(qIOArea[2][0][k].get(m).type){
+						case SPITFIRE: inq.append("S"); break;
+						case CONCORDE: inq.append("C"); break;
+						case F16: inq.append("F"); break;
+					}
+				}
+
+				StringBuilder outq = new StringBuilder();
+				for (int m = 0; m < qIOArea[2][1][k].size(); m++){
+					switch(qIOArea[2][1][k].get(m).type){
+						case SPITFIRE: outq.append("S"); break;
+						case CONCORDE: outq.append("C"); break;
+						case F16: outq.append("F"); break;
+					}
+				}
+
+				System.out.printf("\n                     {%5s}    %-4s %-2s: %-6s [%-2s]    {%-5s}", inq, "COAT", k, rProcessingStation[2][k].status, bntyp, outq);
 			}
 
+
+			//Print sntatus of Moverline - COAT OUTPUT
+			StringBuilder mcoatout = new StringBuilder();
+			for (int m = 0; m < qMoverLines[2][1].size(); m++){
+				mcoatout.append("M");
+			}
+			System.out.printf("\n                                                           {%-20s} %-2s", mcoatout.toString(), qMoverLines[2][1].size());
+			System.out.println("\n");
+
+
+
+
+
+
+			//Print sntatus of Moverline - INSP INPUT
+			StringBuilder minspin = new StringBuilder();
+			for (int m = 0; m < qMoverLines[3][0].size(); m++){
+				minspin.append("M");
+			}
+			System.out.printf("\n%-2s {%20s}", qMoverLines[3][0].size(), minspin.toString());
+
+
+			//Print status of Inspection/Packing Stations
 			for (int l = 0; l < numInspectionPackagingStations; l++) {
-				System.out.print("Insp stationId= " + l + "; status= "
-						+ rProcessingStation[2][l].status + ";");
-				if(rProcessingStation[2][l].status == Constants.StationStatus.BUSY)
-					System.out.print(" bin.n= " + rProcessingStation[2][l].bin.n
-							+"; binType=" +rProcessingStation[2][l].bin.type) ;
-				else
-					System.out.print(" bin=NOBIN");
-				System.out.print("; input= " + qIOArea[3][0][l].size()+";\n");
-			}
 
-			System.out.println("MoverLine at casting output: " + qMoverLines[0][1].size());
-			System.out.println("MoverLine at cutting input: " + qMoverLines[1][0].size());
-			System.out.println("MoverLine at cutting output: " + qMoverLines[1][1].size());
-			System.out.println("MoverLine at coating input: " + qMoverLines[2][0].size());
-			System.out.println("MoverLine at coating output: " + qMoverLines[2][1].size());
-			System.out.println("MoverLine at inspection input: " + qMoverLines[3][0].size());
-			System.out.println("Maintenance person is available: " + rMaintenancePerson.available);
-			System.out.print("Casting repair queue: ");
-			for (int stationId : qCastingRepairQueue)
-				System.out.print(stationId + " ");
-			System.out.println("\n--------------------------------------------------------------");
-			*/
+				String bntyp = "";
+				if(rProcessingStation[3][l].status == Constants.StationStatus.BUSY){
+					switch(rProcessingStation[3][l].bin.type){
+						case SPITFIRE: bntyp = "S "; break;
+						case CONCORDE: bntyp = "C "; break;
+						case F16: bntyp = "F "; break;
+					}
+				} else {
+					bntyp = "  ";
+				}
+
+				StringBuilder inq = new StringBuilder();
+				for (int m = 0; m < qIOArea[3][0][l].size(); m++){
+					switch(qIOArea[3][0][l].get(m).type){
+						case SPITFIRE: inq.append("S"); break;
+						case CONCORDE: inq.append("C"); break;
+						case F16: inq.append("F"); break;
+					}
+				}
+
+				System.out.printf("\n                     {%5s}    %-4s %-2s: %-6s [%-2s]", inq, "INSP", l, rProcessingStation[3][l].status, bntyp);
+			}
+			System.out.println("\n");
+
+
+
+
+
+
+			//Print status of the Maintenance Person
+			String mpavail = "";
+			if(rMaintenancePerson.available){
+				mpavail = "AVAILABLE";
+			} else {
+				mpavail = "NOT_AVAILABLE";
+			}
+			System.out.printf("\nMAINTPER: " + mpavail);
+
+
+			//Print status of the Casting Repair Queue
+			StringBuilder rpairq = new StringBuilder();
+			for (int stationId : qCastingRepairQueue){
+				if(rpairq == null || rpairq.length() == 0){
+					rpairq.append(stationId);
+				} else {
+					rpairq.append(", " + stationId);
+				}
+
+			}
+			System.out.printf("\nREPAIRQ:  {%-20s}", rpairq.toString());
+			System.out.println("\n");
+
+
+
+			System.out.println("\n");
+			System.out.println("\n_________________________________________________________________________________________");
+			System.out.println("\n");
+			System.out.println("\n");
 		}
 	}
 

@@ -36,31 +36,22 @@ public class StationProcessing extends ConditionalActivity {
     @Override
     public void terminatingEvent(){
         toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.StationStatus.IDLE;
-        if ((areaId) == Constants.INSP){ // needs to be worked on
+        if ((areaId) == Constants.INSP){
             //update output here for leaving planes
-            //System.out.println("I have a bin type of: " + ToyManufacturingModel.rProcessingStation[areaId][stationId].bin.type);
-            switch (toyManufacturingModel.rProcessingStation[areaId][stationId].bin.type){
-                case SPITFIRE:
-                    for(int i = 0; i < Constants.BIN_CAP; i++) {
-                        if(toyManufacturingModel.rvp.uNumPlanesAccepted())
+            for(int i = 0; i < Constants.BIN_CAP; i++){
+                if(toyManufacturingModel.rvp.uNumPlanesAccepted()){
+                    switch (toyManufacturingModel.rProcessingStation[areaId][stationId].bin.type) {
+                        case SPITFIRE:
                             toyManufacturingModel.output.numSpitfireProduced++;
-                    }
-                    break;
-                case F16:
-                    for(int i = 0; i < Constants.BIN_CAP; i++) {
-                        if(toyManufacturingModel.rvp.uNumPlanesAccepted())
+                            break;
+                        case F16:
                             toyManufacturingModel.output.numF16Produced++;
-                    }
-                    break;
-                case CONCORDE:
-                    for(int i = 0; i < Constants.BIN_CAP; i++) {
-                        if (toyManufacturingModel.rvp.uNumPlanesAccepted())
+                            break;
+                        case CONCORDE:
                             toyManufacturingModel.output.numConcordeProduced++;
+                            break;
                     }
-                    break;
-                default:
-                    System.out.println("Error: Invalid plane type. Check this!");
-                    break;
+                }
             }
             toyManufacturingModel.rProcessingStation[areaId][stationId].bin = Constants.NO_BIN;
         }

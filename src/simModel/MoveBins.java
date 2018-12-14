@@ -20,7 +20,6 @@ public class MoveBins extends ConditionalActivity {
 
     @Override
     public void startingEvent(){
-        //int[] areaIdAndStationId = ToyManufacturingModel.udp.canStartMovingBins();
         this.currentArea = toyManufacturingModel.udp.canStartMovingBins();
         moverId = toyManufacturingModel.qMoverLines[currentArea][Constants.OUT].poll();
         destinationArea = toyManufacturingModel.udp.fillTrolley(moverId, currentArea);

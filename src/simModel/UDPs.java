@@ -3,6 +3,7 @@ package simModel;
 import simulationModelling.ConditionalActivity;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 class UDPs
 {
@@ -110,6 +111,58 @@ class UDPs
 			}
 		}
 		return Constants.NONE;
+	}
+
+	public int emptyTrolley(int moverId, int areaId){
+		Mover mover = model.rgMover[moverId];
+		for (int trolleyIndex = 0; trolleyIndex < Constants.MOVER_CAP; trolleyIndex++){
+			Bin igBin = new Bin();
+			if(mover.trolley[trolleyIndex] != null){
+				igBin.type = mover.trolley[trolleyIndex].type;
+				igBin.n = mover.trolley[trolleyIndex].n;
+			} else {
+				continue;
+			}
+			if(areaId != Constants.COAT || (areaId == Constants.COAT && igBin.type != Constants.PlaneType.SPITFIRE)) {
+				int[] queueLengths = new int[model.qIOArea[areaId][Constants.IN].length];
+				for(int i = 0; i < queueLengths.length; i++){
+					queueLengths[i] = model.qIOArea[areaId][Constants.IN][i].size();
+				}
+				model.qIOArea[areaId][Constants.IN][findLeastBusyStation(areaId)].add(igBin);
+				mover.trolley[trolleyIndex] = null;
+				mover.n--;
+			}
+		}
+		return -1;
+	}
+
+	//returns the index of the smallest int in an array
+	public int findLeastBusyStation(int areaId){
+		int[] queueLengths = new int[model.qIOArea[areaId][Constants.IN].length];
+		for(int i = 0; i < queueLengths.length; i++){
+			queueLengths[i] = model.qIOArea[areaId][Constants.IN][i].size();
+		}
+		int min = queueLengths[0];
+		int index = 0;
+		int numberOfEmptyStations = 0;
+		ArrayList<Integer> emptyStations = new ArrayList<>();
+		for(int i = 0; i < queueLengths.length; i++){
+			if(min > queueLengths[i]){
+				min = queueLengths[i];
+				index = i;
+			} else if(min == 0 && queueLengths[i] == 0){
+				emptyStations.add(i);
+			}
+		}
+		Iterator iterator = emptyStations.iterator();
+		while (iterator.hasNext()){
+			int stationId = (int)iterator.next();
+			if(model.rProcessingStation[areaId][stationId].status == Constants.StationStatus.IDLE){
+				index = stationId;
+				break;
+			}
+		}
+		return index;
 	}
 
 	public int fillTrolley(int moverId, int areaId){

@@ -31,39 +31,39 @@ class Initialise extends ScheduledAction
 		int numF16 = model.numCastingStationsF16;
 		int numConcorde = model.numCastingStationsConcorde;
 
-		int x = 0;
-		while(x < model.rcCastingStation.length){
+		int num = 0;
+		while(num < model.rcCastingStation.length){
 			if(numSpit > 0){
-				model.rcCastingStation[x] = new CastingStation();
-				model.rcCastingStation[x].type = Constants.PlaneType.SPITFIRE;
-				model.rcCastingStation[x].status = Constants.StationStatus.IDLE;
-				model.rcCastingStation[x].timeToNextBreak = model.rvp.uCastingBreakTime();
-				model.rcCastingStation[x].bin = new Bin();
-				model.rcCastingStation[x].bin.type = Constants.PlaneType.SPITFIRE;
-				model.rcCastingStation[x].bin.n = model.constants.EMPTY;
-				x++;
+				model.rcCastingStation[num] = new CastingStation();
+				model.rcCastingStation[num].type = Constants.PlaneType.SPITFIRE;
+				model.rcCastingStation[num].status = Constants.StationStatus.IDLE;
+				model.rcCastingStation[num].timeToNextBreak = model.rvp.uCastingBreakTime();
+				model.rcCastingStation[num].bin = new Bin();
+				model.rcCastingStation[num].bin.type = Constants.PlaneType.SPITFIRE;
+				model.rcCastingStation[num].bin.n = model.constants.EMPTY;
+				num++;
 				numSpit--;
 			}
 			if(numF16 > 0){
-				model.rcCastingStation[x] = new CastingStation();
-				model.rcCastingStation[x].type = Constants.PlaneType.F16;
-				model.rcCastingStation[x].status = Constants.StationStatus.IDLE;
-				model.rcCastingStation[x].timeToNextBreak = model.rvp.uCastingBreakTime();
-				model.rcCastingStation[x].bin = new Bin();
-				model.rcCastingStation[x].bin.type = Constants.PlaneType.F16;
-				model.rcCastingStation[x].bin.n = model.constants.EMPTY;
-				x++;
+				model.rcCastingStation[num] = new CastingStation();
+				model.rcCastingStation[num].type = Constants.PlaneType.F16;
+				model.rcCastingStation[num].status = Constants.StationStatus.IDLE;
+				model.rcCastingStation[num].timeToNextBreak = model.rvp.uCastingBreakTime();
+				model.rcCastingStation[num].bin = new Bin();
+				model.rcCastingStation[num].bin.type = Constants.PlaneType.F16;
+				model.rcCastingStation[num].bin.n = model.constants.EMPTY;
+				num++;
 				numF16--;
 			}
 			if(numConcorde > 0){
-				model.rcCastingStation[x] = new CastingStation();
-				model.rcCastingStation[x].type = Constants.PlaneType.CONCORDE;
-				model.rcCastingStation[x].status = Constants.StationStatus.IDLE;
-				model.rcCastingStation[x].timeToNextBreak = model.rvp.uCastingBreakTime();
-				model.rcCastingStation[x].bin = new Bin();
-				model.rcCastingStation[x].bin.type = Constants.PlaneType.CONCORDE;
-				model.rcCastingStation[x].bin.n = model.constants.EMPTY;
-				x++;
+				model.rcCastingStation[num] = new CastingStation();
+				model.rcCastingStation[num].type = Constants.PlaneType.CONCORDE;
+				model.rcCastingStation[num].status = Constants.StationStatus.IDLE;
+				model.rcCastingStation[num].timeToNextBreak = model.rvp.uCastingBreakTime();
+				model.rcCastingStation[num].bin = new Bin();
+				model.rcCastingStation[num].bin.type = Constants.PlaneType.CONCORDE;
+				model.rcCastingStation[num].bin.n = model.constants.EMPTY;
+				num++;
 				numConcorde--;
 			}
 		}
