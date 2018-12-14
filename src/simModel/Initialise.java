@@ -106,34 +106,34 @@ class Initialise extends ScheduledAction
 		*/
 
 		// create all queue objects for casting stations
-		for (int i = 0; i < totalNumberOfCastingStations; i++){
-			model.qIOArea[model.constants.CAST][model.constants.OUT][i] = new ArrayList();
+		for (int castId = 0; castId < totalNumberOfCastingStations; castId++){
+			model.qIOArea[model.constants.CAST][model.constants.OUT][castId] = new ArrayList();
 		}
 
 		// create all cutting/grinding stations with their input/output areas
-		for (int j = 0; j < model.numCuttingGrindingStations; j++){
-			model.rProcessingStation[Constants.CUT][j] = new ProcessingStation();
-			model.rProcessingStation[Constants.CUT][j].status = Constants.StationStatus.IDLE;
-			model.rProcessingStation[Constants.CUT][j].bin = Constants.NO_BIN;
-			model.qIOArea[Constants.CUT][Constants.IN][j] = new ArrayList();
-			model.qIOArea[Constants.CUT][Constants.OUT][j] = new ArrayList();
+		for (int cutId = 0; cutId < model.numCuttingGrindingStations; cutId++){
+			model.rProcessingStation[Constants.CUT][cutId] = new ProcessingStation();
+			model.rProcessingStation[Constants.CUT][cutId].status = Constants.StationStatus.IDLE;
+			model.rProcessingStation[Constants.CUT][cutId].bin = Constants.NO_BIN;
+			model.qIOArea[Constants.CUT][Constants.IN][cutId] = new ArrayList();
+			model.qIOArea[Constants.CUT][Constants.OUT][cutId] = new ArrayList();
 		}
 
 		// create all coating stations with their input/output areas
-		for (int k = 0; k < model.numCoatingStations; k++){
-			model.rProcessingStation[Constants.COAT][k] = new ProcessingStation();
-			model.rProcessingStation[Constants.COAT][k].status = Constants.StationStatus.IDLE;
-			model.rProcessingStation[Constants.COAT][k].bin = Constants.NO_BIN;
-			model.qIOArea[Constants.COAT][Constants.IN][k] = new ArrayList();
-			model.qIOArea[Constants.COAT][Constants.OUT][k] = new ArrayList();
+		for (int coatId = 0; coatId < model.numCoatingStations; coatId++){
+			model.rProcessingStation[Constants.COAT][coatId] = new ProcessingStation();
+			model.rProcessingStation[Constants.COAT][coatId].status = Constants.StationStatus.IDLE;
+			model.rProcessingStation[Constants.COAT][coatId].bin = Constants.NO_BIN;
+			model.qIOArea[Constants.COAT][Constants.IN][coatId] = new ArrayList();
+			model.qIOArea[Constants.COAT][Constants.OUT][coatId] = new ArrayList();
 		}
 
 		// create all insp/packaging stations with it's input area
-		for (int l = 0; l < model.numInspectionPackagingStations; l++){
-			model.rProcessingStation[Constants.INSP][l] = new ProcessingStation();
-			model.rProcessingStation[Constants.INSP][l].status = Constants.StationStatus.IDLE;
-			model.rProcessingStation[Constants.INSP][l].bin = Constants.NO_BIN;
-			model.qIOArea[Constants.INSP][Constants.IN][l] = new ArrayList();
+		for (int inspId = 0; inspId < model.numInspectionPackagingStations; inspId++){
+			model.rProcessingStation[Constants.INSP][inspId] = new ProcessingStation();
+			model.rProcessingStation[Constants.INSP][inspId].status = Constants.StationStatus.IDLE;
+			model.rProcessingStation[Constants.INSP][inspId].bin = Constants.NO_BIN;
+			model.qIOArea[Constants.INSP][Constants.IN][inspId] = new ArrayList();
 		}
 
 		// MoverLine Queues
