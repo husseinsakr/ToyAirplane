@@ -26,7 +26,6 @@ public class StationProcessing extends ConditionalActivity {
         this.stationId = areaIdAndStationId[1];
         toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.StationStatus.BUSY;
         toyManufacturingModel.rProcessingStation[areaId][stationId].bin = toyManufacturingModel.qIOArea[areaId][Constants.IN][stationId].remove(0);
-        //System.out.println("Processing a bin of type: " +  ToyManufacturingModel.rProcessingStation[areaId][stationId].bin.type);
     }
 
     @Override
@@ -63,9 +62,8 @@ public class StationProcessing extends ConditionalActivity {
                     System.out.println("Error: Invalid plane type. Check this!");
                     break;
             }
+            toyManufacturingModel.rProcessingStation[areaId][stationId].bin = Constants.NO_BIN;
         }
-        //System.out.println("Station with type " + (areaId+1) + " and stationId " + stationId + " have finished processing");
         toyManufacturingModel.printAllVariablesForDebuggingPurposes();
-
     }
 }

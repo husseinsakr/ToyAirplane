@@ -33,8 +33,6 @@ public class OutputBinFromStation extends ConditionalAction{
             Bin igBin = toyManufacturingModel.rProcessingStation[areaId][stationId].bin;
             toyManufacturingModel.qIOArea[areaId][Constants.OUT][stationId].add(igBin);
             toyManufacturingModel.rProcessingStation[areaId][stationId].bin = Constants.NO_BIN;
-        } else {
-            toyManufacturingModel.rProcessingStation[areaId][stationId].bin = Constants.NO_BIN;
         }
     }
 

@@ -78,7 +78,7 @@ class UDPs
 		}
 
 		//Cutting/Grinding, Coating and INSP stations
-		for (int areaID = Constants.CUT; areaID <= Constants.INSP; areaID++){
+		for (int areaID = Constants.CUT; areaID < Constants.INSP; areaID++){
 			for (int stationID = 0; stationID < model.rProcessingStation[areaID].length; stationID++){
 				if(model.rProcessingStation[areaID][stationID].bin != Constants.NO_BIN
 						&& model.rProcessingStation[areaID][stationID].status == Constants.StationStatus.IDLE

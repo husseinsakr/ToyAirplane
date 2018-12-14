@@ -257,9 +257,7 @@ public class ToyManufacturingModel extends AOSimulationModel
 		if(log) {
 			System.out.printf("Clock = %10.4f\n", getClock());
 			showSBL();
-			System.out.println("Cast 1: " + rcCastingStation[0].timeToNextBreak);
-			System.out.println("Cast 2: " + rcCastingStation[1].timeToNextBreak);
-			System.out.println("Cast 3: " + rcCastingStation[2].timeToNextBreak);
+
 			/*
 			for (int i = 0; i < rcCastingStation.length; i++) {
 				System.out.println("Casting stationId= " + i + "; type="
@@ -273,7 +271,7 @@ public class ToyManufacturingModel extends AOSimulationModel
 			for (int j = 0; j < numCuttingGrindingStations; j++) {
 				System.out.print("Cutting stationId= " + j
 						+ "; status= " + rProcessingStation[0][j].status + ";");
-				if(rProcessingStation[0][j].status == Constants.BUSY)
+				if(rProcessingStation[0][j].status == Constants.StationStatus.BUSY)
 					System.out.print(" bin.n= " + rProcessingStation[0][j].bin.n
 							+"; binType=" +rProcessingStation[0][j].bin.type) ;
 				else
@@ -285,7 +283,7 @@ public class ToyManufacturingModel extends AOSimulationModel
 			for (int k = 0; k < numCoatingStations; k++) {
 				System.out.print("Coating stationId= " + k
 						+ "; status= " + rProcessingStation[1][k].status + ";");
-				if(rProcessingStation[1][k].status == Constants.BUSY)
+				if(rProcessingStation[1][k].status == Constants.StationStatus.BUSY)
 					System.out.print(" bin.n= " + rProcessingStation[1][k].bin.n
 							+"; binType=" +rProcessingStation[1][k].bin.type);
 				else
@@ -297,7 +295,7 @@ public class ToyManufacturingModel extends AOSimulationModel
 			for (int l = 0; l < numInspectionPackagingStations; l++) {
 				System.out.print("Insp stationId= " + l + "; status= "
 						+ rProcessingStation[2][l].status + ";");
-				if(rProcessingStation[2][l].status == Constants.BUSY)
+				if(rProcessingStation[2][l].status == Constants.StationStatus.BUSY)
 					System.out.print(" bin.n= " + rProcessingStation[2][l].bin.n
 							+"; binType=" +rProcessingStation[2][l].bin.type) ;
 				else
