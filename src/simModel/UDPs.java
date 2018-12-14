@@ -107,7 +107,8 @@ class UDPs
 					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n) {
 						return areaId;
 					}
-					/*else if (numberOfBinsCanPickup > 0
+					/*
+					else if (numberOfBinsCanPickup > 0
 							&& model.getClock() > model.endTime) {
 						if(areaId == Constants.CAST){
 							if(model.rcCastingStation[stationId].status == Constants.StationStatus.IDLE)
@@ -119,10 +120,35 @@ class UDPs
 						return areaId;
 					}
 					*/
+
 				}
+				/*
+				if(model.getClock() > model.endTime){
+					if(allStationsDoneProcessing(areaId))
+						return areaId;
+
+				}
+				*/
 			}
 		}
 		return Constants.NONE;
+	}
+
+	public boolean allStationsDoneProcessing(int areaId){
+		boolean retVal = true;
+		if(areaId == Constants.CAST){
+			for(CastingStation castingStation : model.rcCastingStation){
+				if(castingStation.status == Constants.StationStatus.BUSY)
+					retVal = false;
+			}
+		} else {
+			for(ProcessingStation processingStation : model.rProcessingStation[areaId]){
+				if(processingStation.status == Constants.StationStatus.BUSY){
+					retVal = false;
+				}
+			}
+		}
+		return retVal;
 	}
 
 	public void emptyTrolley(int moverId, int areaId){
@@ -136,10 +162,6 @@ class UDPs
 				continue;
 			}
 			if(areaId != Constants.COAT || (areaId == Constants.COAT && igBin.type != Constants.PlaneType.SPITFIRE)) {
-				int[] queueLengths = new int[model.qIOArea[areaId][Constants.IN].length];
-				for(int i = 0; i < queueLengths.length; i++){
-					queueLengths[i] = model.qIOArea[areaId][Constants.IN][i].size();
-				}
 				model.qIOArea[areaId][Constants.IN][findLeastBusyStation(areaId)].add(igBin);
 				mover.trolley[trolleyIndex] = null;
 				mover.n--;
@@ -181,7 +203,8 @@ class UDPs
 		for(int i = 0; i < Constants.MOVER_CAP; i++){ // fill trolley by also making sure that we don't overwrite an existing bin
 			int[] stationOutputLengths = getMaxOutputsInStations(areaId);
 			int stationId = indexOfBiggestInteger(stationOutputLengths);
-			if(model.rgMover[moverId].trolley[i] == Constants.NO_BIN){
+			if(model.rgMover[moverId].trolley[i] == Constants.NO_BIN
+				&& model.qIOArea[areaId][Constants.OUT][stationId].size() != 0){
 				model.rgMover[moverId].trolley[i] = model.qIOArea[areaId][Constants.OUT][stationId].remove(0);
 				model.rgMover[moverId].n++;
 			}
