@@ -122,13 +122,13 @@ class UDPs
 					*/
 
 				}
-				/*
-				if(model.getClock() > model.endTime){
+
+				if(model.getClock() > model.endTime && numberOfBinsCanPickup > 0){
 					if(allStationsDoneProcessing(areaId))
 						return areaId;
 
 				}
-				*/
+
 			}
 		}
 		return Constants.NONE;
