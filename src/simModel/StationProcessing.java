@@ -37,7 +37,7 @@ public class StationProcessing extends ConditionalActivity {
     public void terminatingEvent(){
         toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.StationStatus.IDLE;
         if ((areaId) == Constants.INSP){
-            //update output here for leaving planes
+            //update output for leaving planes
             for(int i = 0; i < Constants.BIN_CAP; i++){
                 if(toyManufacturingModel.rvp.uNumPlanesAccepted()){
                     switch (toyManufacturingModel.rProcessingStation[areaId][stationId].bin.type) {

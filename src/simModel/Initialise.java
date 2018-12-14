@@ -22,7 +22,7 @@ class Initialise extends ScheduledAction
 	protected void actionEvent() 
 	{
 		// System Initialisation
-                // Add initilisation instructions
+                // Initilisation instructions
 
 		//create all casting stations
 		int totalNumberOfCastingStations = model.numCastingStationsSpitfire + model.numCastingStationsF16
@@ -68,44 +68,7 @@ class Initialise extends ScheduledAction
 			}
 		}
 
-		/*
-		for(int x = 0; x < model.numCastingStationsSpitfire; x++){
-			model.rcCastingStation[x] = new CastingStation();
-			model.rcCastingStation[x].type = model.constants.SPITFIRE;
-			model.rcCastingStation[x].status = model.constants.IDLE;
-			model.rcCastingStation[x].timeToNextBreak = model.rvp.uCastingBreakTime();
-			model.rcCastingStation[x].bin = new Bin();
-			model.rcCastingStation[x].bin.type = model.constants.SPITFIRE;
-			model.rcCastingStation[x].bin.n = model.constants.EMPTY;
-		}
-
-		int startingIndexOfF16 = model.numCastingStationsSpitfire;
-		int endingIndexOfF16 = model.numCastingStationsSpitfire + model.numCastingStationsF16;
-		for(int y = startingIndexOfF16; y < endingIndexOfF16; y++){
-			model.rcCastingStation[y] = new CastingStation();
-			model.rcCastingStation[y].type = model.constants.F16;
-			model.rcCastingStation[y].status = model.constants.IDLE;
-			model.rcCastingStation[y].timeToNextBreak = model.rvp.uCastingBreakTime();
-			model.rcCastingStation[y].bin = new Bin();
-			model.rcCastingStation[y].bin.type = model.constants.F16;
-			model.rcCastingStation[y].bin.n = model.constants.EMPTY;
-		}
-
-		int startingIndexOfConcorde = model.numCastingStationsSpitfire + model.numCastingStationsF16;
-		int endingIndexOfConcorde = totalNumberOfCastingStations;
-		for(int z = startingIndexOfConcorde; z < endingIndexOfConcorde; z++){
-			model.rcCastingStation[z] = new CastingStation();
-			model.rcCastingStation[z].type = model.constants.CONCORDE;
-			model.rcCastingStation[z].status = model.constants.IDLE;
-			model.rcCastingStation[z].timeToNextBreak = model.rvp.uCastingBreakTime();
-			model.rcCastingStation[z].bin = new Bin();
-			model.rcCastingStation[z].bin.type = model.constants.CONCORDE;
-			model.rcCastingStation[z].bin.n = model.constants.EMPTY;
-		}
-
-		*/
-
-		// create all queue objects for casting stations
+		// create all output areas for casting stations
 		for (int castId = 0; castId < totalNumberOfCastingStations; castId++){
 			model.qIOArea[model.constants.CAST][model.constants.OUT][castId] = new ArrayList();
 		}

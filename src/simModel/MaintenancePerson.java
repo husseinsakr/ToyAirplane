@@ -1,5 +1,5 @@
 package simModel;
 
 public class MaintenancePerson {
-    public boolean available;
+    public boolean available; // availability of maintenance person
 }

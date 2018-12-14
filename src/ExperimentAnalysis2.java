@@ -5,7 +5,7 @@ import simModel.ToyManufacturingModel;
 
 public class ExperimentAnalysis2 {
     static final int [] NUM_RUNS_ARRAY = {20, 30, 40, 60, 80, 100, 1000, 10000};
-    static final double CONFIDENCE_LEVEL = 0.99;
+    static final double CONFIDENCE_LEVEL = 0.90;
     public static void main(String[] args) {
         int i, NUMRUNS = 10000;
         double startTime=0;

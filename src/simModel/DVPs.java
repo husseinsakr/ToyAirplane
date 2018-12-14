@@ -24,5 +24,4 @@ class DVPs
 		return movingTime;
 	}
 
-
 }

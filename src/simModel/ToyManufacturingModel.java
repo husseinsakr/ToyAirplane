@@ -12,11 +12,11 @@ public class ToyManufacturingModel extends AOSimulationModel
 {
 	// Constants available from Constants class
 	public Constants constants = new Constants();
-	public boolean log;
-	public static int x = 0;
-	public double endTime;
-	/* Parameter */
-        // Define the parameters
+
+	public boolean log; // if set to true shows the log
+	public double endTime; // simulation end time
+
+	/* Parameters */
 	public int numCastingStationsSpitfire;
 	public int numCastingStationsF16;
 	public int numCastingStationsConcorde;
@@ -27,29 +27,26 @@ public class ToyManufacturingModel extends AOSimulationModel
 
 	/*-------------Entity Data Structures-------------------*/
 	/* Group and Queue Entities */
-	public CastingStation[] rcCastingStation;
-	public ProcessingStation[][] rProcessingStation;
-	public ArrayList<Bin>[][][] qIOArea = new ArrayList[4][2][]; // [areaID][IN OR OUT][stationId]
-	public Mover[] rgMover;
-	public LinkedList<Integer>[][] qMoverLines = new LinkedList[4][2]; // [areaID][IN or OUT]
+	public CastingStation[] rcCastingStation; // [stationId]
+	public ProcessingStation[][] rProcessingStation; // [areaId][stationId]
+	public ArrayList<Bin>[][][] qIOArea = new ArrayList[4][2][]; // [areaId][IN OR OUT][stationId]
+	public Mover[] rgMover; // [moverId]
+	public LinkedList<Integer>[][] qMoverLines = new LinkedList[4][2]; // [areaId][IN or OUT]
 
-	// Define the reference variables to the various 
-	// entities with scope Set and Unary
+	// Entities with scope Set and Unary
 	public MaintenancePerson rMaintenancePerson;
 	public LinkedList<Integer> qCastingRepairQueue;
-	// Objects can be created here or in the Initialise Action
 
 	/* Input Variables */
-	// Define any Independent Input Varaibles here
-	
-	// References to RVP and DVP objects
+	// References to RVP, DVP and UDP objects
 	protected RVPs rvp;  // Reference to rvp object - object created in constructor
 	protected DVPs dvp = new DVPs(this);  // Reference to dvp object
-	protected UDPs udp = new UDPs(this);
+	protected UDPs udp = new UDPs(this); // Reference to udp object
 
 	// Output object
 	protected Output output = new Output(this);
 
+	// Output values
 	public int getNumSptfireProduced(){
 		return output.numSpitfireProduced;
 	}
@@ -61,10 +58,6 @@ public class ToyManufacturingModel extends AOSimulationModel
 	public int getNumConcordeProduced(){
 		return output.numConcordeProduced;
 	}
-	
-	// Output values - define the public methods that return values
-	// required for experimentation.
-
 
 	// Constructor
 	public ToyManufacturingModel(double t0time, double tftime, int numCastingStationsSpitfire,
@@ -92,9 +85,9 @@ public class ToyManufacturingModel extends AOSimulationModel
 		rcCastingStation = new CastingStation[totalNumberOfCastingStations];
 
 		//Cutting/Grinding, Coating and Inspection/Packaging stations
-		//Cutting = 0, Coating = 1, Insp/Pack = 2
+		//Cutting = 1, Coating = 2, Insp/Pack = 3
+		//We used array of size 4 but we only use arrays 1-3
 		rProcessingStation = new ProcessingStation[4][];
-		// We subtract by 1 because casting station is not part of rProcessingStation
 		rProcessingStation[constants.CUT] = new ProcessingStation[numCuttingGrindingStations];
 		rProcessingStation[constants.COAT] = new ProcessingStation[numCoatingStations];
 		rProcessingStation[constants.INSP] = new ProcessingStation[numInspectionPackagingStations];
@@ -113,16 +106,11 @@ public class ToyManufacturingModel extends AOSimulationModel
 		// Maintenance person
 		rMaintenancePerson = new MaintenancePerson();
 		
-		// rgCounter and qCustLine objects created in Initalise Action
-		
 		// Initialise the simulation model
 		initAOSimulModel(t0time);
 
-		     // Schedule the first arrivals and employee scheduling
 		Initialise init = new Initialise(this);
-		scheduleAction(init);  // Should always be first one scheduled.
-		//showSBL();
-		// Schedule other scheduled actions and acitvities here
+		scheduleAction(init);  // Always first one scheduled.
 	}
 
 	/************  Implementation of Data Modules***********/	
@@ -134,106 +122,81 @@ public class ToyManufacturingModel extends AOSimulationModel
 		reschedule (behObj);
 		// Check preconditions of Conditional Activities
 		while (scanPreconditions() == true)/* repeat */;
-
-		// Check preconditions of Interruptions in Extended Activities
 	}
 
 	public boolean scanPreconditions(){
 		boolean statusChanged = false;
 
 		// Conditional Actions
+
+		//checks if we can output a bin from a station that is done processing
 		if (OutputBinFromStation.precondition(this) == true)
 		{
 			OutputBinFromStation act = new OutputBinFromStation(this); // Generate instance																// instance
 			act.actionEvent();
 			statusChanged = true;
-
-			/*
-			if(act.areaId != Constants.INSP)
-				System.out.println("Output bin from station " + act.stationId + " with a station type " + act.areaId + " now has an output queue of size: " + act.ToyManufacturingModel.qIOArea[act.areaId][1][act.stationId].size());
-			else
-				System.out.println("Output bin from inspection station");
-				*/
-
 		}
 
+		//checks if we have movers in input queues of areas to distribute bins evenly around all stations
 		if(DistributeBins.precondition(this) == true)
 		{
 			DistributeBins distributeBins = new DistributeBins(this); // Generate instance
 			distributeBins.actionEvent();
 			statusChanged = true;
-			//System.out.println("Distribute bins at areaId " + distributeBins.areaId);
-
 		}
 
 		// Conditional Activities
+
+		//Checks if a casting station can start operating
 		if (PlaneMoldCast.precondition(this) == true)
 		{
 			PlaneMoldCast act = new PlaneMoldCast(this); // Generate instance
 			act.startingEvent();
 			scheduleActivity(act);
 			statusChanged = true;
-
-			/*
-			System.out.println("Casting station starts operating with stationId " + act.stationId + " and holding "
-					+ act.ToyManufacturingModel.rcCastingStation[act.stationId].bin.n + " planes.");
-			*/
 		}
 
+		//Checks if a casting station requires maintenance
 		if (CastNeedsMaintenance.precondition(this) == true)
 		{
 			CastNeedsMaintenance act = new CastNeedsMaintenance(this); // Generate instance
 			act.startingEvent();
 			scheduleActivity(act);
 			statusChanged = true;
-			//System.out.println("Casting station " + act.stationId + " requires maintenance");
-
 		}
 
+		//Checks if we can repairing a casting station
 		if (CastRepaired.precondition(this) == true)
 		{
 			CastRepaired act = new CastRepaired(this); // Generate instance
 			act.startingEvent();
 			scheduleActivity(act);
 			statusChanged = true;
-
-			//System.out.println("Casting station got repaired with stationId " + act.stationId);
-
 		}
 
+		//Checks if a station can start operating
 		if (StationProcessing.precondition(this) == true)
 		{
 			StationProcessing act = new StationProcessing(this); // Generate instance
 			act.startingEvent();
 			scheduleActivity(act);
 			statusChanged = true;
-
-			/*
-			if(act.areaId+1 != Constants.INSP)
-				System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId + " and has an output size of " + act.ToyManufacturingModel.qIOArea[(act.areaId + 1) % Constants.INSP][1][act.stationId].size());
-			else
-				System.out.println("Station started operating with type " + (act.areaId+1) + " and stationid " + act.stationId);
-			*/
 		}
 
-
+		//Checks if we can start moving bins from a station
 		if (MoveBins.precondition(this) == true)
 		{
 			MoveBins act = new MoveBins(this); // Generate instance
 			act.startingEvent();
 			scheduleActivity(act);
 			statusChanged = true;
-
-			//System.out.println("Starting to move bins from " + act.currentArea + " with stationid to " + act.destinationArea);
 		}
 
 		return statusChanged;
 	}
 
 	public boolean implicitStopCondition(){
-		//System.out.println("getClock() in implicit stop condition: " + getClock());
 		if(sbl.isEmpty() && getClock() > endTime){
-			//System.out.println("Current time at ending: " + getClock());
 			return true;
 		}
 		return false;
@@ -244,15 +207,7 @@ public class ToyManufacturingModel extends AOSimulationModel
 		printAllVariablesForDebuggingPurposes();
  	}
 
- 	/*
-	// Standard Procedure to start Sequel Activities with no parameters
-	protected void spStart(SequelActivity seqAct)
-	{
-		seqAct.startingEvent();
-		scheduleActivity(seqAct);
-	}
-	*/
-
+	//Method made to show behaviour of simulation before and after events
 	public void printAllVariablesForDebuggingPurposes(){
 		if(log) {
 			System.out.printf("Clock = %10.4f\n", getClock());
@@ -292,10 +247,6 @@ public class ToyManufacturingModel extends AOSimulationModel
 			}
 			System.out.printf("\n                                                           {%-20s} %-2s", mcastout.toString(), qMoverLines[0][1].size());
 			System.out.println("\n");
-
-
-
-
 
 
 			//Print status of Moverline - CUT INPUT
@@ -351,10 +302,6 @@ public class ToyManufacturingModel extends AOSimulationModel
 			System.out.println("\n");
 
 
-
-
-
-
 			//Print status of Moverline - COAT INPUT
 			StringBuilder mcoatin = new StringBuilder();
 			for (int m = 0; m < qMoverLines[2][0].size(); m++){
@@ -407,11 +354,6 @@ public class ToyManufacturingModel extends AOSimulationModel
 			System.out.printf("\n                                                           {%-20s} %-2s", mcoatout.toString(), qMoverLines[2][1].size());
 			System.out.println("\n");
 
-
-
-
-
-
 			//Print sntatus of Moverline - INSP INPUT
 			StringBuilder minspin = new StringBuilder();
 			for (int m = 0; m < qMoverLines[3][0].size(); m++){
@@ -448,10 +390,6 @@ public class ToyManufacturingModel extends AOSimulationModel
 			System.out.println("\n");
 
 
-
-
-
-
 			//Print status of the Maintenance Person
 			String mpavail = "";
 			if(rMaintenancePerson.available){
@@ -474,8 +412,6 @@ public class ToyManufacturingModel extends AOSimulationModel
 			}
 			System.out.printf("\nREPAIRQ:  {%-20s}", rpairq.toString());
 			System.out.println("\n");
-
-
 
 			System.out.println("\n");
 			System.out.println("\n_________________________________________________________________________________________");

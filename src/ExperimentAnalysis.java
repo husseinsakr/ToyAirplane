@@ -6,7 +6,7 @@ import simModel.ToyManufacturingModel;
 public class ExperimentAnalysis {
     public static void main(String[] args) {
         int i, NUMRUNS = 100;
-        final double CONFIDENCE_LEVEL = 0.99;
+        final double CONFIDENCE_LEVEL = 0.90;
         double startTime=0;
         double endTime = 480; // run for 8 hours
         Seeds[] sds = new Seeds[NUMRUNS];

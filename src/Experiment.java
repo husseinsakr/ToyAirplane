@@ -53,12 +53,12 @@ class Experiment
 
        if(showLog) {
            NUMRUNS = 1;
-           numCastingStationsSpitfire = minNumberOfStations;
-           numCastingStationsF16 = minNumberOfStations;
-           numCastingStationsConcorde = minNumberOfStations;
-           numCuttingGrindingStations = minNumberOfStations;
-           numCoatingStations = minNumberOfStations;
-           numInspectionPackagingStations = minNumberOfStations;
+           numCastingStationsSpitfire = 2;
+           numCastingStationsF16 = 1;
+           numCastingStationsConcorde = 1;
+           numCuttingGrindingStations = 10;
+           numCoatingStations = 3;
+           numInspectionPackagingStations = 3;
            numMovers = maxNumberOfStationsPerType; //ideal amount for now
        } else {
            System.out.println("Finding best parameters to reach desired outputs!\n");

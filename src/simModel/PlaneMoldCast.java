@@ -20,7 +20,7 @@ public class PlaneMoldCast extends Activity {
 
     @Override
     public void startingEvent(){
-        stationId = toyManufacturingModel.udp.castingStationReadyForProcessing(); // casting station ready to cast
+        stationId = toyManufacturingModel.udp.castingStationReadyForProcessing();
         toyManufacturingModel.rcCastingStation[stationId].status = Constants.StationStatus.BUSY;
     }
 

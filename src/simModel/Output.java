@@ -1,7 +1,5 @@
 package simModel;
 
-import simulationModelling.OutputSequence;
-
 class Output
 {
 	ToyManufacturingModel model;
@@ -10,6 +8,5 @@ class Output
 	public int numConcordeProduced = 0;
 
 	public Output(ToyManufacturingModel toyManufacturingModel){this.model = toyManufacturingModel;}
-
 
 }

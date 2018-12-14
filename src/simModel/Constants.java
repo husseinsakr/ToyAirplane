@@ -3,8 +3,7 @@ package simModel;
 class Constants 
 {
 	/* Constants */
-	// Define constants as static
-	// Example: protected final static double realConstant = 8.0;
+
     public final static int CAST = 0;
     public final static int CUT = 1;
     public final static int COAT = 2;

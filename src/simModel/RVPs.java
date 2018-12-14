@@ -10,9 +10,8 @@ class RVPs
 {
 	ToyManufacturingModel model; // for accessing the clock
     // Data Models - i.e. random veriate generators for distributions
-	// are created using Colt classes, define 
-	// reference variables here and create the objects in the
-	// constructor with seeds
+	// are created using Colt classes, define
+
 	public final double CASTING_BREAK_MEAN = 60;
 	public final double RT_MEAN_TIME_TO_REPAIR = 8;
 	public final double RT_STD_DEV_TIME_TO_REPAIR = 2;
@@ -30,7 +29,6 @@ class RVPs
 
 	public TriangularVariate cutTime;
 
-	// Needs to be corrected
 	public Gamma grindTime;
 
 	public TriangularVariate inspTime;
@@ -46,7 +44,7 @@ class RVPs
 	protected RVPs(ToyManufacturingModel model, Seeds sd) 
 	{ 
 		this.model = model; 
-		// Set up distribution functions
+		// Distribution functions
 		cutTime = new TriangularVariate(CT_LOWER_TIME_TO_CUT, CT_MODE_TIME_TO_CUT, CT_UPPER_TIME_TO_CUT, new MersenneTwister(sd.cuttingTime));
 		grindTime = new Gamma(GT_ALPHA, GT_LAMBDA, new MersenneTwister(sd.grindingTime));
 		inspTime = new TriangularVariate(IT_LOWER_TIME_TO_INSPECT, IT_MODE_TIME_TO_INSPECT, IT_UPPER_TIME_TO_INSPECT, new MersenneTwister(sd.packingTime));
@@ -75,7 +73,7 @@ class RVPs
 				operationTime = Constants.BIN_CAP * (cutTime.next() + grindTime.nextDouble());
 				break;
 			case Constants.COAT:
-				operationTime = Constants.COATING_TIME; // to reach 24 airplanes in bin since it produces 12 at a time
+				operationTime = Constants.COATING_TIME;
 				break;
 			case Constants.INSP:
 				operationTime = Constants.BIN_CAP * (inspTime.next());

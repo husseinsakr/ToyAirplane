@@ -40,8 +40,6 @@ class UDPs
 		return Constants.NONE;
 	}
 
-
-
 	/*
 	 * Returns the identifiers areaID and stationID of stations that are ready for operation
 	 */
@@ -60,13 +58,14 @@ class UDPs
 				}
 			}
 		}
-		return null;
+		return (int[])Constants.NO_RESULT;
 	}
 
+	// returns the areaId and stationId where you could output a bin from the station
 	public int[] binReadyForOutput(){
 		int[] areaIdAndStationId = new int[2];
 
-		//Casting station
+		//Check all casting stations if you could output a bin from a station
 		for (int castingStationId = 0; castingStationId < model.rcCastingStation.length; castingStationId++){
 			if(model.rcCastingStation[castingStationId].bin.n == model.constants.BIN_CAP
 					&& model.rcCastingStation[castingStationId].status == Constants.StationStatus.IDLE
@@ -78,7 +77,7 @@ class UDPs
 			}
 		}
 
-		//Cutting/Grinding, Coating and INSP stations
+		//Check all cutting/grinding and coating stations if you could output a bin from a station
 		for (int areaID = Constants.CUT; areaID < Constants.INSP; areaID++){
 			for (int stationID = 0; stationID < model.rProcessingStation[areaID].length; stationID++){
 				if(model.rProcessingStation[areaID][stationID].bin != Constants.NO_BIN
@@ -91,38 +90,27 @@ class UDPs
 				}
 			}
 		}
-		return null;
+		return (int[])Constants.NO_RESULT;
 	}
 
 
-	public int canStartMovingBins(){ // need more explanation on this one
+	// returns areaId where you could move bins
+	public int canStartMovingBins(){
 		Mover mover;
 		int numberOfBinsCanPickup;
 		for (int areaId = Constants.CAST; areaId < Constants.INSP; areaId++) {
 			numberOfBinsCanPickup = 0;
-			if (!model.qMoverLines[areaId][Constants.OUT].isEmpty()) {
-				mover = model.rgMover[model.qMoverLines[areaId][Constants.OUT].peek()];
+			if (model.qMoverLines[areaId][Constants.OUT].size() != 0) { // check if there exist a mover at areaId
+				mover = model.rgMover[model.qMoverLines[areaId][Constants.OUT].peek()]; //get mover from top of mover queue
+				//check how many bins we can pickup at this areaId by going through all stations
 				for (int stationId = 0; stationId < model.qIOArea[areaId][Constants.OUT].length; stationId++) {
 					numberOfBinsCanPickup += model.qIOArea[areaId][Constants.OUT][stationId].size();
-					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n) {
+					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n) { //Check how many bins the mover requires to pickup
 						return areaId;
 					}
-					/*
-					else if (numberOfBinsCanPickup > 0
-							&& model.getClock() > model.endTime) {
-						if(areaId == Constants.CAST){
-							if(model.rcCastingStation[stationId].status == Constants.StationStatus.IDLE)
-								return areaId;
-						} else {
-							if(model.rProcessingStation[areaId][stationId].status == Constants.StationStatus.IDLE)
-								return areaId;
-						}
-						return areaId;
-					}
-					*/
-
 				}
 
+				//If clock is passed the entime, the mover will pickup as many bins possible
 				if(model.getClock() > model.endTime && numberOfBinsCanPickup > 0){
 					if(allStationsDoneProcessing(areaId))
 						return areaId;
@@ -134,6 +122,7 @@ class UDPs
 		return Constants.NONE;
 	}
 
+	// Helper method to check if all stations are done processing at an areaId
 	public boolean allStationsDoneProcessing(int areaId){
 		boolean retVal = true;
 		if(areaId == Constants.CAST){
@@ -151,6 +140,7 @@ class UDPs
 		return retVal;
 	}
 
+	//Empty the trolley and distribute the bins evenly across all stations at an areaId
 	public void emptyTrolley(int moverId, int areaId){
 		Mover mover = model.rgMover[moverId];
 		for (int trolleyIndex = 0; trolleyIndex < Constants.MOVER_CAP; trolleyIndex++){
@@ -169,7 +159,7 @@ class UDPs
 		}
 	}
 
-	//returns the index of the smallest int in an array
+	//returns the stationId of the least busy station
 	public int findLeastBusyStation(int areaId){
 		int[] queueLengths = new int[model.qIOArea[areaId][Constants.IN].length];
 		for(int i = 0; i < queueLengths.length; i++){
@@ -197,19 +187,19 @@ class UDPs
 		return index;
 	}
 
+	//Fill up the trolley with bins and return the destination areaId
 	public int fillTrolley(int moverId, int areaId){
 		int destinationArea = uNextStation(areaId);
 
 		for(int i = 0; i < Constants.MOVER_CAP; i++){ // fill trolley by also making sure that we don't overwrite an existing bin
-			int[] stationOutputLengths = getMaxOutputsInStations(areaId);
-			int stationId = indexOfBiggestInteger(stationOutputLengths);
+			int stationId = stationWithBiggestOutput(areaId);
 			if(model.rgMover[moverId].trolley[i] == Constants.NO_BIN
 				&& model.qIOArea[areaId][Constants.OUT][stationId].size() != 0){
 				model.rgMover[moverId].trolley[i] = model.qIOArea[areaId][Constants.OUT][stationId].remove(0);
 				model.rgMover[moverId].n++;
 			}
 		}
-		if(areaId == Constants.CUT) {
+		if(areaId == Constants.CUT) { // checks if we are at cutting station and if the trolley contains all spitfire bins then skip to insp station
 			boolean allSpitfireBins = true;
 			for (Bin igBin : model.rgMover[moverId].trolley){
 				if (igBin != null && igBin.type != Constants.PlaneType.SPITFIRE){
@@ -218,11 +208,12 @@ class UDPs
 				}
 			}
 			if (allSpitfireBins)
-				destinationArea = uNextStation(destinationArea); // skip coating
+				destinationArea = uNextStation(destinationArea); // skip coating station
 		}
 		return destinationArea;
 	}
 
+	// Returns the next areaId in the manufacturing process
 	protected int uNextStation(int currentAreaId) {
 		switch(currentAreaId) {
 			case Constants.CAST:return Constants.CUT;
@@ -233,23 +224,27 @@ class UDPs
 		}
 	}
 
-	//returns the index of the smallest int in an array
-	public int indexOfBiggestInteger(int[] array){
-		int max = array[0];
+	//Returns the stationId with biggest output
+	public int stationWithBiggestOutput(int areaId){
+		int[] stationOutputLengths = new int[model.qIOArea[areaId][Constants.OUT].length];
+		for(int i = 0; i < stationOutputLengths.length; i++){
+			stationOutputLengths[i] = model.qIOArea[areaId][Constants.OUT][i].size();
+		}
+		int max = stationOutputLengths[0];
 		int index = 0;
-		for(int i = 0; i < array.length; i++){
-			if(max < array[i]){
-				max = array[i];
+		for(int i = 0; i < stationOutputLengths.length; i++){
+			if(max < stationOutputLengths[i]){
+				max = stationOutputLengths[i];
 				index = i;
 			}
 		}
 		return index;
 	}
 
+	//Returns the areaId where you could distribute bins
 	public int canDistributeBins(){
 		for(int areaId = Constants.CUT; areaId <= Constants.INSP; areaId++){
 			if(!model.qMoverLines[areaId][Constants.IN].isEmpty()){
-				int numOfStationsAtAreaId = model.qIOArea[areaId][Constants.IN].length;
 				int canFit = 0;
 				for(ArrayList ioArea : model.qIOArea[areaId][Constants.IN]){
 					canFit += Constants.IN_OUT_CAP - ioArea.size();
@@ -272,14 +267,4 @@ class UDPs
 		}
 		return Constants.NONE;
 	}
-
-	private int[] getMaxOutputsInStations(int areaId){
-		int[] stationsAtAreaId = new int[model.qIOArea[areaId][Constants.OUT].length];
-		for(int i = 0; i < stationsAtAreaId.length; i++){
-			stationsAtAreaId[i] = model.qIOArea[areaId][Constants.OUT][i].size();
-		}
-		return stationsAtAreaId;
-	}
-	
-	
 }
