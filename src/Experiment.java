@@ -26,7 +26,7 @@ class Experiment
        Seeds[] sds = new Seeds[NUMRUNS];
        ToyManufacturingModel mname;  // Simulation object
        double percentProductionIncrease = 30.0 / 100.0;
-       boolean showLog = true;
+       boolean showLog = false;
 
        int spitfireProduction = 1000;
        int f16Production = 1500;
@@ -51,14 +51,14 @@ class Experiment
        int[] parameters = new int[]{numCastingStationsSpitfire, numCastingStationsF16, numCastingStationsConcorde,
                numCuttingGrindingStations, numCoatingStations, numInspectionPackagingStations, numMovers};
 
-       if(showLog) {
+       if(showLog) { // change as you like the values to find result of simulation!
            NUMRUNS = 1;
-           numCastingStationsSpitfire = 2;
-           numCastingStationsF16 = 1;
-           numCastingStationsConcorde = 1;
-           numCuttingGrindingStations = 10;
-           numCoatingStations = 3;
-           numInspectionPackagingStations = 3;
+           numCastingStationsSpitfire = minNumberOfStations;
+           numCastingStationsF16 = minNumberOfStations;
+           numCastingStationsConcorde = minNumberOfStations;
+           numCuttingGrindingStations = minNumberOfStations;
+           numCoatingStations = minNumberOfStations;
+           numInspectionPackagingStations = minNumberOfStations;
            numMovers = maxNumberOfStationsPerType; //ideal amount for now
        } else {
            System.out.println("Finding best parameters to reach desired outputs!\n");
@@ -95,17 +95,15 @@ class Experiment
            int totalNumberOfCastingStations = numCastingStationsConcorde + numCastingStationsF16 + numCastingStationsSpitfire;
 
            if(!showLog) {
-               System.out.println("Simulation " + simulationNumber++);
+               System.out.print("Simulation " + simulationNumber++ + " with parameters: ");
+               System.out.print(numCastingStationsSpitfire + ", ");
+               System.out.print(numCastingStationsF16 + ", ");
+               System.out.print(numCastingStationsConcorde + ", ");
+               System.out.print(numCuttingGrindingStations + ", ");
+               System.out.print(numCoatingStations + ", ");
+               System.out.print(numInspectionPackagingStations + ", ");
+               System.out.println(numMovers);
                System.out.println("---------------------------------------------------------------");
-               System.out.println("Parameters:");
-               System.out.println("Number of spitfire casting stations: " + numCastingStationsSpitfire);
-               System.out.println("Number of F16 casting stations: " + numCastingStationsF16);
-               System.out.println("Number of concorde casting stations: " + numCastingStationsConcorde);
-               System.out.println("Number of cutting/grinding stations: " + numCuttingGrindingStations);
-               System.out.println("Number of coating stations: " + numCoatingStations);
-               System.out.println("Number of inspection stations: " + numInspectionPackagingStations);
-               System.out.println("Number of movers: " + numMovers);
-
                System.out.println("Outputs:");
                System.out.println("Num F16 produced: " + avgNumberOfF16ProducedDaily +
                        "(" + String.format("%.2f", percentF16Produced * 100) + "%)");
@@ -117,8 +115,7 @@ class Experiment
            } else {
                break;
            }
-
-
+           
            if(!foundNumberOfCastingStations) {
                if (avgNumberOfSpitfireProducedDaily > spitfireProductionGoal) {
                    foundNumberOfSpitfireCastingStations = true;
@@ -221,7 +218,7 @@ class Experiment
                    && foundNumberOfCoatingStations && foundNumberOfInspectionPackagingStations
                    && foundNumberOfMovers)
            {
-               System.out.println("Found perfect parameters!");
+               System.out.println("Found optimal parameters!");
                break;
            }
            // See examples for hints on collecting output
