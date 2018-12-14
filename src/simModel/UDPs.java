@@ -107,13 +107,25 @@ class UDPs
 					if (numberOfBinsCanPickup >= Constants.MOVER_CAP - mover.n) {
 						return areaId;
 					}
+					/*else if (numberOfBinsCanPickup > 0
+							&& model.getClock() > model.endTime) {
+						if(areaId == Constants.CAST){
+							if(model.rcCastingStation[stationId].status == Constants.StationStatus.IDLE)
+								return areaId;
+						} else {
+							if(model.rProcessingStation[areaId][stationId].status == Constants.StationStatus.IDLE)
+								return areaId;
+						}
+						return areaId;
+					}
+					*/
 				}
 			}
 		}
 		return Constants.NONE;
 	}
 
-	public int emptyTrolley(int moverId, int areaId){
+	public void emptyTrolley(int moverId, int areaId){
 		Mover mover = model.rgMover[moverId];
 		for (int trolleyIndex = 0; trolleyIndex < Constants.MOVER_CAP; trolleyIndex++){
 			Bin igBin = new Bin();
@@ -133,7 +145,6 @@ class UDPs
 				mover.n--;
 			}
 		}
-		return -1;
 	}
 
 	//returns the index of the smallest int in an array
@@ -144,7 +155,6 @@ class UDPs
 		}
 		int min = queueLengths[0];
 		int index = 0;
-		int numberOfEmptyStations = 0;
 		ArrayList<Integer> emptyStations = new ArrayList<>();
 		for(int i = 0; i < queueLengths.length; i++){
 			if(min > queueLengths[i]){
