@@ -20,7 +20,7 @@ public class ExperimentAnalysis {
         double [] valuesConcordeCase1 = new double[NUMRUNS];
         double [] valuesSpitfireCase1 = new double[NUMRUNS];
 
-        int numMovers = 19,
+        int numMovers = 18,
         	numCastingStationsF16 = 4,
             numCastingStationsConcorde = 5,
             numCastingStationsSpitfire = 3,

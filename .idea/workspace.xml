@@ -10,7 +10,7 @@
       <change beforePath="$PROJECT_DIR$/out/production/TemplateSrc/simModel/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TemplateSrc/simModel/Constants.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TemplateSrc/simModel/DVPs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TemplateSrc/simModel/DVPs.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TemplateSrc/simModel/IOArea.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TemplateSrc/simModel/Initialise.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TemplateSrc/simModel/Initialise.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TemplateSrc/simModel/Initialise.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TemplateSrc/simModel/ModelName.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TemplateSrc/simModel/MoversLine.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TemplateSrc/simModel/Output.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TemplateSrc/simModel/Output.class" afterDir="false" />
@@ -83,23 +83,23 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="109" />
-          <entry key="java" value="1018" />
+          <entry key="java" value="1039" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="109" />
-          <entry key="JAVA" value="1018" />
+          <entry key="JAVA" value="1039" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="43838" />
+          <entry key="java" value="43867" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="43838" />
+          <entry key="JAVA" value="43867" />
         </counts>
       </usages-collector>
     </session>
@@ -107,103 +107,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simModel/DVPs.java">
+        <entry file="file://$PROJECT_DIR$/src/ExperimentAnalysis.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simModel/Initialise.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1989">
-              <caret line="120" column="40" lean-forward="true" selection-start-line="120" selection-start-column="40" selection-end-line="120" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simModel/MaintenancePerson.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="67" selection-start-line="3" selection-start-column="67" selection-end-line="3" selection-end-column="67" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simModel/MoveBins.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="28" column="28" lean-forward="true" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
-              <folding>
-                <element signature="e#281#282#0" expanded="true" />
-                <element signature="e#347#348#0" expanded="true" />
-                <element signature="e#941#942#0" expanded="true" />
-                <element signature="e#1039#1040#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simModel/Mover.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="63" selection-start-line="4" selection-start-column="63" selection-end-line="4" selection-end-column="63" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simModel/Output.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="77" selection-start-line="7" selection-start-column="77" selection-end-line="7" selection-end-column="77" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simModel/OutputBinFromStation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simModel/PlaneMoldCast.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/simModel/ProcessingStation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="59" lean-forward="true" selection-start-line="4" selection-start-column="59" selection-end-line="4" selection-end-column="59" />
+            <state relative-caret-position="272">
+              <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/simModel/RVPs.java">
+        <entry file="file://$PROJECT_DIR$/src/ExperimentAnalysis2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="238">
+              <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -219,9 +135,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>IDLE\</find>
-      <find>IDLE</find>
-      <find>fillTro</find>
       <find>indexOfBigges</find>
       <find>indexOfBiggestInteger</find>
       <find>canStart</find>
@@ -241,7 +154,6 @@
       <find>Clock =  1</find>
       <find>Clock =   4</find>
       <find>Clock =   479</find>
-      <find>empty</find>
       <find>Clock =</find>
       <find>rcCas</find>
       <find>canSt</find>
@@ -249,6 +161,10 @@
       <find>canDistributeBins</find>
       <find>Output</find>
       <find>stationWithBi</find>
+      <find>model.co</find>
+      <find>fillT</find>
+      <find>empty</find>
+      <find>cand</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -267,25 +183,25 @@
         <option value="$PROJECT_DIR$/src/simModel/CastNeedsMaintenance.java" />
         <option value="$PROJECT_DIR$/src/simModel/CastRepaired.java" />
         <option value="$PROJECT_DIR$/src/simModel/IOArea.java" />
-        <option value="$PROJECT_DIR$/src/simModel/OutputBinFromStation.java" />
         <option value="$PROJECT_DIR$/src/simModel/MoveBins.java" />
         <option value="$PROJECT_DIR$/src/simModel/DistributeBins.java" />
         <option value="$PROJECT_DIR$/src/simModel/DVPs.java" />
-        <option value="$PROJECT_DIR$/src/simModel/Initialise.java" />
         <option value="$PROJECT_DIR$/src/simModel/MaintenancePerson.java" />
-        <option value="$PROJECT_DIR$/src/simModel/Constants.java" />
-        <option value="$PROJECT_DIR$/src/simModel/PlaneMoldCast.java" />
-        <option value="$PROJECT_DIR$/src/simModel/StationProcessing.java" />
         <option value="$PROJECT_DIR$/src/simModel/ToyManufacturingModel.java" />
-        <option value="$PROJECT_DIR$/src/ExperimentAnalysis.java" />
-        <option value="$PROJECT_DIR$/src/ExperimentAnalysis2.java" />
-        <option value="$PROJECT_DIR$/src/Experiment.java" />
         <option value="$PROJECT_DIR$/src/simModel/Bin.java" />
         <option value="$PROJECT_DIR$/src/simModel/CastingStation.java" />
         <option value="$PROJECT_DIR$/src/simModel/Output.java" />
         <option value="$PROJECT_DIR$/src/simModel/Mover.java" />
-        <option value="$PROJECT_DIR$/src/simModel/UDPs.java" />
         <option value="$PROJECT_DIR$/src/simModel/RVPs.java" />
+        <option value="$PROJECT_DIR$/src/simModel/Constants.java" />
+        <option value="$PROJECT_DIR$/src/simModel/Initialise.java" />
+        <option value="$PROJECT_DIR$/src/simModel/PlaneMoldCast.java" />
+        <option value="$PROJECT_DIR$/src/simModel/StationProcessing.java" />
+        <option value="$PROJECT_DIR$/src/simModel/OutputBinFromStation.java" />
+        <option value="$PROJECT_DIR$/src/simModel/UDPs.java" />
+        <option value="$PROJECT_DIR$/src/Experiment.java" />
+        <option value="$PROJECT_DIR$/src/ExperimentAnalysis.java" />
+        <option value="$PROJECT_DIR$/src/ExperimentAnalysis2.java" />
       </list>
     </option>
   </component>
@@ -336,7 +252,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544833423573" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544842913201" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -357,17 +273,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
-    <configuration name="Experiment" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.ExperimentAnalysis">
+    <configuration name="Experiment" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Experiment" />
       <module name="TemplateSrc" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ExperimentAnalysis" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ExperimentAnalysis" />
+      <module name="TemplateSrc" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Experiment" />
+      <item itemvalue="Application.ExperimentAnalysis" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Experiment" />
+        <item itemvalue="Application.ExperimentAnalysis" />
       </list>
     </recent_temporary>
   </component>
@@ -402,18 +329,18 @@
       <workItem from="1544600659718" duration="22678000" />
       <workItem from="1544708262573" duration="14024000" />
       <workItem from="1544731267676" duration="32146000" />
-      <workItem from="1544832240566" duration="1141000" />
+      <workItem from="1544832240566" duration="10135000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="325476000" />
+    <option name="totallyTimeSpent" value="334470000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.29878542" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29878542" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -422,7 +349,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" x="0" y="23" width="1281" height="658" id="Run" order="2" type="WINDOWED" visible="true" weight="0.3285968" />
+      <window_info active="true" anchor="bottom" x="0" y="23" width="1281" height="658" id="Run" order="2" type="WINDOWED" visible="true" weight="0.3285968" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.14031972" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -602,64 +529,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/simModel/MoversLine.java" />
     <entry file="file://$PROJECT_DIR$/src/simModel/IOArea.java" />
-    <entry file="file://$PROJECT_DIR$/src/ExperimentAnalysis2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="7" column="47" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ExperimentAnalysis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="8" column="44" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/UDPs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="17" selection-start-column="17" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/ToyManufacturingModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5814">
-          <caret line="414" selection-start-line="414" selection-end-line="414" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Experiment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="102" column="41" selection-start-line="102" selection-start-column="41" selection-end-line="102" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/Seeds.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/StationProcessing.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="725">
-          <caret line="51" column="34" lean-forward="true" selection-start-line="51" selection-start-column="34" selection-end-line="51" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/simModel/Bin.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -674,38 +543,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/CastNeedsMaintenance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="62" lean-forward="true" selection-start-line="14" selection-start-column="62" selection-end-line="14" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/CastRepaired.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="31" lean-forward="true" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
-          <folding>
-            <element signature="e#821#822#0" expanded="true" />
-            <element signature="e#890#891#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/DistributeBins.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/simModel/DVPs.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
@@ -713,33 +550,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/Initialise.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1989">
-          <caret line="120" column="40" lean-forward="true" selection-start-line="120" selection-start-column="40" selection-end-line="120" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/simModel/MaintenancePerson.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="67" selection-start-line="3" selection-start-column="67" selection-end-line="3" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/MoveBins.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="28" lean-forward="true" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
-          <folding>
-            <element signature="e#281#282#0" expanded="true" />
-            <element signature="e#347#348#0" expanded="true" />
-            <element signature="e#941#942#0" expanded="true" />
-            <element signature="e#1039#1040#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -757,20 +571,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/OutputBinFromStation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/simModel/PlaneMoldCast.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/simModel/ProcessingStation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -785,6 +585,133 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/Seeds.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/ToyManufacturingModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6885">
+          <caret line="414" selection-start-line="414" selection-end-line="414" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="46" selection-start-line="16" selection-start-column="46" selection-end-line="16" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/Initialise.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="71" column="31" lean-forward="true" selection-start-line="71" selection-start-column="31" selection-end-line="71" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/PlaneMoldCast.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="21" column="32" lean-forward="true" selection-start-line="21" selection-start-column="32" selection-end-line="21" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/CastNeedsMaintenance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="73">
+          <caret line="14" column="62" lean-forward="true" selection-start-line="14" selection-start-column="62" selection-end-line="14" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/CastRepaired.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-12">
+          <caret line="15" column="31" lean-forward="true" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
+          <folding>
+            <element signature="e#821#822#0" expanded="true" />
+            <element signature="e#890#891#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/StationProcessing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="55" column="54" selection-start-line="55" selection-start-column="54" selection-end-line="55" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/OutputBinFromStation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/UDPs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="974">
+          <caret line="242" column="18" selection-start-line="242" selection-start-column="15" selection-end-line="242" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/DistributeBins.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="26" column="39" lean-forward="true" selection-start-line="26" selection-start-column="39" selection-end-line="26" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/simModel/MoveBins.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="18" column="5" lean-forward="true" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+          <folding>
+            <element signature="e#281#282#0" expanded="true" />
+            <element signature="e#347#348#0" expanded="true" />
+            <element signature="e#941#942#0" expanded="true" />
+            <element signature="e#1039#1040#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Experiment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1326">
+          <caret line="28" column="29" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ExperimentAnalysis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ExperimentAnalysis2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
         </state>
       </provider>
     </entry>

@@ -32,7 +32,7 @@ class Initialise extends ScheduledAction
 		int numConcorde = model.numCastingStationsConcorde;
 
 		int num = 0;
-		while(num < model.rcCastingStation.length){
+		while(num < totalNumberOfCastingStations){
 			if(numSpit > 0){
 				model.rcCastingStation[num] = new CastingStation();
 				model.rcCastingStation[num].type = Constants.PlaneType.SPITFIRE;
@@ -40,7 +40,7 @@ class Initialise extends ScheduledAction
 				model.rcCastingStation[num].timeToNextBreak = model.rvp.uCastingBreakTime();
 				model.rcCastingStation[num].bin = new Bin();
 				model.rcCastingStation[num].bin.type = Constants.PlaneType.SPITFIRE;
-				model.rcCastingStation[num].bin.n = model.constants.EMPTY;
+				model.rcCastingStation[num].bin.n = 0;
 				num++;
 				numSpit--;
 			}
@@ -51,7 +51,7 @@ class Initialise extends ScheduledAction
 				model.rcCastingStation[num].timeToNextBreak = model.rvp.uCastingBreakTime();
 				model.rcCastingStation[num].bin = new Bin();
 				model.rcCastingStation[num].bin.type = Constants.PlaneType.F16;
-				model.rcCastingStation[num].bin.n = model.constants.EMPTY;
+				model.rcCastingStation[num].bin.n = 0;
 				num++;
 				numF16--;
 			}
@@ -62,7 +62,7 @@ class Initialise extends ScheduledAction
 				model.rcCastingStation[num].timeToNextBreak = model.rvp.uCastingBreakTime();
 				model.rcCastingStation[num].bin = new Bin();
 				model.rcCastingStation[num].bin.type = Constants.PlaneType.CONCORDE;
-				model.rcCastingStation[num].bin.n = model.constants.EMPTY;
+				model.rcCastingStation[num].bin.n = 0;
 				num++;
 				numConcorde--;
 			}
@@ -70,7 +70,7 @@ class Initialise extends ScheduledAction
 
 		// create all output areas for casting stations
 		for (int castId = 0; castId < totalNumberOfCastingStations; castId++){
-			model.qIOArea[model.constants.CAST][model.constants.OUT][castId] = new ArrayList();
+			model.qIOArea[Constants.CAST][Constants.OUT][castId] = new ArrayList();
 		}
 
 		// create all cutting/grinding stations with their input/output areas
@@ -110,8 +110,8 @@ class Initialise extends ScheduledAction
 		// creating all qMover
 		for (int moverId = 0; moverId < model.rgMover.length; moverId++){
 			model.rgMover[moverId] = new Mover();
-			model.rgMover[moverId].trolley = new Bin[model.constants.MOVER_CAP];
-			model.rgMover[moverId].n = Constants.EMPTY;
+			model.rgMover[moverId].trolley = new Bin[Constants.MOVER_CAP];
+			model.rgMover[moverId].n = 0;
 			model.qMoverLines[Constants.CAST][Constants.OUT].add(moverId);
 		}
 

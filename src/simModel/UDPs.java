@@ -108,7 +108,7 @@ class UDPs
 					}
 				}
 
-				//If clock is passed the entime, the mover will pickup as many bins possible
+				//If clock is passed the endtime, the mover will pickup as many bins possible
 				if(model.getClock() > model.endTime && numberOfBinsCanPickup > 0){
 					if(allStationsDoneProcessing(areaId))
 						return areaId;

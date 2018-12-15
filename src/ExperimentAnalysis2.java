@@ -21,7 +21,7 @@ public class ExperimentAnalysis2 {
         double[] allValuesConcorde = new double[NUMRUNS];
         double[] allValuesSpitfire = new double[NUMRUNS];
 
-        int numMover = 19,
+        int numMover = 18,
         	numCastingStationsF16 = 4,
         	numCastingStationsConcorde = 5,
         	numCastingStationsSpitfire = 3,

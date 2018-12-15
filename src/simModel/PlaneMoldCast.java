@@ -12,7 +12,7 @@ public class PlaneMoldCast extends Activity {
 
     public static boolean precondition(ToyManufacturingModel model){
         boolean returnValue = false;
-        if(model.udp.castingStationReadyForProcessing() != model.constants.NONE){
+        if(model.udp.castingStationReadyForProcessing() != Constants.NONE){
             returnValue = true;
         }
         return returnValue;
@@ -26,7 +26,7 @@ public class PlaneMoldCast extends Activity {
 
     @Override
     public double duration(){
-        return toyManufacturingModel.rvp.uOperationTime(toyManufacturingModel.constants.CAST);
+        return toyManufacturingModel.rvp.uOperationTime(Constants.CAST);
     }
 
     @Override
