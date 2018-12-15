@@ -48,8 +48,6 @@ class Experiment
        int numMovers = maxNumberOfStationsPerType; //ideal amount for now
 
        // Case 1
-       int[] parameters = new int[]{numCastingStationsSpitfire, numCastingStationsF16, numCastingStationsConcorde,
-               numCuttingGrindingStations, numCoatingStations, numInspectionPackagingStations, numMovers};
 
        if(showLog) { // change as you like the values to find result of simulation!
            NUMRUNS = 1;
@@ -115,7 +113,7 @@ class Experiment
            } else {
                break;
            }
-           
+
            if(!foundNumberOfCastingStations) {
                if (avgNumberOfSpitfireProducedDaily > spitfireProductionGoal) {
                    foundNumberOfSpitfireCastingStations = true;

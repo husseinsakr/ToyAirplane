@@ -1,7 +1,5 @@
 package simModel;
 
-import simulationModelling.ConditionalActivity;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -192,7 +190,7 @@ class UDPs
 		int destinationArea = uNextStation(areaId);
 
 		for(int i = 0; i < Constants.MOVER_CAP; i++){ // fill trolley by also making sure that we don't overwrite an existing bin
-			int stationId = stationWithBiggestOutput(areaId);
+			int stationId = findStationWithBiggestOutput(areaId);
 			if(model.rgMover[moverId].trolley[i] == Constants.NO_BIN
 				&& model.qIOArea[areaId][Constants.OUT][stationId].size() != 0){
 				model.rgMover[moverId].trolley[i] = model.qIOArea[areaId][Constants.OUT][stationId].remove(0);
@@ -225,7 +223,7 @@ class UDPs
 	}
 
 	//Returns the stationId with biggest output
-	public int stationWithBiggestOutput(int areaId){
+	public int findStationWithBiggestOutput(int areaId){
 		int[] stationOutputLengths = new int[model.qIOArea[areaId][Constants.OUT].length];
 		for(int i = 0; i < stationOutputLengths.length; i++){
 			stationOutputLengths[i] = model.qIOArea[areaId][Constants.OUT][i].size();

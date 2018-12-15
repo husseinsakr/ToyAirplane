@@ -4,8 +4,6 @@ import cern.jet.random.*;
 import cern.jet.random.engine.MersenneTwister;
 import dataModelling.TriangularVariate;
 
-import java.util.Random;
-
 class RVPs 
 {
 	ToyManufacturingModel model; // for accessing the clock
