@@ -25,17 +25,17 @@ class RVPs
 
 	// RVPS
 
-	public TriangularVariate cutTime;
+	public TriangularVariate cutTime; // cutting time
 
-	public Gamma grindTime;
+	public Gamma grindTime; //grind time
 
-	public TriangularVariate inspTime;
+	public TriangularVariate inspTime; //inspection time
 
-	public Normal castRepairTime;
+	public Normal castRepairTime; //cast repair time
 
-	public Exponential castBreakTime;
+	public Exponential castBreakTime; //cast break time
 
-	public MersenneTwister typeRandGen;
+	public MersenneTwister typeRandGen; //random generator used for passing inspection
 
 
 	// Constructor
@@ -61,6 +61,7 @@ class RVPs
 		return castRepairTime.nextDouble();
 	}
 
+	//method that returns the operation time of each type of station
 	public final double uOperationTime(int areaId){
 		double operationTime = model.constants.NONE; // just a default value
 		switch(areaId){
@@ -82,6 +83,7 @@ class RVPs
 		return operationTime;
 	}
 
+	//method that returns TRUE if value lands under PERCENT_PASS and FALSE otherwise
 	public final boolean uNumPlanesAccepted(){
 		double randNum = typeRandGen.nextDouble();
 		if (randNum < PERCENT_PASS)

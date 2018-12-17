@@ -20,8 +20,8 @@ public class CastRepaired extends Activity {
 
     @Override
     public void startingEvent() {
-        stationId = toyManufacturingModel.qCastingRepairQueue.pop();
-        toyManufacturingModel.rMaintenancePerson.available = false;
+        stationId = toyManufacturingModel.qCastingRepairQueue.pop(); //gets the casting station Id from the head of the casting repair queue
+        toyManufacturingModel.rMaintenancePerson.available = false; //set maintenance person to busy
     }
 
     @Override
@@ -31,9 +31,9 @@ public class CastRepaired extends Activity {
 
     @Override
     public void terminatingEvent() {
-        toyManufacturingModel.rcCastingStation[stationId].status = Constants.StationStatus.IDLE;
-        toyManufacturingModel.rcCastingStation[stationId].timeToNextBreak = toyManufacturingModel.rvp.uCastingBreakTime();
-        toyManufacturingModel.rMaintenancePerson.available = true;
+        toyManufacturingModel.rcCastingStation[stationId].status = Constants.StationStatus.IDLE; //set station status to idle
+        toyManufacturingModel.rcCastingStation[stationId].timeToNextBreak = toyManufacturingModel.rvp.uCastingBreakTime(); //give the casting station a new timeToBreak
+        toyManufacturingModel.rMaintenancePerson.available = true; //set maintenance person to available
     }
 
 }

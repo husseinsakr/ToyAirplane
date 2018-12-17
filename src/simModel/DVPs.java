@@ -8,6 +8,7 @@ class DVPs
 	protected DVPs(ToyManufacturingModel model) { this.model = model; }
 
 
+	//set times to move from stations
 	protected double uMovingStationsTime(int currentAreaId,int destinationAreaId) {
 		double movingTime;
 		if(currentAreaId==Constants.CAST && destinationAreaId==Constants.CUT) {

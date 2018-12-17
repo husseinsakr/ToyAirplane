@@ -20,11 +20,11 @@ public class DistributeBins extends ConditionalAction {
     }
 
     public void actionEvent(){
-        areaId = toyManufacturingModel.udp.canDistributeBins();
+        areaId = toyManufacturingModel.udp.canDistributeBins(); //returns the areaId where u could distribute bins
         int moverId = toyManufacturingModel.qMoverLines[areaId][Constants.IN].pop();
-        mover = toyManufacturingModel.rgMover[moverId];
-        toyManufacturingModel.udp.emptyTrolley(moverId, areaId);
-        toyManufacturingModel.qMoverLines[areaId % Constants.INSP][Constants.OUT].add(moverId);
+        mover = toyManufacturingModel.rgMover[moverId]; //get the mover with a full trolley to distribute bins
+        toyManufacturingModel.udp.emptyTrolley(moverId, areaId); //udp used to empty out trolley and distribute bins evenly
+        toyManufacturingModel.qMoverLines[areaId % Constants.INSP][Constants.OUT].add(moverId); //send mover to output area after distributing
     }
 
 

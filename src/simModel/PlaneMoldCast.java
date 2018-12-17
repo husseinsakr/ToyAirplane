@@ -20,8 +20,8 @@ public class PlaneMoldCast extends Activity {
 
     @Override
     public void startingEvent(){
-        stationId = toyManufacturingModel.udp.castingStationReadyForProcessing();
-        toyManufacturingModel.rcCastingStation[stationId].status = Constants.StationStatus.BUSY;
+        stationId = toyManufacturingModel.udp.castingStationReadyForProcessing(); //get stationId that can cast
+        toyManufacturingModel.rcCastingStation[stationId].status = Constants.StationStatus.BUSY; //set station to busy
     }
 
     @Override
@@ -31,8 +31,8 @@ public class PlaneMoldCast extends Activity {
 
     @Override
     public void terminatingEvent(){
-        toyManufacturingModel.rcCastingStation[stationId].status = Constants.StationStatus.IDLE;
-        toyManufacturingModel.rcCastingStation[stationId].bin.n += 6;
-        toyManufacturingModel.rcCastingStation[stationId].timeToNextBreak -= Constants.CASTING_TIME;
+        toyManufacturingModel.rcCastingStation[stationId].status = Constants.StationStatus.IDLE; //set station to IDLE
+        toyManufacturingModel.rcCastingStation[stationId].bin.n += 6; //increment bin by 6 as we cast 6 planes at a time
+        toyManufacturingModel.rcCastingStation[stationId].timeToNextBreak -= Constants.CASTING_TIME; //decrement timeToBreak so we know when station breaks
     }
 }

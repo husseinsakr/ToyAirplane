@@ -21,11 +21,11 @@ public class StationProcessing extends ConditionalActivity {
 
     @Override
     public void startingEvent(){
-        areaIdAndStationId = toyManufacturingModel.udp.stationReadyForOperation();
+        areaIdAndStationId = toyManufacturingModel.udp.stationReadyForOperation(); //returns areaID and stationID of station ready for processing
         this.areaId = areaIdAndStationId[0];
         this.stationId = areaIdAndStationId[1];
-        toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.StationStatus.BUSY;
-        toyManufacturingModel.rProcessingStation[areaId][stationId].bin = toyManufacturingModel.qIOArea[areaId][Constants.IN][stationId].remove(0);
+        toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.StationStatus.BUSY; //set station to busy
+        toyManufacturingModel.rProcessingStation[areaId][stationId].bin = toyManufacturingModel.qIOArea[areaId][Constants.IN][stationId].remove(0); //get bin from input area to start processing!
     }
 
     @Override
@@ -35,9 +35,8 @@ public class StationProcessing extends ConditionalActivity {
 
     @Override
     public void terminatingEvent(){
-        toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.StationStatus.IDLE;
-        if ((areaId) == Constants.INSP){
-            //update output for leaving planes
+        toyManufacturingModel.rProcessingStation[areaId][stationId].status = Constants.StationStatus.IDLE; //set station to IDLE after processing is done
+        if ((areaId) == Constants.INSP){ //if we at inspection station, we need to update our output!
             for(int i = 0; i < Constants.BIN_CAP; i++){
                 if(toyManufacturingModel.rvp.uNumPlanesAccepted()){
                     switch (toyManufacturingModel.rProcessingStation[areaId][stationId].bin.type) {
@@ -53,8 +52,7 @@ public class StationProcessing extends ConditionalActivity {
                     }
                 }
             }
-            toyManufacturingModel.rProcessingStation[areaId][stationId].bin = Constants.NO_BIN;
+            toyManufacturingModel.rProcessingStation[areaId][stationId].bin = Constants.NO_BIN; //remove bin from inspection station
         }
-        toyManufacturingModel.printAllVariablesForDebuggingPurposes();
     }
 }

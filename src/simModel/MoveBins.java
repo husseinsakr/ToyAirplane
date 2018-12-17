@@ -20,9 +20,9 @@ public class MoveBins extends ConditionalActivity {
 
     @Override
     public void startingEvent(){
-        this.currentArea = toyManufacturingModel.udp.canStartMovingBins();
-        moverId = toyManufacturingModel.qMoverLines[currentArea][Constants.OUT].poll();
-        destinationArea = toyManufacturingModel.udp.fillTrolley(moverId, currentArea);
+        this.currentArea = toyManufacturingModel.udp.canStartMovingBins(); //get current areaId where u could move bins
+        moverId = toyManufacturingModel.qMoverLines[currentArea][Constants.OUT].poll(); //get the first mover in the queue
+        destinationArea = toyManufacturingModel.udp.fillTrolley(moverId, currentArea); //fill the mover's trolley
     }
 
     @Override
@@ -32,7 +32,6 @@ public class MoveBins extends ConditionalActivity {
 
     @Override
     public void terminatingEvent(){
-        toyManufacturingModel.qMoverLines[destinationArea][Constants.IN].add(moverId);
-        toyManufacturingModel.printAllVariablesForDebuggingPurposes();
+        toyManufacturingModel.qMoverLines[destinationArea][Constants.IN].add(moverId); //add mover to input queue of areaId he just reached
     }
 }

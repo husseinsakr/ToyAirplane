@@ -26,7 +26,7 @@ class Experiment
        Seeds[] sds = new Seeds[NUMRUNS];
        ToyManufacturingModel mname;  // Simulation object
        double percentProductionIncrease = 30.0 / 100.0;
-       boolean showLog = true;
+       boolean showLog = true; // change this to TRUE to show log and false to find optimal parameters!
 
        int spitfireProduction = 1000;
        int f16Production = 1500;

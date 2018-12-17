@@ -32,6 +32,7 @@ class Initialise extends ScheduledAction
 		int numConcorde = model.numCastingStationsConcorde;
 
 		int num = 0;
+		//we used a while loop to make sure we distribute all types of casting stations evenly throughout the array
 		while(num < totalNumberOfCastingStations){
 			if(numSpit > 0){
 				model.rcCastingStation[num] = new CastingStation();
