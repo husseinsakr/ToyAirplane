@@ -197,6 +197,9 @@ public class ToyManufacturingModel extends AOSimulationModel
 
 	public boolean implicitStopCondition(){
 		if(sbl.isEmpty() && getClock() > endTime){
+			for(CastingStation castingStation: rcCastingStation)
+				castingStation.bin.n = 0;
+			printAllVariablesForDebuggingPurposes();
 			return true;
 		}
 		return false;
